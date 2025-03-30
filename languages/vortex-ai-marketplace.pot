@@ -1,0 +1,463 @@
+# Copyright (C) 2023 VortexArtec
+# This file is distributed under the same license as the VORTEX AI Marketplace plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: VORTEX AI Marketplace 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vortex-ai-marketplace\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-11-15T10:00:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: vortex-ai-marketplace\n"
+
+#. Plugin Name of the plugin
+msgid "VORTEX AI Marketplace"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://vortexartec.com/marketplace"
+msgstr ""
+
+#. Description of the plugin
+msgid "A comprehensive marketplace for AI-generated artwork, with blockchain integration, artist profiles, and TOLA token support."
+msgstr ""
+
+#. Author of the plugin
+msgid "VortexArtec"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://vortexartec.com"
+msgstr ""
+
+#: admin/class-vortex-admin.php:135
+msgid "Dashboard"
+msgstr ""
+
+#: admin/class-vortex-admin.php:136
+msgid "Settings"
+msgstr ""
+
+#: admin/class-vortex-admin.php:137
+msgid "Tools"
+msgstr ""
+
+#: admin/class-vortex-admin.php:138
+msgid "Status"
+msgstr ""
+
+#: admin/class-vortex-admin.php:202
+msgid "General Settings"
+msgstr ""
+
+#: admin/class-vortex-admin.php:203
+msgid "Artwork Settings"
+msgstr ""
+
+#: admin/class-vortex-admin.php:204
+msgid "Artist Settings"
+msgstr ""
+
+#: admin/class-vortex-admin.php:205
+msgid "Payment Settings"
+msgstr ""
+
+#: admin/class-vortex-admin.php:206
+msgid "Blockchain Settings"
+msgstr ""
+
+#: admin/class-vortex-admin.php:207
+msgid "AI Models"
+msgstr ""
+
+#: admin/class-vortex-admin.php:208
+msgid "Advanced"
+msgstr ""
+
+#: includes/class-vortex-marketplace.php:248
+msgid "Add to Cart"
+msgstr ""
+
+#: includes/class-vortex-marketplace.php:362
+msgid "Your cart is currently empty."
+msgstr ""
+
+#: includes/class-vortex-marketplace.php:410
+msgid "Artwork added to cart"
+msgstr ""
+
+#: includes/class-vortex-marketplace.php:442
+msgid "Item removed from cart"
+msgstr ""
+
+#: includes/class-vortex-marketplace.php:472
+msgid "Cart updated"
+msgstr ""
+
+#: includes/class-vortex-marketplace.php:603
+msgid "Checkout"
+msgstr ""
+
+#: includes/class-vortex-artists.php:218
+msgid "Artist Profile"
+msgstr ""
+
+#: includes/class-vortex-artists.php:219
+msgid "View Profile"
+msgstr ""
+
+#: includes/class-vortex-artists.php:220
+msgid "Artists"
+msgstr ""
+
+#: includes/class-vortex-artists.php:221
+msgid "All Artists"
+msgstr ""
+
+#: includes/class-vortex-artists.php:222
+msgid "Search Artists"
+msgstr ""
+
+#: includes/class-vortex-artists.php:223
+msgid "Parent Artist"
+msgstr ""
+
+#: includes/class-vortex-artists.php:224
+msgid "Parent Artist:"
+msgstr ""
+
+#: includes/class-vortex-artists.php:225
+msgid "Edit Artist"
+msgstr ""
+
+#: includes/class-vortex-artists.php:226
+msgid "Update Artist"
+msgstr ""
+
+#: includes/class-vortex-artists.php:227
+msgid "Add New Artist"
+msgstr ""
+
+#: includes/class-vortex-artists.php:228
+msgid "New Artist Name"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:73
+msgid "Artwork"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:74
+msgid "View Artwork"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:75
+msgid "Artworks"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:76
+msgid "All Artworks"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:77
+msgid "Search Artworks"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:78
+msgid "Parent Artwork"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:79
+msgid "Parent Artwork:"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:80
+msgid "Edit Artwork"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:81
+msgid "Update Artwork"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:82
+msgid "Add New Artwork"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:83
+msgid "New Artwork Title"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:123
+msgid "Artwork Categories"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:124
+msgid "Artwork Category"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:125
+msgid "Search Categories"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:126
+msgid "All Categories"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:127
+msgid "Parent Category"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:128
+msgid "Parent Category:"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:129
+msgid "Edit Category"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:130
+msgid "Update Category"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:131
+msgid "Add New Category"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:132
+msgid "New Category Name"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:163
+msgid "Artwork Tags"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:164
+msgid "Artwork Tag"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:165
+msgid "Search Tags"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:166
+msgid "All Tags"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:167
+msgid "Popular Tags"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:168
+msgid "Edit Tag"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:169
+msgid "Update Tag"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:170
+msgid "Add New Tag"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:171
+msgid "New Tag Name"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:172
+msgid "Separate tags with commas"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:173
+msgid "Add or remove tags"
+msgstr ""
+
+#: includes/post-types/class-vortex-artwork.php:174
+msgid "Choose from the most used tags"
+msgstr ""
+
+#: public/class-vortex-public.php:560
+msgid "VORTEX AI Marketplace"
+msgstr ""
+
+#: public/class-vortex-public.php:622
+msgid "Search Artworks"
+msgstr ""
+
+#: public/class-vortex-public.php:623
+msgid "Search for artworks..."
+msgstr ""
+
+#: public/class-vortex-public.php:652
+msgid "Your Cart"
+msgstr ""
+
+#: public/class-vortex-public.php:673
+msgid "Checkout"
+msgstr ""
+
+#: public/class-vortex-public.php:694
+msgid "My Dashboard"
+msgstr ""
+
+#: public/class-vortex-public.php:728
+msgid "AI Artwork Generator"
+msgstr ""
+
+#: public/class-vortex-public.php:729
+msgid "Create unique AI-generated artworks"
+msgstr ""
+
+#: public/class-vortex-public.php:730
+msgid "Describe your artwork..."
+msgstr ""
+
+#: public/class-vortex-public.php:744
+msgid "Login Required"
+msgstr ""
+
+#: public/class-vortex-public.php:745
+msgid "You need to log in to generate AI artworks."
+msgstr ""
+
+#: public/class-vortex-public.php:746
+msgid "Log In"
+msgstr ""
+
+#: templates/cart.php:29
+msgid "Image"
+msgstr ""
+
+#: templates/cart.php:31
+msgid "Artwork"
+msgstr ""
+
+#: templates/cart.php:33
+msgid "Price"
+msgstr ""
+
+#: templates/cart.php:35
+msgid "Quantity"
+msgstr ""
+
+#: templates/cart.php:37
+msgid "Subtotal"
+msgstr ""
+
+#: templates/cart.php:67
+msgid "Artist:"
+msgstr ""
+
+#: templates/cart.php:94
+msgid "Remove this item"
+msgstr ""
+
+#: templates/cart.php:108
+msgid "Update Cart"
+msgstr ""
+
+#: templates/cart.php:114
+msgid "Subtotal:"
+msgstr ""
+
+#: templates/cart.php:120
+msgid "Total:"
+msgstr ""
+
+#: templates/cart.php:129
+msgid "Proceed to Checkout"
+msgstr ""
+
+#: templates/cart.php:135
+msgid "Your cart is currently empty."
+msgstr ""
+
+#: templates/cart.php:136
+msgid "Return to Marketplace"
+msgstr ""
+
+#: templates/checkout.php:20
+msgid "Your cart is empty. Please add some artworks before proceeding to checkout."
+msgstr ""
+
+#: templates/checkout.php:21
+msgid "Browse Marketplace"
+msgstr ""
+
+#: templates/checkout.php:33
+msgid "Please log in to complete your purchase."
+msgstr ""
+
+#: templates/checkout.php:37
+msgid "Don't have an account?"
+msgstr ""
+
+#: templates/checkout.php:37
+msgid "Register"
+msgstr ""
+
+#: templates/checkout.php:44
+msgid "Please log in to complete your purchase."
+msgstr ""
+
+#: templates/checkout.php:45
+msgid "Log In"
+msgstr ""
+
+#: templates/checkout.php:58
+msgid "Order Summary"
+msgstr ""
+
+#: templates/checkout.php:93
+msgid "Billing Details"
+msgstr ""
+
+#: templates/checkout.php:137
+msgid "Payment Method"
+msgstr ""
+
+#: templates/checkout.php:163
+msgid "Order Notes"
+msgstr ""
+
+#: templates/checkout.php:169
+msgid "Place Order"
+msgstr ""
+
+#: templates/single-artist.php:55
+msgid "%s's Artworks"
+msgstr ""
+
+#: includes/ai/class-vortex-huraii.php:208
+msgid "AI Generation Error"
+msgstr ""
+
+#: includes/ai/class-vortex-huraii.php:209
+msgid "Please try again with a different prompt."
+msgstr ""
+
+#: includes/blockchain/class-vortex-blockchain-integration.php:152
+msgid "Wallet Connected"
+msgstr ""
+
+#: includes/blockchain/class-vortex-blockchain-integration.php:153
+msgid "Your wallet has been successfully connected."
+msgstr ""
+
+#: includes/blockchain/class-vortex-blockchain-integration.php:172
+msgid "Wallet Disconnected"
+msgstr ""
+
+#: includes/blockchain/class-vortex-blockchain-integration.php:173
+msgid "Your wallet has been disconnected."
+msgstr ""
+
+#: includes/blockchain/class-vortex-tola.php:146
+msgid "Not enough TOLA tokens"
+msgstr ""
+
+#: includes/blockchain/class-vortex-tola.php:147
+msgid "You need more TOLA tokens to complete this transaction."
+msgstr "" 

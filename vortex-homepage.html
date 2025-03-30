@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX AI | Marianne Nems Art Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #6200ea;
+            --primary-light: #b085f5;
+            --primary-dark: #4a00b0;
+            --secondary: #03dac6;
+            --secondary-light: #84ffff;
+            --secondary-dark: #00b0a1;
+            --accent: #ff4081;
+            --dark: #121212;
+            --light: #f5f7fa;
+            --gray: #e0e0e0;
+            --gray-dark: #757575;
+            --success: #00c853;
+            --warning: #ffab00;
+            --error: #ff5252;
+            --text-primary: #333333;
+            --text-secondary: #757575;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --grad-purple: linear-gradient(135deg, #6200ea, #b388ff);
+            --grad-teal: linear-gradient(135deg, #03dac6, #018786);
+            --grad-pink: linear-gradient(135deg, #ff4081, #d81b60);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mt-5 { margin-top: 2.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 2.5rem; }
+        
+        /* Header */
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            background: var(--grad-purple);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 0.5rem;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary);
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: var(--grad-purple);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 5px 15px rgba(98, 0, 234, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--grad-teal);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 5px 15px rgba(3, 218, 198, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--grad-purple);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before,
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+        }
+        
+        .hero::before {
+            top: -100px;
+            left: -100px;
+        }
+        
+        .hero::after {
+            bottom: -100px;
+            right: -100px;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        /* Artist Profile */
+        .artist-profile {
+            margin-top: -4rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .profile-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-light);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-title {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .profile-stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            margin-top: 2rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .metric-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .chart-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .chart-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Rankings */
+        .rankings-section {
+            padding: 4rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab:not(.active):hover {
+            background: rgba(98, 0, 234, 0.1);
+        }
+        
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .ranking-table thead th {
+            background: var(--primary-dark);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .ranking-table tbody tr {
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .ranking-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        
+        .ranking-table td {
+            padding: 1rem;
+        }
+        
+        .rank {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+            width: 60px;
+        }
+        
+        .top-rank {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .artist-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .artist-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .artist-name {
+            font-weight: 600;
+        }
+        
+        .ranking-metric {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-primary {
+            background: var(--primary-light);
+            color: white;
+        }
+        
+        .badge-secondary {
+            background: var(--secondary-light);
+            color: var(--dark);
+        }
+        
+        /* Gallery */
+        .gallery-section {
+            padding: 5rem 0;
+        }
+        
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .artwork-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s;
+        }
+        
+        .artwork-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .artwork-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .artwork-details {
+            padding: 1.5rem;
+        }
+        
+        .artwork-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artwork-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .artwork-meta {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .nft-badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        /* CTA */
+        .cta-section {
+            padding: 5rem 0;
+            background: var(--grad-purple);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--secondary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Activity Feed */
+        .activity-feed {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-time {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Bio Section */
+        .bio-excerpt {
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--primary-light);
+            padding-left: 1rem;
+        }
+        
+        .read-more {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .header-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .artwork-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-cube"></i>
+                <span>VORTEX</span>
+            </a>
+            <div class="header-nav">
+                <a href="#profile" class="nav-link">Profile</a>
+                <a href="#dashboard" class="nav-link">Dashboard</a>
+                <a href="#rankings" class="nav-link">Rankings</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#" class="btn btn-outline">Log In</a>
+                <a href="#" class="btn btn-secondary">Register</a>
+            </div>
+            <div class="menu-toggle" style="display:none;"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Marianne Nems on VORTEX AI</h1>
+                <p>Elevate your artistic journey with AI-powered tools, blockchain security, and a global community of art enthusiasts and collectors.</p>
+                <div class="mt-4">
+                    <a href="#demo" class="btn btn-secondary mr-2">Experience Demo</a>
+                    <a href="#rankings" class="btn btn-outline" style="background:rgba(255,255,255,0.2); border-color:white; color:white; margin-left:10px;">See Top Rankings</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container artist-profile" id="profile">
+        <div class="profile-card">
+            <img src="https://vendor.artmonad.com/2023/06/19/bio-marianne/attachment/marianne-nems" alt="Marianne Nems" class="profile-image">
+            <div class="profile-info">
+                <h2 class="profile-name">Marianne Nems</h2>
+                <div class="profile-title">Visionary Artist & Founder of Artrade.club</div>
+                <div class="bio-excerpt">
+                    "Marianne Nems, born in Beirut in 1969, is a visionary artist and the driving force behind Artrade.club. With a life that spans continents and cultures, Marianne's journey from the historic vibrancy of Beirut to the innovative forefront of digital artistry in Miami Beach is a testament to her resilience, creativity, and unwavering pursuit of artistic and personal fulfillment."
+                </div>
+                <a href="https://vendor.artmonad.com/2023/06/19/bio-marianne/" target="_blank" class="read-more">Read Full Bio →</a>
+                
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="stat-value">213</div>
+                        <div class="stat-label">Artworks</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="stat-value">87</div>
+                        <div class="stat-label">Collectors</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="stat-value">3,450</div>
+                        <div class="stat-label">TOLA Balance</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="stat-value">#1</div>
+                        <div class="stat-label">Creator Rank</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container dashboard" id="dashboard">
+        <div class="dashboard-card">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Your Metrics Dashboard</h2>
+                <div class="dashboard-actions">
+                    <select class="form-control" style="padding:8px 12px; border-radius:8px; border:1px solid var(--gray); outline:none;">
+                        <option>Last 7 Days</option>
+                        <option>Last 30 Days</option>
+                        <option>Last Quarter</option>
+                        <option>Year to Date</option>
+                    </select>
+                    <a href="#" class="btn btn-outline btn-sm" style="padding:8px 12px;"><i class="fas fa-download"></i> Export</a>
+                </div>
+            </div>
+            
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-icon" style="background:var(--primary);">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="metric-value">87</div>
+                    <div class="metric-name">Creation Frequency</div>
+                    <div class="mt-2" style="color:var(--success);"><i class="fas fa-arrow-up"></i> 12% from last week</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon" style="background:var(--secondary);">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="metric-value">92</div>
+                    <div class="metric-name">Quality Score</div>
+                    <div class="mt-2" style="color:var(--success);"><i class="fas fa-arrow-up"></i> 5% from last week</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon" style="background:var(--accent);">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="metric-value">76</div>
+                    <div class="metric-name">Audience Engagement</div>
+                    <div class="mt-2" style="color:var(--success);"><i class="fas fa-arrow-up"></i> 8% from last week</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon" style="background:var(--success);">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="metric-value">83</div>
+                    <div class="metric-name">Community Support</div>
+                    <div class="mt-2" style="color:var(--warning);"><i class="fas fa-minus"></i> No change</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-box">
+                    <h3 class="chart-title">Performance Metrics Radar</h3>
+                    <canvas id="radarChart" width="400" height="300"></canvas>
+                </div>
+                
+                <div class="chart-box">
+                    <h3 class="chart-title">TOLA Earnings Trend</h3>
+                    <canvas id="lineChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-card">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Your Activity Feed</h2>
+                <a href="#" class="btn btn-outline">View All</a>
+            </div>
+            
+            <div class="activity-feed">
+                <div class="activity-item">
+                    <div class="activity-icon" style="background:var(--success);"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">Your artwork <strong>"AMOUR: THE COSMIC RHAPSODY"</strong> sold for 2,500 TOLA</div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon" style="background:var(--accent);"><i class="fas fa-award"></i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">You earned the <strong>Top Creator</strong> badge for daily rankings</div>
+                        <div class="activity-time">Yesterday</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon" style="background:var(--primary);"><i class="fas fa-cube"></i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">New NFT minted: <strong>"ANGELS OF LOVE"</strong></div>
+                        <div class="activity-time">2 days ago</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon" style="background:var(--warning);"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">Artist swap completed with <strong>James Wilson</strong></div>
+                        <div class="activity-time">3 days ago</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon" style="background:var(--secondary);"><i class="fas fa-heart"></i></div>
+                    <div class="activity-content">
+                        <div class="activity-title"><strong>Collector Sofia</strong> added your work to favorites</div>
+                        <div class="activity-time">4 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="rankings-section" id="rankings">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Daily Rankings</h2>
+                <p class="section-subtitle">Our platform's top performers based on creation, collection, and community metrics. Rankings reset daily at midnight UTC.</p>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchRankingTab('creators')">Creator Rankings</div>
+                <div class="tab" onclick="switchRankingTab('collectors')">Collector Rankings</div>
+                <div class="tab" onclick="switchRankingTab('community')">Community Rankings</div>
+            </div>
+            
+            <div id="creators-rankings" class="ranking-content active">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Artist</th>
+                            <th>Creation Score</th>
+                            <th>Quality</th>
+                            <th>Engagement</th>
+                            <th>TOLA Reward</th>
+                            <th>Badges</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="top-rank">1</div>
+                            </td>
+                            <td>
+                                <div class="artist-info">
+                                    <img src="https://vendor.artmonad.com/2023/06/19/bio-marianne/attachment/marianne-nems" alt="Marianne Nems" class="artist-avatar">
+                                    <div>
+                                        <div class="artist-name">Marianne Nems</div>
+                                        <div>Premium Artist</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="ranking-metric">92</span></td>
+                            <td><span class="ranking-metric">96</span></td>
+                            <td><span class="ranking-metric">88</span></td>
+                            <td><span class="ranking-metric">500 TOLA</span></td>
+                            <td>
+                                <span class="badge badge-primary">Top Creator</span>
+                                <span class="badge badge-secondary">5-Day Streak</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="top-rank" style="background:var(--secondary);">2</div>
+                            </td>
+                            <td>
+                                <div class="artist-info">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Artist" class="artist-avatar">
+                                    <div>
+                                        <div class="artist-name">James Wilson</div>
+                                        <div>Digital Creator</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="ranking-metric">89</span></td>
+                            <td><span class="ranking-metric">90</span></td>
+                            <td><span class="ranking-metric">87</span></td>
+                            <td><span class="ranking-metric">350 TOLA</span></td>
+                            <td>
+                                <span class="badge badge-primary">Innovation</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="top-rank" style="background:var(--accent);">3</div>
+                            </td>
+                            <td>
+                                <div class="artist-info">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Artist" class="artist-avatar">
+                                    <div>
+                                        <div class="artist-name">Sophia Chen</div>
+                                        <div>3D Artist</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="ranking-metric">85</span></td>
+                            <td><span class="ranking-metric">92</span></td>
+                            <td><span class="ranking-metric">79</span></td>
+                            <td><span class="ranking-metric">250 TOLA</span></td>
+                            <td>
+                                <span class="badge badge-secondary">Quality Master</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="rank">4</div>
+                            </td>
+                            <td>
+                                <div class="artist-info">
+                                    <img src="https://randomuser.me/api/portraits/men/62.jpg" alt="Artist" class="artist-avatar">
+                                    <div>
+                                        <div class="artist-name">Miguel Sanchez</div>
+                                        <div>Visual Artist</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="ranking-metric">82</span></td>
+                            <td><span class="ranking-metric">85</span></td>
+                            <td><span class="ranking-metric">84</span></td>
+                            <td><span class="ranking-metric">150 TOLA</span></td>
+                            <td>
+                                <span class="badge badge-secondary">Rising Star</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="rank">5</div>
+                            </td>
+                            <td>
+                                <div class="artist-info">
+                                    <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Artist" class="artist-avatar">
+                                    <div>
+                                        <div class="artist-name">Emma Johnson</div>
+                                        <div>NFT Creator</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="ranking-metric">80</span></td>
+                            <td><span class="ranking-metric">83</span></td>
+                            <td><span class="ranking-metric">88</span></td>
+                            <td><span class="ranking-metric">100 TOLA</span></td>
+                            <td>
+                                <span class="badge badge-primary">Community Choice</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="text-center mt-4">
+                    <a href="#" class="btn btn-primary">View Full Rankings</a>
+                </div>
+            </div>
+            
+            <div id="collectors-rankings" class="ranking-content" style="display:none;">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Collector</th>
+                            <th>Collection Score</th>
+                            <th>Curation</th>
+                            <th>Support</th>
+                            <th>TOLA Reward</th>
+                            <th>Badges</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="top-rank">1</div>
+                            </td>
+                            <td>
+                                <div class="artist-info">
+                                    <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Collector" class="artist-avatar">
+                                    <div>
+                                        <div class="artist-name">Alexander Parker</div>
+                                        <div>Premium Collector</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="ranking-metric">94</span></td>
+                            <td><span class="ranking-metric">92</span></td>
+                            <td><span class="ranking-metric">96</span></td>
+                            <td><span class="ranking-metric">450 TOLA</span></td>
+                            <td>
+                                <span class="badge badge-primary">Top Collector</span>
+                                <span class="badge badge-secondary">7-Day Streak</span>
+                            </td>
+                        </tr>
+                        <!-- More collectors would be listed here -->
+                    </tbody>
+                </table>
+                
+                <div class="text-center mt-4">
+                    <a href="#" class="btn btn-primary">View Full Rankings</a>
+                </div>
+            </div>
+            
+            <div id="community-rankings" class="ranking-content" style="display:none;">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Member</th>
+                            <th>Community Score</th>
+                            <th>Engagement</th>
+                            <th>Support</th>
+                            <th>TOLA Reward</th>
+                            <th>Badges</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="top-rank">1</div>
+                            </td>
+                            <td>
+                                <div class="artist-info">
+                                    <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Collector" class="artist-avatar">
+                                    <div>
+                                        <div class="artist-name">Alexander Parker</div>
+                                        <div>Premium Collector</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="ranking-metric">94</span></td>
+                            <td><span class="ranking-metric">92</span></td>
+                            <td><span class="ranking-metric">96</span></td>
+                            <td><span class="ranking-metric">450 TOLA</span></td>
+                            <td>
+                                <span class="badge badge-primary">Top Collector</span>
+                                <span class="badge badge-secondary">7-Day Streak</span>
+                            </td>
+                        </tr>
+                        <!-- More collectors would be listed here -->
+                    </tbody>
+                </table>
+                
+                <div class="text-center mt-4">
+                    <a href="#" class="btn btn-primary">View Full Rankings</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html> 

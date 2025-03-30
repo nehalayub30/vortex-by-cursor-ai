@@ -1,0 +1,17 @@
+.vortex-loading {
+    position: relative;
+    min-height: 200px;
+}
+
+.vortex-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #2a3f90;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+} 

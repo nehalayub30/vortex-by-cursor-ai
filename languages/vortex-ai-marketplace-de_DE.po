@@ -1,0 +1,211 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: VORTEX AI Marketplace 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vortex-ai-marketplace\n"
+"POT-Creation-Date: 2024-01-01T00:00:00+00:00\n"
+"PO-Revision-Date: 2024-01-01T00:00:00+00:00\n"
+"Last-Translator: VORTEX Team\n"
+"Language-Team: VORTEX\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: VORTEX Translation System\n"
+"X-Domain: vortex-ai-marketplace\n"
+
+# AI Agent Messages
+msgid "HURAII_PROCESSING"
+msgstr "HURAII verarbeitet Ihr Kunstwerk..."
+
+msgid "HURAII_LEARNING"
+msgstr "HURAII lernt aus Ihren Stilpräferenzen..."
+
+msgid "HURAII_GENERATION_COMPLETE"
+msgstr "Kunstwerk-Generierung abgeschlossen"
+
+msgid "CLOE_ANALYZING"
+msgstr "CLOE analysiert das Benutzerverhalten..."
+
+msgid "CLOE_RECOMMENDATION"
+msgstr "CLOE hat personalisierte Empfehlungen für Sie"
+
+msgid "CLOE_LEARNING_PROGRESS"
+msgstr "Lernen aus Ihren Interaktionen..."
+
+msgid "BUSINESS_STRATEGIST_ANALYZING"
+msgstr "Business Strategist analysiert Markttrends..."
+
+msgid "BUSINESS_STRATEGIST_PLAN"
+msgstr "Ihr personalisierter Geschäftsplan ist fertig"
+
+msgid "BUSINESS_STRATEGIST_LEARNING"
+msgstr "Optimierung der Strategien basierend auf Marktdaten..."
+
+# Error Messages
+msgid "ERROR_AI_CONNECTION"
+msgstr "Verbindung zu KI-Diensten nicht möglich. Bitte versuchen Sie es erneut."
+
+msgid "ERROR_GENERATION_FAILED"
+msgstr "Kunstwerk-Generierung fehlgeschlagen. Bitte versuchen Sie es erneut."
+
+msgid "ERROR_INVALID_INPUT"
+msgstr "Ungültige Eingabeparameter erkannt"
+
+msgid "ERROR_PROCESSING_TIMEOUT"
+msgstr "Verarbeitungszeit überschritten. Bitte versuchen Sie es erneut."
+
+msgid "ERROR_UNAUTHORIZED"
+msgstr "Nicht autorisierter Zugriff erkannt"
+
+# Success Messages
+msgid "SUCCESS_ARTWORK_CREATED"
+msgstr "Kunstwerk erfolgreich erstellt"
+
+msgid "SUCCESS_PLAN_GENERATED"
+msgstr "Geschäftsplan erfolgreich generiert"
+
+msgid "SUCCESS_PROFILE_UPDATED"
+msgstr "Profil erfolgreich mit KI-Erkenntnissen aktualisiert"
+
+# Status Messages
+msgid "STATUS_AI_LEARNING_ACTIVE"
+msgstr "KI-Lernen aktiv"
+
+msgid "STATUS_PROCESSING"
+msgstr "Verarbeitung"
+
+msgid "STATUS_COMPLETED"
+msgstr "Abgeschlossen"
+
+msgid "STATUS_FAILED"
+msgstr "Fehlgeschlagen"
+
+# Admin Interface
+msgid "ADMIN_DASHBOARD_TITLE"
+msgstr "VORTEX KI-Marktplatz Dashboard"
+
+msgid "ADMIN_AI_STATUS"
+msgstr "KI-Agenten Status"
+
+msgid "ADMIN_SYSTEM_HEALTH"
+msgstr "Systemgesundheit"
+
+msgid "ADMIN_LEARNING_METRICS"
+msgstr "Lernmetriken"
+
+# Marketplace Interface
+msgid "MARKETPLACE_TITLE"
+msgstr "KI-gestützter Kunstmarktplatz"
+
+msgid "MARKETPLACE_FILTER_TITLE"
+msgstr "Kunstwerke filtern"
+
+msgid "MARKETPLACE_SORT_TITLE"
+msgstr "Sortieren nach"
+
+# Artist Interface
+msgid "ARTIST_DASHBOARD_TITLE"
+msgstr "Künstler-Dashboard"
+
+msgid "ARTIST_GENERATION_TITLE"
+msgstr "Kunstwerk generieren"
+
+msgid "ARTIST_ANALYTICS_TITLE"
+msgstr "Performance-Analyse"
+
+# Collector Interface
+msgid "COLLECTOR_DASHBOARD_TITLE"
+msgstr "Sammler-Dashboard"
+
+msgid "COLLECTOR_RECOMMENDATIONS"
+msgstr "Personalisierte Empfehlungen"
+
+msgid "COLLECTOR_PORTFOLIO"
+msgstr "Ihr Portfolio"
+
+# AI Learning Status
+msgid "AI_LEARNING_PROGRESS"
+msgstr "Lernfortschritt"
+
+msgid "AI_LEARNING_ITERATIONS"
+msgstr "Lerniterationen"
+
+msgid "AI_LEARNING_ACCURACY"
+msgstr "Lerngenauigkeit"
+
+# Transaction Messages
+msgid "TRANSACTION_PROCESSING"
+msgstr "Transaktion wird verarbeitet..."
+
+msgid "TRANSACTION_SUCCESS"
+msgstr "Transaktion erfolgreich"
+
+msgid "TRANSACTION_FAILED"
+msgstr "Transaktion fehlgeschlagen"
+
+# Notification Messages
+msgid "NOTIFICATION_NEW_ARTWORK"
+msgstr "Neues Kunstwerk in Ihrem bevorzugten Stil verfügbar"
+
+msgid "NOTIFICATION_MARKET_INSIGHT"
+msgstr "Neue Marktanalyse verfügbar"
+
+msgid "NOTIFICATION_LEARNING_COMPLETE"
+msgstr "KI-Lernzyklus abgeschlossen"
+
+# Button Labels
+msgid "BUTTON_GENERATE"
+msgstr "Generieren"
+
+msgid "BUTTON_ANALYZE"
+msgstr "Analysieren"
+
+msgid "BUTTON_LEARN"
+msgstr "Mehr erfahren"
+
+msgid "BUTTON_APPLY"
+msgstr "Anwenden"
+
+# Form Labels
+msgid "FORM_STYLE_LABEL"
+msgstr "Kunststil"
+
+msgid "FORM_MEDIUM_LABEL"
+msgstr "Medium"
+
+msgid "FORM_SIZE_LABEL"
+msgstr "Größe"
+
+msgid "FORM_PRICE_LABEL"
+msgstr "Preis"
+
+# Tooltips
+msgid "TOOLTIP_AI_LEARNING"
+msgstr "KI lernt aktiv aus dieser Interaktion"
+
+msgid "TOOLTIP_GENERATION_OPTIONS"
+msgstr "Kunstwerk-Generierungsoptionen anpassen"
+
+msgid "TOOLTIP_MARKET_ANALYSIS"
+msgstr "Detaillierte Marktanalyse anzeigen"
+
+# Validation Messages
+msgid "VALIDATION_REQUIRED_FIELD"
+msgstr "Dieses Feld ist erforderlich"
+
+msgid "VALIDATION_INVALID_FORMAT"
+msgstr "Ungültiges Format"
+
+msgid "VALIDATION_PROCESSING_LIMIT"
+msgstr "Verarbeitungslimit erreicht"
+
+# Help Messages
+msgid "HELP_GETTING_STARTED"
+msgstr "Erste Schritte mit VORTEX KI-Marktplatz"
+
+msgid "HELP_AI_FEATURES"
+msgstr "KI-Funktionen verstehen"
+
+msgid "HELP_TROUBLESHOOTING"
+msgstr "Fehlerbehebung" 

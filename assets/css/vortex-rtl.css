@@ -1,0 +1,241 @@
+/* ========== RTL Base Overrides ========== */
+[dir="rtl"] {
+    /* Text Direction */
+    text-align: right;
+    direction: rtl;
+}
+
+/* ========== AI Agent Containers RTL ========== */
+[dir="rtl"] .vortex-ai-container {
+    padding-left: 0;
+    padding-right: 20px;
+}
+
+[dir="rtl"] .vortex-ai-learning-indicator {
+    left: 10px;
+    right: auto;
+}
+
+[dir="rtl"] .vortex-ai-learning-dot {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+/* ========== Navigation & Headers RTL ========== */
+[dir="rtl"] .vortex-header-actions {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .vortex-nav-item {
+    margin-right: 0;
+    margin-left: 20px;
+}
+
+[dir="rtl"] .vortex-dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+/* ========== AI Insights RTL ========== */
+[dir="rtl"] .vortex-insight-container {
+    border-left: none;
+    border-right: 3px solid;
+}
+
+[dir="rtl"] .vortex-huraii-insight {
+    border-right-color: #3b82f6;
+}
+
+[dir="rtl"] .vortex-cloe-insight {
+    border-right-color: #8b5cf6;
+}
+
+[dir="rtl"] .vortex-business-insight {
+    border-right-color: #10b981;
+}
+
+/* ========== Forms & Inputs RTL ========== */
+[dir="rtl"] .vortex-form-group {
+    text-align: right;
+}
+
+[dir="rtl"] .vortex-input-icon {
+    left: auto;
+    right: 10px;
+}
+
+[dir="rtl"] .vortex-input-with-icon {
+    padding-left: 12px;
+    padding-right: 35px;
+}
+
+/* ========== AI Learning Feedback RTL ========== */
+[dir="rtl"] .vortex-ai-feedback {
+    right: auto;
+    left: 20px;
+}
+
+[dir="rtl"] .vortex-ai-feedback-icon {
+    margin-right: 0;
+    margin-left: 8px;
+}
+
+/* ========== Marketplace Elements RTL ========== */
+[dir="rtl"] .vortex-artwork-card {
+    text-align: right;
+}
+
+[dir="rtl"] .vortex-artwork-meta {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .vortex-price-tag {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* ========== Analytics & Metrics RTL ========== */
+[dir="rtl"] .vortex-metrics-container {
+    direction: ltr; /* Keep charts LTR */
+}
+
+[dir="rtl"] .vortex-metrics-header {
+    direction: rtl;
+}
+
+[dir="rtl"] .vortex-trend-indicator {
+    transform: scaleX(-1);
+}
+
+/* ========== Tables RTL ========== */
+[dir="rtl"] .vortex-table th,
+[dir="rtl"] .vortex-table td {
+    text-align: right;
+}
+
+[dir="rtl"] .vortex-table-actions {
+    flex-direction: row-reverse;
+}
+
+/* ========== Modals & Popups RTL ========== */
+[dir="rtl"] .vortex-modal-header {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .vortex-modal-close {
+    right: auto;
+    left: 20px;
+}
+
+/* ========== AI Generated Content RTL ========== */
+[dir="rtl"] .vortex-generated-content {
+    text-align: right;
+}
+
+[dir="rtl"] .vortex-generation-progress {
+    flex-direction: row-reverse;
+}
+
+/* ========== Notifications RTL ========== */
+[dir="rtl"] .vortex-notification {
+    right: auto;
+    left: 20px;
+}
+
+[dir="rtl"] .vortex-notification-icon {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+/* ========== Business Strategy Elements RTL ========== */
+[dir="rtl"] .vortex-strategy-steps {
+    padding-left: 0;
+    padding-right: 20px;
+}
+
+[dir="rtl"] .vortex-strategy-step::before {
+    left: auto;
+    right: -20px;
+}
+
+/* ========== Rankings RTL ========== */
+[dir="rtl"] .vortex-ranking-position {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+[dir="rtl"] .vortex-ranking-trend {
+    transform: scaleX(-1);
+}
+
+/* ========== Tooltips RTL ========== */
+[dir="rtl"] .vortex-tooltip {
+    left: auto;
+    right: 0;
+}
+
+[dir="rtl"] .vortex-tooltip::before {
+    left: auto;
+    right: 10px;
+}
+
+/* ========== AI Learning States RTL ========== */
+[dir="rtl"] .vortex-learning-progress {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .vortex-learning-step {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+/* ========== Error Handling RTL ========== */
+[dir="rtl"] .vortex-error-message {
+    padding-left: 0;
+    padding-right: 25px;
+}
+
+[dir="rtl"] .vortex-error-icon {
+    left: auto;
+    right: 0;
+}
+
+/* ========== Loading States RTL ========== */
+[dir="rtl"] .vortex-loading-spinner {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+/* ========== Responsive Design RTL ========== */
+@media (max-width: 768px) {
+    [dir="rtl"] .vortex-mobile-menu {
+        left: auto;
+        right: 0;
+        transform: translateX(100%);
+    }
+
+    [dir="rtl"] .vortex-mobile-menu.active {
+        transform: translateX(0);
+    }
+}
+
+/* ========== Print Styles RTL ========== */
+@media print {
+    [dir="rtl"] {
+        text-align: right;
+    }
+    
+    [dir="rtl"] .vortex-metrics-container {
+        direction: rtl;
+    }
+}
+
+/* ========== Accessibility RTL ========== */
+[dir="rtl"] .vortex-skip-link {
+    left: auto;
+    right: -999px;
+}
+
+[dir="rtl"] .vortex-skip-link:focus {
+    right: 0;
+} 

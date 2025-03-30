@@ -1,0 +1,119 @@
+/**
+ * Enhanced Thorius Styles with Optimizations
+ */
+
+/* Animation optimization with will-change */
+.vortex-thorius-container {
+    will-change: transform, opacity;
+}
+
+/* Smooth transitions */
+.vortex-thorius-tab-content {
+    transition: opacity 0.3s ease;
+    will-change: opacity;
+}
+
+/* High Contrast Mode */
+.vortex-thorius-high-contrast {
+    --thorius-bg-color: #ffffff;
+    --thorius-text-color: #000000;
+    --thorius-accent-color: #0000ff;
+    --thorius-border-color: #000000;
+}
+
+.vortex-thorius-high-contrast.vortex-thorius-dark {
+    --thorius-bg-color: #000000;
+    --thorius-text-color: #ffffff;
+    --thorius-accent-color: #ffff00;
+    --thorius-border-color: #ffffff;
+}
+
+.vortex-thorius-high-contrast,
+.vortex-thorius-high-contrast * {
+    color: var(--thorius-text-color) !important;
+    background-color: var(--thorius-bg-color) !important;
+    border-color: var(--thorius-border-color) !important;
+}
+
+.vortex-thorius-high-contrast .vortex-thorius-header,
+.vortex-thorius-high-contrast .vortex-thorius-tab.active,
+.vortex-thorius-high-contrast .vortex-thorius-btn:hover,
+.vortex-thorius-high-contrast .vortex-thorius-ai-card-icon {
+    background-color: var(--thorius-accent-color) !important;
+    color: var(--thorius-bg-color) !important;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .vortex-thorius-container,
+    .vortex-thorius-tab-content,
+    .vortex-thorius-message,
+    .vortex-thorius-typing-dots {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    .vortex-thorius-container {
+        position: static;
+        box-shadow: none;
+        width: 100%;
+        height: auto;
+    }
+    
+    .vortex-thorius-header-actions,
+    .vortex-thorius-footer,
+    .vortex-thorius-tabs {
+        display: none !important;
+    }
+    
+    .vortex-thorius-tab-content {
+        display: block !important;
+        opacity: 1 !important;
+        height: auto !important;
+    }
+    
+    .vortex-thorius-message {
+        break-inside: avoid;
+    }
+}
+
+/* CPU/GPU optimization with transform */
+.vortex-thorius-minimized {
+    transform: translateY(calc(100% - 50px));
+}
+
+/* Faster loading with content-visibility */
+.vortex-thorius-tab-content:not(.active) {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
+/* Skeleton loading state */
+.vortex-thorius-skeleton {
+    background: linear-gradient(90deg, 
+        rgba(0,0,0,0.06) 25%, 
+        rgba(0,0,0,0.15) 37%, 
+        rgba(0,0,0,0.06) 63%
+    );
+    background-size: 400% 100%;
+    animation: vortex-thorius-skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes vortex-thorius-skeleton-loading {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+/* Enhanced focus indicators for accessibility */
+.vortex-thorius-container *:focus {
+    outline: 2px solid var(--thorius-accent-color, #5a67d8);
+    outline-offset: 2px;
+}
+
+/* Responsive font sizing with clamp */
+.vortex-thorius-message {
+    font-size: clamp(14px, 1vw + 10px, 16px);
+} 

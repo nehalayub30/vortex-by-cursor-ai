@@ -1,0 +1,283 @@
+/**
+ * VORTEX AI Marketplace Post Edit Styles
+ *
+ * Styling for custom post type edit screens (artwork, artist, templates).
+ *
+ * @package    Vortex_AI_Marketplace
+ * @subpackage Vortex_AI_Marketplace/admin/css
+ * @author     Marianne Nems <Marianne@VortexArtec.com>
+ */
+
+/* Meta Box Styling */
+.vortex-meta-box {
+  margin-bottom: 15px;
+}
+
+.vortex-meta-box:last-child {
+  margin-bottom: 0;
+}
+
+.vortex-meta-field {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.vortex-meta-field:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.vortex-meta-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.vortex-meta-description {
+  color: #666;
+  font-size: 13px;
+  margin-top: 3px;
+  font-style: italic;
+}
+
+.vortex-meta-field input[type="text"],
+.vortex-meta-field input[type="number"],
+.vortex-meta-field input[type="url"],
+.vortex-meta-field input[type="email"],
+.vortex-meta-field select,
+.vortex-meta-field textarea {
+  width: 100%;
+}
+
+.vortex-meta-field textarea {
+  min-height: 100px;
+}
+
+.vortex-meta-field .wp-editor-wrap {
+  margin-top: 5px;
+}
+
+/* Artwork-specific Meta Box Styling */
+.vortex-artwork-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.vortex-artwork-thumbnail {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vortex-artwork-thumbnail img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.vortex-artwork-details {
+  flex: 1;
+  min-width: 200px;
+}
+
+.vortex-artwork-field {
+  margin-bottom: 10px;
+}
+
+.vortex-artwork-field:last-child {
+  margin-bottom: 0;
+}
+
+.vortex-artwork-field-label {
+  font-weight: 600;
+  display: inline-block;
+  min-width: 100px;
+  margin-right: 10px;
+}
+
+.vortex-artwork-price-field {
+  display: flex;
+  align-items: center;
+}
+
+.vortex-currency-symbol {
+  margin-right: 5px;
+  color: #666;
+}
+
+/* Artist-specific Meta Box Styling */
+.vortex-artist-profile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.vortex-artist-avatar {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vortex-artist-avatar img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.vortex-artist-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.vortex-verification-details {
+  background: #f0f8ff;
+  border-left: 3px solid #0073aa;
+  padding: 8px 12px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.vortex-social-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+}
+
+/* Wallet Information */
+.vortex-wallet-info {
+  background: #f9f9f9;
+  border-radius: 3px;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+}
+
+.vortex-wallet-address {
+  font-family: monospace;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  border-radius: 3px;
+  margin-top: 5px;
+  word-break: break-all;
+}
+
+.vortex-wallet-actions {
+  margin-top: 10px;
+}
+
+.vortex-wallet-verification-results {
+  margin-top: 10px;
+  display: none;
+}
+
+/* Statistics Display */
+.vortex-stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.vortex-stat-item {
+  background: #f8f9fa;
+  border-radius: 3px;
+  padding: 10px;
+  text-align: center;
+}
+
+.vortex-stat-label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.vortex-stat-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #23282d;
+}
+
+.vortex-star-rating {
+  color: #ffb900;
+  margin-top: 3px;
+}
+
+.vortex-star-rating .dashicons-star-filled {
+  color: #ffb900;
+}
+
+.vortex-star-rating .dashicons-star-half {
+  color: #ffb900;
+}
+
+.vortex-star-rating .dashicons-star-empty {
+  color: #ccc;
+}
+
+/* AI Template Styling */
+.vortex-template-preview {
+  margin-bottom: 15px;
+}
+
+.vortex-template-preview img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.vortex-template-params {
+  margin-bottom: 15px;
+}
+
+.vortex-param-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.vortex-param-row:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.vortex-param-name {
+  flex: 0 0 120px;
+  font-weight: 600;
+}
+
+.vortex-param-value {
+  flex: 1;
+}
+
+.vortex-param-desc {
+  flex: 0 0 100%;
+  margin-top: 5px;
+  color: #666;
+  font-size: 12px;
+  padding-left: 120px;
+}
+
+/* AI Prompt Styling */

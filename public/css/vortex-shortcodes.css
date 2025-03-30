@@ -1,0 +1,175 @@
+/**
+ * Shortcodes Styling
+ */
+
+/* Price Estimator */
+.vortex-price-estimator {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.vortex-price-estimator h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.vortex-price-parameters {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 4px;
+}
+
+.vortex-price-parameters .param {
+    margin-right: 20px;
+    margin-bottom: 5px;
+}
+
+.vortex-price-parameters .param strong {
+    font-weight: 600;
+    color: #555;
+}
+
+.vortex-price-calculation {
+    padding: 15px;
+    background: #f7fbff;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.base-price {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.base-price span {
+    font-weight: 600;
+    color: #555;
+}
+
+.ai-analysis {
+    border-top: 1px dashed #ccc;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.ai-analysis h4 {
+    color: #1e88e5;
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.huraii-analysis, .cloe-optimization {
+    background: #f5f5f5;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.huraii-analysis h5, .cloe-optimization h5 {
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.huraii-analysis h5 img, .cloe-optimization h5 img {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+}
+
+.market-trend, .market-demand, .average-price, 
+.pricing-strategy, .recommended-price, .confidence-score {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.market-trend span, .market-demand span, .average-price span,
+.pricing-strategy span, .recommended-price span, .confidence-score span {
+    font-weight: 600;
+    color: #555;
+}
+
+.trend-up {
+    color: #4caf50;
+}
+
+.trend-down {
+    color: #f44336;
+}
+
+.trend-stable {
+    color: #ff9800;
+}
+
+.demand-high {
+    color: #4caf50;
+}
+
+.demand-medium {
+    color: #ff9800;
+}
+
+.demand-low {
+    color: #f44336;
+}
+
+.final-price {
+    margin-top: 20px;
+    text-align: center;
+    padding: 15px;
+    background: #e8f5e9;
+    border-radius: 5px;
+}
+
+.final-price h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #2e7d32;
+}
+
+.final-price .price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2e7d32;
+}
+
+.price-disclaimer {
+    text-align: center;
+    font-style: italic;
+    color: #757575;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+/* Common error styles */
+.vortex-error {
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+    border-radius: 4px;
+    padding: 10px 15px;
+    color: #c62828;
+    margin: 10px 0;
+}
+
+.vortex-notice {
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    border-radius: 4px;
+    padding: 10px 15px;
+    color: #2e7d32;
+    margin: 10px 0;
+} 

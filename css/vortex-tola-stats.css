@@ -1,0 +1,72 @@
+.vortex-tola-stats-widget {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-tola-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.vortex-tola-stat-card {
+    background: linear-gradient(135deg, #2a3f90, #1a2b6d);
+    color: white;
+    padding: 1.25rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.vortex-tola-stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.stat-header h3 {
+    font-size: 1rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.vortex-tola-update-notice {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #666;
+    margin-top: 1rem;
+}
+
+/* Animation for real-time updates */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.stat-value.updating {
+    animation: pulse 1.5s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .vortex-tola-stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max- 

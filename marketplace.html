@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX AI | Art Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #000000;
+            --primary-light: #333333;
+            --primary-dark: #000000;
+            --accent: #cc3333;
+            --light: #ffffff;
+            --light-gray: #f8f8f8;
+            --gray: #e0e0e0;
+            --gray-dark: #757575;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --card-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mt-5 { margin-top: 2.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 2.5rem; }
+        
+        /* Header */
+        header {
+            background: var(--light);
+            color: var(--primary);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            padding: 0.5rem;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+            color: var(--light);
+        }
+        
+        .btn-accent:hover {
+            background: #bb2222;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        /* Marketplace Header */
+        .marketplace-header {
+            padding: 3rem 0;
+            background: var(--light-gray);
+        }
+        
+        .marketplace-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .marketplace-search {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            max-width: 500px;
+        }
+        
+        .marketplace-search input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px 0 0 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .marketplace-search button {
+            padding: 0.8rem 1.2rem;
+            background: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .marketplace-sort select {
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-option {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-option:hover, .filter-option.active {
+            background: var(--primary);
+            color: var(--light);
+            border-color: var(--primary);
+        }
+        
+        /* Artwork Grid */
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .artwork-card {
+            background: var(--light);
+            border: 1px solid var(--gray);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .artwork-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .artwork-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .artwork-details {
+            padding: 1.5rem;
+        }
+        
+        .artwork-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artwork-artist {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .artwork-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        
+        .artwork-price-secondary {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .artwork-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .artwork-tag {
+            padding: 0.3rem 0.8rem;
+            background: var(--light-gray);
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        /* Artwork Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+        
+        .modal-content {
+            background: var(--light);
+            max-width: 1000px;
+            width: 90%;
+            border-radius: 4px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .artwork-modal {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .artwork-modal-image {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            background: #000;
+        }
+        
+        .artwork-modal-details {
+            padding: 2rem;
+        }
+        
+        .artwork-modal-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artwork-modal-artist {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .artwork-modal-description {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .artwork-modal-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .artwork-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+        
+        .info-value {
+            font-weight: 500;
+        }
+        
+        .artwork-modal-price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artwork-modal-price-secondary {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .artwork-modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* Transaction Modal */
+        .transaction-steps {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+        
+        .transaction-step {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--gray);
+            transition: var(--transition);
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .step-number.active {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .transaction-details {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+        
+        .price-breakdown {
+            margin-bottom: 1.5rem;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .price-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+        }
+        
+        .price-label {
+            color: var(--text-secondary);
+        }
+        
+        .transaction-options {
+            margin-bottom: 2rem;
+        }
+        
+        .option-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .payment-option {
+            border: 1px solid var(--gray);
+            padding: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .payment-option:hover, .payment-option.selected {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+        
+        .payment-option.selected {
+            box-shadow: var(--card-shadow);
+        }
+        
+        .option-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--gray);
+            display: inline-block;
+            position: relative;
+        }
+        
+        .option-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .payment-option.selected .option-radio::after {
+            opacity: 1;
+        }
+        
+        .option-label {
+            font-weight: 600;
+        }
+        
+        .option-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-left: 1.8rem;
+        }
+        
+        /* Confirmation */
+        .confirmation-content {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        .confirmation-icon {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .confirmation-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .confirmation-message {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .transaction-id {
+            background: var(--light-gray);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-bottom: 2rem;
+        }
+        
+        /* Swap Interface */
+        .swap-interface {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .swap-artwork {
+            flex: 1;
+            padding: 1.5rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .swap-artwork-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        
+        .swap-artwork-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .swap-artwork-artist {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .swap-direction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .swap-rights {
+            margin-top: 2rem;
+        }
+        
+        .swap-rights-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .rights-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .rights-option {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .rights-option:hover, .rights-option.selected {
+            background: var(--primary);
+            color: var(--light);
+            border-color: var(--primary);
+        }
+        
+        .swap-fee {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-top: 2rem;
+        }
+        
+        .swap-fee-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        /* Live Market Data */
+        .market-data {
+            padding: 1.5rem;
+            background: var(--light-gray);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .market-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .market-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .market-time {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .ticker-wrapper {
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .ticker {
+            display: flex;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+        }
+        
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .ticker-item {
+            margin-right: 2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .ticker-symbol {
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .ticker-value {
+            margin-right: 0.5rem;
+        }
+        
+        .ticker-change {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .ticker-positive {
+            background: rgba(0, 200, 83, 0.1);
+            color: #00c853;
+        }
+        
+        .ticker-negative {
+            background: rgba(255, 82, 82, 0.1);
+            color: #ff5252;
+        }
+        
+        .exchange-rate {
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--light);
+            color: var(--primary);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--gray);
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--gray);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-nav {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .swap-interface {
+                flex-direction: column;
+            }
+            
+            .artwork-modal-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .marketplace-filters {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            
+            .marketplace-search {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="vortex-demo-portal.html" class="logo">
+                VORTEX
+            </a>
+            <div class="header-nav">
+                <a href="vortex-demo-portal.html" class="nav-link">Home</a>
+                <a href="vortex-homepage.html" class="nav-link">Dashboard</a>
+                <a href="marketplace.html" class="nav-link">Marketplace</a>
+                <a href="collector-experience.html" class="nav-link">Collector</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <div style="display:flex; align-items:center; gap:0.5rem; margin-left:1rem;">
+                    <i class="fas fa-wallet"></i>
+                    <span>3,450 TOLA</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle" style="display:none;"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+    
+    <section class="marketplace-header">
+        <div class="container">
+            <div class="marketplace-filters">
+                <div class="marketplace-search">
+                    <input type="text" placeholder="Search artworks, artists, or collections...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="marketplace-sort">
+                    <select>
+                        <option>Sort by: Featured</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                        <option>Recently Added</option>
+                        <option>Most Popular</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filter-options">
+                <div class="filter-option active">All</div>
+                <div class="filter-option">Paintings</div>
+                <div class="filter-option">3D Artwork</div>
+                <div class="filter-option">NFTs</div>
+                <div class="filter-option">Limited Editions</div>
+                <div class="filter-option">Available for Swap</div>
+            </div>
+            
+            <div class="market-data">
+                <div class="market-header">
+                    <div class="market-title">TOLA Market Data</div>
+                    <div class="market-time">Last updated: <span id="marketTime">June 15, 2023 15:30 UTC</span></div>
+                </div>
+                
+                <div class="ticker-wrapper">
+                    <div class="ticker">
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">TOLA/USD</span>
+                            <span class="ticker-value">$1.023</span>
+                            <span class="ticker-change ticker-positive">+2.3%</span>
+                        </div>
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">24h Volume</span>
+                            <span class="ticker-value">3.2M TOLA</span>
+                        </div>
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">Market Cap</span>
+                            <span class="ticker-value">$102.3M</span>
+                        </div>
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">Total Transactions</span>
+                            <span class="ticker-value">12,345</span>
+                            <span class="ticker-change ticker-positive">+5.6%</span>
+                        </div>
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">Avg. Artwork Price</span>
+                            <span class="ticker-value">1,250 TOLA</span>
+                        </div>
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">Top Sale Today</span>
+                            <span class="ticker-value">COSMIC RHAPSODY</span>
+                            <span class="ticker-value">25,000 TOLA</span>
+                        </div>
+                        
+                        <!-- Duplicate for seamless loop -->
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">TOLA/USD</span>
+                            <span class="ticker-value">$1.023</span>
+                            <span class="ticker-change ticker-positive">+2.3%</span>
+                        </div>
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">24h Volume</span>
+                            <span class="ticker-value">3.2M TOLA</span>
+                        </div>
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">Market Cap</span>
+                            <span class="ticker-value">$102.3M</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exchange-rate">
+                    Current Exchange Rate: 1 TOLA = $1.023 USD (2.5% conversion fee applies)
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="marketplace-content">
+        <div class="container">
+            <div class="artwork-grid">
+                <!-- Artwork 1 -->
+                <div class="artwork-card" onclick="openArtworkModal('artwork1')">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/MNK55-1024x683.jpg" alt="AMOUR: THE COSMIC RHAPSODY" class="artwork-image">
+                    <div class="artwork-details">
+                        <h3 class="artwork-title">AMOUR: THE COSMIC RHAPSODY</h3>
+                        <div class="artwork-artist">Marianne Nems</div>
+                        <div class="artwork-tags">
+                            <span class="artwork-tag">3D Artwork</span>
+                            <span class="artwork-tag">Original</span>
+                        </div>
+                        <div class="artwork-price">189,999 TOLA</div>
+                        <div class="artwork-price-secondary">$194,369 USD</div>
+                    </div>
+                </div>
+                
+                <!-- Artwork 2 -->
+                <div class="artwork-card" onclick="openArtworkModal('artwork2')">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/ANGEL-DE-LAMOUR-1024x683.jpg" alt="ANGELS OF LOVE" class="artwork-image">
+                    <div class="artwork-details">
+                        <h3 class="artwork-title">ANGELS OF LOVE</h3>
+                        <div class="artwork-artist">Marianne Nems</div>
+                        <div class="artwork-tags">
+                            <span class="artwork-tag">NFT</span>
+                            <span class="artwork-tag">3D Artwork</span>
+                            <span class="artwork-tag">Available for Swap</span>
+                        </div>
+                        <div class="artwork-price">5,000 TOLA</div>
+                        <div class="artwork-price-secondary">$5,115 USD</div>
+                    </div>
+                </div>
+                
+                <!-- Artwork 3 -->
+                <div class="artwork-card" onclick="openArtworkModal('artwork3')">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/NemAtena-1-1024x683.jpg" alt="ATHENA'S DANCE" class="artwork-image">
+                    <div class="artwork-details">
+                        <h3 class="artwork-title">ATHENA'S DANCE</h3>
+                        <div class="artwork-artist">Marianne Nems</div>
+                        <div class="artwork-tags">
+                            <span class="artwork-tag">NFT</span>
+                            <span class="artwork-tag">3D Artwork</span>
+                            <span class="artwork-tag">Available for Swap</span>
+                        </div>
+                        <div class="artwork-price">4,590 TOLA</div>
+                        <div class="artwork-price-secondary">$4,695 USD</div>
+                    </div>
+                </div>
+                
+                <!-- Artwork 4 -->
+                <div class="artwork-card" onclick="openSwapModal()">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/AQUAFLORA-ESSENCE-1024x683.jpg" alt="AQUAFLORA ESSENCE" class="artwork-image">
+                    <div class="artwork-details">
+                        <h3 class="artwork-title">AQUAFLORA ESSENCE</h3>
+                        <div class="artwork-artist">Marianne Nems</div>
+                        <div class="artwork-tags">
+                            <span class="artwork-tag">3D Artwork</span>
+                            <span class="artwork-tag">Available for Swap</span>
+                        </div>
+                        <div class="artwork-price">54,900 TOLA</div>
+                        <div class="artwork-price-secondary">$56,163 USD</div>
+                    </div>
+                </div>
+                
+                <!-- More artworks would continue here -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Artwork Modal -->
+    <div class="modal-backdrop" id="artworkModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeArtworkModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="artwork-modal">
+                <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/MNK55-1024x683.jpg" alt="AMOUR: THE COSMIC RHAPSODY" class="artwork-modal-image" id="modalImage">
+                
+                <div class="artwork-modal-details">
+                    <h2 class="artwork-modal-title" id="modalTitle">AMOUR: THE COSMIC RHAPSODY</h2>
+                    <div class="artwork-modal-artist" id="modalArtist">By Marianne Nems</div>
+                    
+                    <div class="artwork-modal-description" id="modalDescription">
+                        AMOUR: THE COSMIC RHAPSODY is a mesmerizing exploration of love's universal force across the cosmos. This 3D artwork merges celestial imagery with emotional resonance, creating a visual symphony that transcends conventional art boundaries. Created in 2022, this piece is part of Marianne Nems' acclaimed Cosmic Emotions series.
+                    </div>
+                    
+                    <div class="artwork-modal-info">
+                        <div class="artwork-info-item">
+                            <span class="info-label">Medium</span>
+                            <span class="info-value">3D Digital Art</span>
+                        </div>
+                        <div class="artwork-info-item">
+                            <span class="info-label">Dimensions</span>
+                            <span class="info-value">120 cm x 120 cm</span>
+                        </div>
+                        <div class="artwork-info-item">
+                            <span class="info-label">Year</span>
+                            <span class="info-value">2022</span>
+                        </div>
+                        <div class="artwork-info-item">
+                            <span class="info-label">Edition</span>
+                            <span class="info-value">Original 1/1</span>
+                        </div>
+                        <div class="artwork-info-item">
+                            <span class="info-label">Authentication</span>
+                            <span class="info-value">Blockchain Verified</span>
+                        </div>
+                        <div class="artwork-info-item">
+                            <span class="info-label">Collection</span>
+                            <span class="info-value">Cosmic Emotions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-modal-price" id="modalPrice">189,999 TOLA</div>
+                    <div class="artwork-modal-price-secondary" id="modalPriceUSD">$194,369 USD</div>
+                    
+                    <div class="artwork-modal-actions">
+                        <button class="btn btn-primary" onclick="openPurchaseModal()">Purchase Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

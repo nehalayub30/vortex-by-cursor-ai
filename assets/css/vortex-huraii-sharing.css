@@ -1,0 +1,64 @@
+/* HUR 
+
+/* Upscaling section enhancements */
+.huraii-upscale-option {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+}
+
+.huraii-scale-select-container,
+.huraii-resolution-select-container {
+    margin-bottom: 10px;
+}
+
+.huraii-screen-optimize-container {
+    margin-bottom: 12px;
+    font-size: 0.9em;
+}
+
+.huraii-screen-resolution {
+    display: inline-block;
+    margin-left: 5px;
+    font-weight: bold;
+    color: #007cba;
+}
+
+.huraii-dimension-info-container {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.huraii-dimensions-info {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Upscaling button states */
+.huraii-upscale-btn.upscaling,
+.huraii-resolution-upscale-btn.upscaling {
+    opacity: 0.7;
+    position: relative;
+    padding-right: 30px;
+}
+
+.huraii-upscale-btn.upscaling:after,
+.huraii-resolution-upscale-btn.upscaling:after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: huraii-spin 1s linear infinite;
+}
+
+@keyframes huraii-spin {
+    to { transform: translateY(-50%) rotate(360deg); }
+} 

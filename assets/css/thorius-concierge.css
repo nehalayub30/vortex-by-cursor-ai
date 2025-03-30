@@ -1,0 +1,559 @@
+/**
+ * Thorius AI Concierge Styles
+ */
+
+/* Main Container */
+.vortex-thorius-container {
+    position: fixed;
+    bottom: 20px;
+    z-index: 99999;
+    width: 380px;
+    max-width: 90vw;
+    height: 600px;
+    max-height: 80vh;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+/* Position variants */
+.vortex-thorius-right {
+    right: 20px;
+}
+
+.vortex-thorius-left {
+    left: 20px;
+}
+
+/* Theme variants */
+.vortex-thorius-light {
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.vortex-thorius-dark {
+    background-color: #212529;
+    color: #f5f5f5;
+}
+
+/* Header */
+.vortex-thorius-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.vortex-thorius-light .vortex-thorius-header {
+    background-color: #5a67d8;
+    color: white;
+}
+
+.vortex-thorius-dark .vortex-thorius-header {
+    background-color: #2d3748;
+    color: white;
+}
+
+.vortex-thorius-branding {
+    display: flex;
+    align-items: center;
+}
+
+.vortex-thorius-logo {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+}
+
+.vortex-thorius-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.vortex-thorius-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.vortex-thorius-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    color: inherit;
+}
+
+.vortex-thorius-light .vortex-thorius-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.vortex-thorius-dark .vortex-thorius-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Tabs */
+.vortex-thorius-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.vortex-thorius-tab {
+    padding: 10px 15px;
+    margin-right: 2px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.vortex-thorius-light .vortex-thorius-tab {
+    color: #6b7280;
+}
+
+.vortex-thorius-dark .vortex-thorius-tab {
+    color: #9ca3af;
+}
+
+.vortex-thorius-tab:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.vortex-thorius-dark .vortex-thorius-tab:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.vortex-thorius-tab.active {
+    border-bottom-color: #5a67d8;
+    color: #5a67d8;
+    font-weight: 500;
+}
+
+.vortex-thorius-dark .vortex-thorius-tab.active {
+    border-bottom-color: #6366f1;
+    color: #6366f1;
+}
+
+/* Content Area */
+.vortex-thorius-content {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.vortex-thorius-light .vortex-thorius-content {
+    background-color: #f9fafb;
+}
+
+.vortex-thorius-dark .vortex-thorius-content {
+    background-color: #1a202c;
+}
+
+/* Tab Content */
+.vortex-thorius-tab-content {
+    display: none;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.vortex-thorius-tab-content.active {
+    display: block;
+}
+
+/* Chat Messages */
+.vortex-thorius-messages {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-bottom: 16px;
+}
+
+.vortex-thorius-message {
+    max-width: 85%;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.vortex-thorius-message-user {
+    align-self: flex-end;
+    background-color: #5a67d8;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.vortex-thorius-message-thorius {
+    align-self: flex-start;
+    background-color: #e5e7eb;
+    color: #374151;
+    border-bottom-left-radius: 4px;
+}
+
+.vortex-thorius-dark .vortex-thorius-message-thorius {
+    background-color: #374151;
+    color: #e5e7eb;
+}
+
+.vortex-thorius-typing {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.vortex-thorius-dark .vortex-thorius-typing {
+    color: #9ca3af;
+}
+
+.vortex-thorius-typing-dots {
+    display: flex;
+    margin-left: 8px;
+}
+
+.vortex-thorius-typing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #6b7280;
+    margin-right: 4px;
+    animation: typingDot 1.4s infinite ease-in-out;
+}
+
+.vortex-thorius-dark .vortex-thorius-typing-dot {
+    background-color: #9ca3af;
+}
+
+.vortex-thorius-typing-dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.vortex-thorius-typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.vortex-thorius-typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+    margin-right: 0;
+}
+
+@keyframes typingDot {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Input Area */
+.vortex-thorius-input {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.vortex-thorius-dark .vortex-thorius-input {
+    background-color: #2d3748;
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.vortex-thorius-message-form {
+    display: flex;
+    width: 100%;
+}
+
+.vortex-thorius-message-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 20px;
+    font-size: 14px;
+    background-color: white;
+    color: #374151;
+    margin-right: 8px;
+}
+
+.vortex-thorius-dark .vortex-thorius-message-input {
+    background-color: #4a5568;
+    border-color: #4a5568;
+    color: white;
+}
+
+.vortex-thorius-message-input:focus {
+    outline: none;
+    border-color: #5a67d8;
+}
+
+.vortex-thorius-dark .vortex-thorius-message-input:focus {
+    border-color: #6366f1;
+}
+
+.vortex-thorius-voice-btn {
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: all 0.2s;
+}
+
+.vortex-thorius-dark .vortex-thorius-voice-btn {
+    background-color: #4a5568;
+    border-color: #4a5568;
+}
+
+.vortex-thorius-voice-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.vortex-thorius-dark .vortex-thorius-voice-btn:hover {
+    background-color: #2d3748;
+}
+
+.vortex-thorius-voice-btn.listening {
+    background-color: #ef4444;
+    border-color: #ef4444;
+}
+
+.vortex-thorius-voice-btn.listening .vortex-thorius-voice-icon {
+    color: white;
+}
+
+.vortex-thorius-voice-icon {
+    width: 18px;
+    height: 18px;
+    color: #6b7280;
+}
+
+.vortex-thorius-dark .vortex-thorius-voice-icon {
+    color: #e5e7eb;
+}
+
+.vortex-thorius-voice-indicator {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+    display: none;
+}
+
+.vortex-thorius-send-btn {
+    background-color: #5a67d8;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.vortex-thorius-send-btn:hover {
+    background-color: #4c51bf;
+}
+
+.vortex-thorius-send-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Login Prompt */
+.vortex-thorius-login-prompt {
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    margin-top: 16px;
+}
+
+.vortex-thorius-dark .vortex-thorius-login-prompt {
+    background-color: #374151;
+}
+
+.vortex-thorius-login-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #5a67d8;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.vortex-thorius-login-btn:hover {
+    background-color: #4c51bf;
+    color: white;
+}
+
+/* Button styles */
+.vortex-thorius-button {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 5px;
+    background-color: #5a67d8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.vortex-thorius-button:hover {
+    background-color: #4c51bf;
+}
+
+.vortex-thorius-dark .vortex-thorius-button {
+    background-color: #4c51bf;
+}
+
+.vortex-thorius-dark .vortex-thorius-button:hover {
+    background-color: #434190;
+}
+
+/* AI tools grid */
+.vortex-thorius-ai-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.vortex-thorius-ai-card {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.vortex-thorius-dark .vortex-thorius-ai-card {
+    background-color: #374151;
+}
+
+.vortex-thorius-ai-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5a67d8;
+    color: white;
+}
+
+.vortex-thorius-ai-card h5 {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.vortex-thorius-ai-card p {
+    margin: 5px 0 15px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.vortex-thorius-dark .vortex-thorius-ai-card p {
+    color: #9ca3af;
+}
+
+.vortex-thorius-ai-action {
+    padding: 6px 12px;
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 13px;
+    text-decoration: none;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.vortex-thorius-dark .vortex-thorius-ai-action {
+    background-color: #4a5568;
+    border-color: #4a5568;
+    color: #e5e7eb;
+}
+
+.vortex-thorius-ai-action:hover {
+    background-color: #e5e7eb;
+}
+
+.vortex-thorius-dark .vortex-thorius-ai-action:hover {
+    background-color: #2d3748;
+}
+
+/* Loading Indicator */
+.vortex-thorius-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.vortex-thorius-dark .vortex-thorius-loading {
+    color: #9ca3af;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .vortex-thorius-container {
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        border-radius: 0;
+    }
+    
+    .vortex-thorius-ai-grid {
+        grid-template-columns: 1fr;
+    }
+} 

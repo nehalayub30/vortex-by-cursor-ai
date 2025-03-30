@@ -1,0 +1,286 @@
+/* ========== Chart Container Styles ========== */
+.vortex-chart-container {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+/* AI Learning Indicator */
+.vortex-chart-ai-learning {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #8b5cf6;
+    padding: 4px 8px;
+    border-radius: 20px;
+    background: rgba(139, 92, 246, 0.1);
+    z-index: 10;
+}
+
+.vortex-chart-ai-learning::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #8b5cf6;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Chart Header */
+.vortex-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.vortex-chart-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* AI Agent-Specific Indicators */
+.vortex-huraii-insight .vortex-chart-ai-learning {
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.vortex-huraii-insight .vortex-chart-ai-learning::before {
+    background: #3b82f6;
+}
+
+.vortex-cloe-insight .vortex-chart-ai-learning {
+    color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.vortex-cloe-insight .vortex-chart-ai-learning::before {
+    background: #8b5cf6;
+}
+
+.vortex-business-insight .vortex-chart-ai-learning {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.vortex-business-insight .vortex-chart-ai-learning::before {
+    background: #10b981;
+}
+
+/* Chart Canvas */
+.vortex-chart-canvas {
+    width: 100%;
+    height: 300px;
+    position: relative;
+}
+
+/* Chart Legend */
+.vortex-chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.vortex-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.vortex-legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+/* Chart Tooltip */
+.vortex-chart-tooltip {
+    position: absolute;
+    background: rgba(15, 23, 42, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 100;
+    transform: translate(-50%, -100%);
+    transition: opacity 0.2s ease;
+}
+
+.vortex-chart-tooltip.ai-enhanced {
+    border: 1px solid rgba(139, 92, 246, 0.5);
+}
+
+/* AI Enhanced Data Points */
+.vortex-data-point {
+    position: relative;
+    cursor: pointer;
+}
+
+.vortex-data-point.ai-learning::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(139, 92, 246, 0.6);
+    border-radius: 50%;
+    left: 0;
+    top: 0;
+    animation: data-point-pulse 2s infinite;
+}
+
+@keyframes data-point-pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    70% { transform: scale(1.5); opacity: 0; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Chart Types */
+.vortex-line-chart .vortex-chart-line {
+    stroke-width: 2;
+    fill: none;
+}
+
+.vortex-bar-chart .vortex-chart-bar {
+    transition: opacity 0.2s ease;
+}
+
+.vortex-pie-chart .vortex-chart-slice {
+    transition: transform 0.2s ease;
+}
+
+.vortex-pie-chart .vortex-chart-slice:hover {
+    transform: scale(1.05);
+}
+
+/* Chart Axes */
+.vortex-chart-axis {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.vortex-chart-axis-line {
+    stroke: #e2e8f0;
+    stroke-width: 1;
+}
+
+.vortex-chart-grid-line {
+    stroke: #f1f5f9;
+    stroke-width: 1;
+}
+
+/* Loading State */
+.vortex-chart-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.vortex-chart-loader {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f1f5f9;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error State */
+.vortex-chart-error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #ef4444;
+    font-size: 14px;
+    max-width: 80%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .vortex-chart-container {
+        padding: 15px;
+    }
+
+    .vortex-chart-canvas {
+        height: 250px;
+    }
+
+    .vortex-chart-legend {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .vortex-chart-container {
+        break-inside: avoid;
+        box-shadow: none;
+    }
+
+    .vortex-chart-ai-learning {
+        display: none;
+    }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+    .vortex-chart-container {
+        border: 1px solid CanvasText;
+    }
+
+    .vortex-legend-color {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Accessibility */
+.vortex-chart-container:focus-within {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.vortex-chart-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+} 

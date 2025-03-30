@@ -1,0 +1,158 @@
+/**
+ * Frontend Image Generator Styles
+ */
+
+.vortex-image-generator-frontend {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.vortex-generator-form {
+    margin-bottom: 20px;
+}
+
+.vortex-generator-form textarea {
+    width: 100%;
+    min-height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.form-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.form-options {
+    display: flex;
+    gap: 15px;
+}
+
+.form-options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.vortex-button {
+    background: #f0f0f0;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.vortex-button:hover {
+    background: #e0e0e0;
+}
+
+.vortex-button-primary {
+    background: #2271b1;
+    color: white;
+}
+
+.vortex-button-primary:hover {
+    background: #135e96;
+}
+
+.vortex-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.vortex-results-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.vortex-loading {
+    text-align: center;
+    padding: 30px;
+}
+
+.vortex-loading .spinner {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(0,0,0,0.1);
+    border-radius: 50%;
+    border-top-color: #2271b1;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 10px;
+}
+
+.vortex-notice {
+    background: #fff8e5;
+    border-left: 4px solid #ffb900;
+    padding: 12px;
+    margin: 20px 0;
+}
+
+/* Modal styles */
+.vortex-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 100000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vortex-modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    max-width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.modal-image-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.modal-image-container img {
+    max-width: 100%;
+    max-height: 60vh;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+} 

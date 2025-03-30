@@ -1,0 +1,8 @@
+/*!
+ * sweetalert2 v11.7.1
+ * Released under the MIT License.
+ */
+
+/* This would be the minified SweetAlert2 CSS */
+.swal2-popup.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;background:#fff;box-shadow:0 0 1px rgba(0,0,0,.075),0 1px 2px rgba(0,0,0,.075),1px 2px 4px rgba(0,0,0,.075),1px 3px 8px rgba(0,0,0,.075),2px 4px 16px rgba(0,0,0,.075);pointer-events:all}
+/* More SweetAlert2 CSS would follow... */ 

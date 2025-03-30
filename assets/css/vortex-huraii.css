@@ -1,0 +1,1177 @@
+/**
+ * VORTEX AI Marketplace - HURAII Styles
+ *
+ * Provides styling for the HURAII AI creative agent interface,
+ * ensuring learning signals are visibly presented while maintaining
+ * a clean and intuitive user experience.
+ */
+
+/* ========== HURAII Container ========== */
+.vortex-huraii-container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.vortex-huraii-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.vortex-huraii-title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-huraii-icon {
+    color: #3b82f6;
+    margin-right: 12px;
+}
+
+.vortex-huraii-subtitle {
+    color: #64748b;
+    font-size: 15px;
+    font-weight: normal;
+    margin-top: 6px;
+}
+
+/* ========== HURAII Learning Indicator ========== */
+.vortex-huraii-learning {
+    display: flex;
+    align-items: center;
+    background-color: rgba(59, 130, 246, 0.1);
+    border-radius: 30px;
+    padding: 6px 15px;
+    margin-left: 15px;
+}
+
+.vortex-huraii-learning-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #3b82f6;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: huraii-pulse 1.5s infinite;
+}
+
+@keyframes huraii-pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.vortex-huraii-learning-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #3b82f6;
+}
+
+/* ========== Generation Interface ========== */
+.vortex-huraii-interface {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.vortex-huraii-controls {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    position: relative;
+}
+
+.vortex-huraii-result {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Prompt Input Area */
+.vortex-prompt-container {
+    margin-bottom: 20px;
+}
+
+.vortex-prompt-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #1e293b;
+}
+
+.vortex-prompt-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    resize: vertical;
+    transition: all 0.2s ease;
+}
+
+.vortex-prompt-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.vortex-prompt-counter {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.vortex-prompt-counter.limit-near {
+    color: #f59e0b;
+}
+
+.vortex-prompt-counter.limit-reached {
+    color: #ef4444;
+}
+
+/* Example Prompts */
+.vortex-example-prompts {
+    margin-bottom: 20px;
+}
+
+.vortex-example-prompts-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.vortex-example-prompts-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.vortex-example-prompt {
+    background-color: #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.vortex-example-prompt:hover {
+    background-color: #e2e8f0;
+}
+
+/* AI Suggestions */
+.vortex-ai-suggestions {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.vortex-ai-suggestions-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #3b82f6;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-ai-suggestions-icon {
+    margin-right: 6px;
+}
+
+.vortex-ai-suggestions-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.vortex-ai-suggestion {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #1e40af;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px dashed #3b82f6;
+}
+
+.vortex-ai-suggestion:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Model Selection */
+.vortex-model-selection {
+    margin-bottom: 20px;
+}
+
+.vortex-model-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #1e293b;
+}
+
+.vortex-model-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.vortex-model-option {
+    position: relative;
+}
+
+.vortex-model-radio {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.vortex-model-radio + label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.vortex-model-radio:checked + label {
+    background-color: #eff6ff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.vortex-model-name {
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.vortex-model-description {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.vortex-model-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 6px;
+    border-radius: 30px;
+}
+
+.vortex-model-badge.new {
+    background-color: #10b981;
+}
+
+.vortex-model-badge.learning {
+    background-color: #8b5cf6;
+}
+
+/* Format Selector */
+.vortex-format-selector {
+    margin-bottom: 20px;
+}
+
+.vortex-format-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.vortex-format-btn {
+    flex: 1;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.vortex-format-btn:hover {
+    background-color: #f1f5f9;
+}
+
+.vortex-format-btn.active {
+    background-color: #eff6ff;
+    border-color: #3b82f6;
+    color: #1e40af;
+}
+
+.vortex-format-icon {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+/* Parameters Section */
+.vortex-parameters {
+    margin-bottom: 20px;
+}
+
+.vortex-parameters-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.vortex-parameters-heading {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.vortex-parameters-toggle {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-parameters-toggle-icon {
+    margin-left: 5px;
+    transition: transform 0.2s ease;
+}
+
+.vortex-parameters-toggle.collapsed .vortex-parameters-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.vortex-parameters-content {
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.vortex-parameters-content.collapsed {
+    max-height: 0;
+}
+
+/* Parameter Sliders */
+.vortex-parameter {
+    margin-bottom: 15px;
+}
+
+.vortex-parameter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.vortex-parameter-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.vortex-parameter-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.vortex-parameter-slider {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e2e8f0;
+    border-radius: 3px;
+    outline: none;
+}
+
+.vortex-parameter-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-parameter-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: none;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-parameter-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+.vortex-parameter-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+}
+
+.vortex-parameter-help {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+/* Seed Input */
+.vortex-seed-parameter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vortex-seed-input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.vortex-seed-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.vortex-seed-random {
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-seed-random:hover {
+    background-color: #e2e8f0;
+}
+
+/* Generation Button */
+.vortex-generate-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.vortex-generate-btn:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+
+.vortex-generate-btn:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.vortex-generate-icon {
+    margin-right: 8px;
+}
+
+/* Result Display Area */
+.vortex-result-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.vortex-result-placeholder {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+}
+
+.vortex-result-placeholder-icon {
+    font-size: 48px;
+    color: #94a3b8;
+    margin-bottom: 15px;
+}
+
+.vortex-result-placeholder-text {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.vortex-result-image {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.vortex-result-image.visible {
+    display: block;
+}
+
+.vortex-result-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.vortex-result-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vortex-result-save {
+    background-color: #10b981;
+    color: white;
+    border: none;
+}
+
+.vortex-result-save:hover {
+    background-color: #059669;
+}
+
+.vortex-result-download {
+    background-color: white;
+    color: #3b82f6;
+    border: 1px solid #3b82f6;
+}
+
+.vortex-result-download:hover {
+    background-color: #eff6ff;
+}
+
+.vortex-result-btn-icon {
+    margin-right: 6px;
+}
+
+/* Result Info and Stats */
+.vortex-result-info {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.vortex-result-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.vortex-result-stat {
+    background-color: white;
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.vortex-result-stat-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.vortex-result-stat-label {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Loading State */
+.vortex-generating-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 8px;
+    display: none;
+}
+
+.vortex-generating-overlay.active {
+    display: flex;
+}
+
+.vortex-generating-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(59, 130, 246, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #3b82f6;
+    animation: huraii-spin 1s linear infinite;
+}
+
+@keyframes huraii-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.vortex-generating-text {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.vortex-generating-progress {
+    width: 80%;
+    height: 6px;
+    background-color: #e2e8f0;
+    border-radius: 3px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.vortex-generating-progress-bar {
+    height: 100%;
+    background-color: #3b82f6;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.vortex-generating-detail {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.vortex-cancel-generation {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.2s ease;
+}
+
+.vortex-cancel-generation:hover {
+    background-color: #dc2626;
+}
+
+/* HURAII Learning Panel */
+.vortex-huraii-learning-panel {
+    margin-top: 30px;
+    background-color: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.vortex-huraii-learning-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.vortex-huraii-learning-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0369a1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-huraii-learning-title-icon {
+    color: #0ea5e9;
+    margin-right: 8px;
+}
+
+.vortex-huraii-feedback-form {
+    margin-top: 15px;
+}
+
+.vortex-feedback-question {
+    margin-bottom: 15px;
+}
+
+.vortex-feedback-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #0c4a6e;
+}
+
+.vortex-feedback-options {
+    display: flex;
+    gap: 10px;
+}
+
+.vortex-feedback-option {
+    flex: 1;
+    text-align: center;
+}
+
+.vortex-feedback-radio {
+    display: none;
+}
+
+.vortex-feedback-radio + label {
+    display: block;
+    padding: 8px;
+    background-color: white;
+    border: 1px solid #e0f2fe;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 13px;
+}
+
+.vortex-feedback-radio:checked + label {
+    background-color: #0ea5e9;
+    color: white;
+    border-color: #0ea5e9;
+}
+
+.vortex-feedback-comment {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #e0f2fe;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.vortex-feedback-comment:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.25);
+}
+
+.vortex-submit-feedback {
+    background-color: #0ea5e9;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.vortex-submit-feedback:hover {
+    background-color: #0284c7;
+}
+
+/* AI Generated History */
+.vortex-generation-history {
+    margin-top: 30px;
+}
+
+.vortex-history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.vortex-history-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.vortex-history-toggle {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-history-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.vortex-history-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-history-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-history-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.vortex-history-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+    color: white;
+    font-size: 12px;
+}
+
+.vortex-history-date {
+    font-weight: 500;
+}
+
+/* Insights from CLOE and BusinessStrategist */
+.vortex-ai-insights-container {
+    margin-top: 30px;
+}
+
+.vortex-cloe-insight {
+    background-color: rgba(139, 92, 246, 0.1);
+    border-left: 3px solid #8b5cf6;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 0 8px 8px 0;
+}
+
+.vortex-cloe-insight-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.vortex-cloe-icon {
+    color: #8b5cf6;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.vortex-cloe-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #5b21b6;
+    margin: 0;
+}
+
+.vortex-cloe-message {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #334155;
+}
+
+.vortex-business-insight {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-left: 3px solid #10b981;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 0 8px 8px 0;
+}
+
+.vortex-business-insight-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.vortex-business-icon {
+    color: #10b981;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.vortex-business-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #065f46;
+    margin: 0;
+}
+
+.vortex-business-message {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #334155;
+}
+
+.vortex-business-stats {
+    display: flex;
+    margin-top: 10px;
+    gap: 15px;
+}
+
+.vortex-business-stat {
+    background-color: rgba(16, 185, 129, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vortex-business-stat-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #065f46;
+}
+
+.vortex-business-stat-label {
+    font-size: 12px;
+    color: #047857;
+}
+
+/* Error Messages */
+.vortex-huraii-error {
+    background-color: #fef2f2;
+    border-left: 3px solid #ef4444;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.vortex-huraii-error-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #b91c1c;
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-huraii-error-icon {
+    margin-right: 8px;
+    color: #ef4444;
+}
+
+.vortex-huraii-error-message {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #7f1d1d;
+}
+
+.vortex-huraii-error-help {
+    font-size: 13px;
+    margin-top: 10px;
+    color: #b91c1c;
+}
+
+/* System Messages */
+.vortex-huraii-message {
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-huraii-message.info {
+    background-color: #eff6ff;
+    color: #1e40af;
+}
+
+.vortex-huraii-message.success {
+    background-color: #f0fdf4;
+    color: #166534;
+}
+
+.vortex-huraii-message.warning {
+    background-color: #fffbeb;
+    color: #92400e;
+}
+
+.vortex-huraii-message-icon {
+    margin-right: 10px;
+}
+
+.vortex-huraii-message-text {
+    font-size: 14px;
+    flex: 1;
+}
+
+.vortex-huraii-message-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    opacity: 0.7;
+}
+
+.vortex-huraii-message-close:hover {
+    opacity: 1;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 1024px) {
+    .vortex-huraii-interface {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .vortex-model-options {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .vortex-huraii-container {
+        padding: 15px;
+    }
+    
+    .vortex-huraii-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .vortex-huraii-learning {
+        margin: 10px 0 0 0;
+    }
+    
+    .vortex-parameters-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .vortex-history-items {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .vortex-format-options {
+        flex-direction: column;
+    }
+    
+    .vortex-result-actions {
+        flex-direction: column;
+    }
+    
+    .vortex-result-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .vortex-history-items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .vortex-business-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Animation for Learning Feedback */
+@keyframes huraii-learn-flash {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.huraii-learning-in-progress {
+    animation: huraii-learn-flash 1.5s ease-in-out infinite;
+}
+
+/* Theme Support for Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .vortex-huraii-interface {
+        /* Dark mode styles would go here */
+        /* Not fully implemented to keep concise */
+    }
+} 

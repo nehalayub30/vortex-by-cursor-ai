@@ -1,0 +1,289 @@
+/**
+ * Vortex Solana Integration Styles
+ */
+
+/* Solana Balance Widget */
+.vortex-solana-balance {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.vortex-solana-balance-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+.vortex-solana-balance-amount {
+    font-weight: 700;
+    font-size: 16px;
+    color: #8764e9; /* Solana inspired purple */
+}
+
+.vortex-solana-balance-error {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #fff5f5;
+    border: 1px solid #feb2b2;
+    color: #c53030;
+    border-radius: 6px;
+}
+
+/* Solana Wallet Interface */
+.vortex-solana-wallet {
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 1px solid #e2e8f0;
+}
+
+.vortex-solana-wallet-header {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.vortex-solana-wallet-header h3 {
+    margin: 0 0 15px 0;
+    font-size: 18px;
+    color: #2d3748;
+}
+
+.vortex-solana-wallet-connect {
+    padding: 10px 0;
+}
+
+.vortex-solana-wallet-connect p {
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.vortex-connect-wallet-button {
+    background-color: #7857e6; /* Solana purple */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.vortex-connect-wallet-button:hover {
+    background-color: #6244cc;
+}
+
+.vortex-connect-wallet-button:disabled {
+    background-color: #a0aec0;
+    cursor: not-allowed;
+}
+
+.vortex-solana-wallet-info {
+    padding: 20px;
+    display: none; /* Hidden by default, shown after connection */
+}
+
+.vortex-solana-wallet-address,
+.vortex-solana-wallet-balance {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.vortex-copy-address-button,
+.vortex-disconnect-wallet-button {
+    background-color: #e2e8f0;
+    color: #4a5568;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.2s;
+}
+
+.vortex-copy-address-button:hover,
+.vortex-disconnect-wallet-button:hover {
+    background-color: #cbd5e0;
+}
+
+.vortex-solana-wallet-send {
+    padding: 20px;
+    border-top: 1px solid #e2e8f0;
+    display: none; /* Hidden by default, shown after connection */
+}
+
+.vortex-solana-wallet-send h4 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    color: #2d3748;
+}
+
+.vortex-solana-send-form .form-group {
+    margin-bottom: 15px;
+}
+
+.vortex-solana-send-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.vortex-solana-send-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.vortex-solana-send-button {
+    background-color: #7857e6; /* Solana purple */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.vortex-solana-send-button:hover {
+    background-color: #6244cc;
+}
+
+.vortex-solana-send-result {
+    margin-top: 15px;
+}
+
+.vortex-solana-send-result .success {
+    padding: 10px;
+    background-color: #f0fff4;
+    border: 1px solid #c6f6d5;
+    color: #22543d;
+    border-radius: 4px;
+}
+
+.vortex-solana-send-result .error {
+    padding: 10px;
+    background-color: #fff5f5;
+    border: 1px solid #feb2b2;
+    color: #c53030;
+    border-radius: 4px;
+}
+
+.vortex-solana-send-result .processing {
+    padding: 10px;
+    background-color: #ebf8ff;
+    border: 1px solid #bee3f8;
+    color: #2c5282;
+    border-radius: 4px;
+}
+
+.vortex-solana-wallet-transactions {
+    padding: 20px;
+    border-top: 1px solid #e2e8f0;
+    display: none; /* Hidden by default, shown after connection */
+}
+
+.vortex-solana-wallet-transactions h4 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    color: #2d3748;
+}
+
+.vortex-transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.vortex-transaction-table th,
+.vortex-transaction-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+.vortex-transaction-table th {
+    font-weight: 600;
+    color: #4a5568;
+    background-color: #f8f9fa;
+}
+
+/* Notification styling */
+.vortex-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 6px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.vortex-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.vortex-notification.info {
+    background-color: #4299e1;
+}
+
+.vortex-notification.success {
+    background-color: #48bb78;
+}
+
+.vortex-notification.warning {
+    background-color: #ecc94b;
+}
+
+.vortex-notification.error {
+    background-color: #f56565;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .vortex-solana-wallet {
+        padding: 15px;
+    }
+    
+    .vortex-solana-wallet-address,
+    .vortex-solana-wallet-balance {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .vortex-solana-wallet-address .label,
+    .vortex-solana-wallet-balance .label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .vortex-copy-address-button {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+    
+    .vortex-transaction-table {
+        display: block;
+        overflow-x: auto;
+    }
+} 

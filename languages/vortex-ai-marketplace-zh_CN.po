@@ -1,0 +1,211 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: VORTEX AI Marketplace 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vortex-ai-marketplace\n"
+"POT-Creation-Date: 2024-01-01T00:00:00+00:00\n"
+"PO-Revision-Date: 2024-01-01T00:00:00+00:00\n"
+"Last-Translator: VORTEX Team\n"
+"Language-Team: VORTEX\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: VORTEX Translation System\n"
+"X-Domain: vortex-ai-marketplace\n"
+
+# AI Agent Messages
+msgid "HURAII_PROCESSING"
+msgstr "HURAII正在处理艺术作品..."
+
+msgid "HURAII_LEARNING"
+msgstr "HURAII正在从风格偏好中学习..."
+
+msgid "HURAII_GENERATION_COMPLETE"
+msgstr "艺术作品生成完成"
+
+msgid "CLOE_ANALYZING"
+msgstr "CLOE正在分析用户行为..."
+
+msgid "CLOE_RECOMMENDATION"
+msgstr "CLOE提供个性化推荐"
+
+msgid "CLOE_LEARNING_PROGRESS"
+msgstr "从交互中学习..."
+
+msgid "BUSINESS_STRATEGIST_ANALYZING"
+msgstr "商业策略师正在分析市场趋势..."
+
+msgid "BUSINESS_STRATEGIST_PLAN"
+msgstr "个性化商业计划已准备就绪"
+
+msgid "BUSINESS_STRATEGIST_LEARNING"
+msgstr "基于市场数据优化策略..."
+
+# Error Messages
+msgid "ERROR_AI_CONNECTION"
+msgstr "无法连接到AI服务。请重试。"
+
+msgid "ERROR_GENERATION_FAILED"
+msgstr "艺术作品生成失败。请重试。"
+
+msgid "ERROR_INVALID_INPUT"
+msgstr "检测到无效的输入参数"
+
+msgid "ERROR_PROCESSING_TIMEOUT"
+msgstr "处理超时。请重试。"
+
+msgid "ERROR_UNAUTHORIZED"
+msgstr "检测到未授权访问"
+
+# Success Messages
+msgid "SUCCESS_ARTWORK_CREATED"
+msgstr "艺术作品已成功创建"
+
+msgid "SUCCESS_PLAN_GENERATED"
+msgstr "商业计划已成功生成"
+
+msgid "SUCCESS_PROFILE_UPDATED"
+msgstr "使用AI洞察更新了个人资料"
+
+# Status Messages
+msgid "STATUS_AI_LEARNING_ACTIVE"
+msgstr "AI学习活跃"
+
+msgid "STATUS_PROCESSING"
+msgstr "处理中"
+
+msgid "STATUS_COMPLETED"
+msgstr "已完成"
+
+msgid "STATUS_FAILED"
+msgstr "失败"
+
+# Admin Interface
+msgid "ADMIN_DASHBOARD_TITLE"
+msgstr "VORTEX AI市场仪表板"
+
+msgid "ADMIN_AI_STATUS"
+msgstr "AI代理状态"
+
+msgid "ADMIN_SYSTEM_HEALTH"
+msgstr "系统健康"
+
+msgid "ADMIN_LEARNING_METRICS"
+msgstr "学习指标"
+
+# Marketplace Interface
+msgid "MARKETPLACE_TITLE"
+msgstr "AI驱动艺术市场"
+
+msgid "MARKETPLACE_FILTER_TITLE"
+msgstr "筛选艺术作品"
+
+msgid "MARKETPLACE_SORT_TITLE"
+msgstr "排序"
+
+# Artist Interface
+msgid "ARTIST_DASHBOARD_TITLE"
+msgstr "艺术家仪表板"
+
+msgid "ARTIST_GENERATION_TITLE"
+msgstr "艺术作品生成"
+
+msgid "ARTIST_ANALYTICS_TITLE"
+msgstr "性能分析"
+
+# Collector Interface
+msgid "COLLECTOR_DASHBOARD_TITLE"
+msgstr "收藏家仪表板"
+
+msgid "COLLECTOR_RECOMMENDATIONS"
+msgstr "个性化推荐"
+
+msgid "COLLECTOR_PORTFOLIO"
+msgstr "您的作品集"
+
+# AI Learning Status
+msgid "AI_LEARNING_PROGRESS"
+msgstr "学习进度"
+
+msgid "AI_LEARNING_ITERATIONS"
+msgstr "学习迭代"
+
+msgid "AI_LEARNING_ACCURACY"
+msgstr "学习准确度"
+
+# Transaction Messages
+msgid "TRANSACTION_PROCESSING"
+msgstr "交易处理中..."
+
+msgid "TRANSACTION_SUCCESS"
+msgstr "交易成功"
+
+msgid "TRANSACTION_FAILED"
+msgstr "交易失败"
+
+# Notification Messages
+msgid "NOTIFICATION_NEW_ARTWORK"
+msgstr "您喜欢的风格有新艺术作品可用"
+
+msgid "NOTIFICATION_MARKET_INSIGHT"
+msgstr "新的市场洞察可用"
+
+msgid "NOTIFICATION_LEARNING_COMPLETE"
+msgstr "AI学习周期完成"
+
+# Button Labels
+msgid "BUTTON_GENERATE"
+msgstr "生成"
+
+msgid "BUTTON_ANALYZE"
+msgstr "分析"
+
+msgid "BUTTON_LEARN"
+msgstr "了解更多"
+
+msgid "BUTTON_APPLY"
+msgstr "应用"
+
+# Form Labels
+msgid "FORM_STYLE_LABEL"
+msgstr "艺术风格"
+
+msgid "FORM_MEDIUM_LABEL"
+msgstr "媒介"
+
+msgid "FORM_SIZE_LABEL"
+msgstr "尺寸"
+
+msgid "FORM_PRICE_LABEL"
+msgstr "价格"
+
+# Tooltips
+msgid "TOOLTIP_AI_LEARNING"
+msgstr "AI正在从此次交互中积极学习"
+
+msgid "TOOLTIP_GENERATION_OPTIONS"
+msgstr "自定义艺术作品生成选项"
+
+msgid "TOOLTIP_MARKET_ANALYSIS"
+msgstr "显示详细市场分析"
+
+# Validation Messages
+msgid "VALIDATION_REQUIRED_FIELD"
+msgstr "此字段为必填项"
+
+msgid "VALIDATION_INVALID_FORMAT"
+msgstr "无效格式"
+
+msgid "VALIDATION_PROCESSING_LIMIT"
+msgstr "已达到处理限制"
+
+# Help Messages
+msgid "HELP_GETTING_STARTED"
+msgstr "开始使用VORTEX AI市场"
+
+msgid "HELP_AI_FEATURES"
+msgstr "了解AI功能"
+
+msgid "HELP_TROUBLESHOOTING"
+msgstr "故障排除指南" 

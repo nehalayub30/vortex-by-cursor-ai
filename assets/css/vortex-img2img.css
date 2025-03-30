@@ -1,0 +1,1230 @@
+/**
+ * VORTEX AI Marketplace - Image-to-Image Transformation Styles
+ *
+ * Provides styling for the img2img transformation interface while ensuring
+ * HURAII, CLOE, and BusinessStrategist AI agents maintain deep learning
+ * capabilities throughout the user's creative process.
+ */
+
+/* ========== Container and Layout ========== */
+.vortex-img2img-container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.vortex-img2img-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.vortex-img2img-title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-img2img-icon {
+    color: #8b5cf6;
+    margin-right: 12px;
+}
+
+.vortex-img2img-subtitle {
+    color: #64748b;
+    font-size: 15px;
+    font-weight: normal;
+    margin-top: 6px;
+}
+
+/* ========== AI Learning Indicators ========== */
+.vortex-ai-learning-indicators {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.vortex-ai-learning-indicator {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.vortex-ai-learning-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: img2img-pulse 1.5s infinite;
+}
+
+@keyframes img2img-pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.vortex-huraii-indicator {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.vortex-huraii-indicator .vortex-ai-learning-dot {
+    background-color: #3b82f6;
+}
+
+.vortex-cloe-indicator {
+    background-color: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+}
+
+.vortex-cloe-indicator .vortex-ai-learning-dot {
+    background-color: #8b5cf6;
+}
+
+.vortex-business-indicator {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.vortex-business-indicator .vortex-ai-learning-dot {
+    background-color: #10b981;
+}
+
+/* ========== Main Interface Layout ========== */
+.vortex-img2img-interface {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.vortex-img2img-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.vortex-img2img-result {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* ========== Mode Selection Tabs ========== */
+.vortex-transformation-modes {
+    display: flex;
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.vortex-mode-tab {
+    flex: 1;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.vortex-mode-tab:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.vortex-mode-tab.active {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.vortex-mode-icon {
+    display: block;
+    margin: 0 auto 5px;
+    font-size: 20px;
+}
+
+.vortex-ai-learning-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #8b5cf6;
+    animation: img2img-pulse 1.5s infinite;
+}
+
+/* ========== Image Upload Areas ========== */
+.vortex-image-upload {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.vortex-upload-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.vortex-upload-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-upload-icon {
+    color: #8b5cf6;
+    margin-right: 8px;
+}
+
+.vortex-upload-help {
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.vortex-dropzone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.vortex-dropzone:hover {
+    border-color: #8b5cf6;
+    background-color: rgba(139, 92, 246, 0.05);
+}
+
+.vortex-dropzone.active {
+    border-color: #8b5cf6;
+    background-color: rgba(139, 92, 246, 0.1);
+}
+
+.vortex-dropzone-icon {
+    font-size: 36px;
+    color: #8b5cf6;
+    margin-bottom: 15px;
+}
+
+.vortex-dropzone-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #334155;
+    margin-bottom: 10px;
+}
+
+.vortex-dropzone-subtext {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.vortex-browse-btn {
+    display: inline-block;
+    color: #8b5cf6;
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.vortex-file-input {
+    display: none;
+}
+
+.vortex-image-preview {
+    margin-top: 15px;
+    position: relative;
+    display: none;
+}
+
+.vortex-image-preview.active {
+    display: block;
+}
+
+.vortex-preview-image {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-preview-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.vortex-image-preview:hover .vortex-preview-overlay {
+    opacity: 1;
+}
+
+.vortex-remove-image {
+    background-color: white;
+    color: #ef4444;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-remove-image:hover {
+    background-color: #fef2f2;
+}
+
+/* ========== Reference Image Upload (For Reference Mode) ========== */
+.vortex-reference-upload {
+    margin-top: 20px;
+    display: none;
+}
+
+.vortex-reference-upload.active {
+    display: block;
+}
+
+/* ========== Canvas Drawing Tools (For Inpaint/Outpaint Modes) ========== */
+.vortex-canvas-tools {
+    margin-top: 20px;
+    display: none;
+}
+
+.vortex-canvas-tools.active {
+    display: block;
+}
+
+.vortex-canvas-toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.vortex-canvas-tool {
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-canvas-tool:hover {
+    background-color: #e2e8f0;
+}
+
+.vortex-canvas-tool.active {
+    background-color: #8b5cf6;
+    color: white;
+    border-color: #8b5cf6;
+}
+
+.vortex-canvas-tool-icon {
+    margin-right: 6px;
+}
+
+.vortex-brush-size,
+.vortex-brush-hardness {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.vortex-brush-label {
+    font-size: 13px;
+    color: #64748b;
+    min-width: 80px;
+}
+
+.vortex-brush-slider {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e2e8f0;
+    border-radius: 3px;
+    outline: none;
+}
+
+.vortex-brush-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #8b5cf6;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-brush-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: none;
+    border-radius: 50%;
+    background: #8b5cf6;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-brush-value {
+    min-width: 40px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.vortex-canvas-container {
+    position: relative;
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-draw-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: crosshair;
+}
+
+/* ========== Transformation Options ========== */
+.vortex-transformation-options {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.vortex-options-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.vortex-options-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-options-icon {
+    color: #8b5cf6;
+    margin-right: 8px;
+}
+
+.vortex-style-description-container {
+    margin-bottom: 20px;
+}
+
+.vortex-style-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #334155;
+}
+
+.vortex-style-description {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    resize: vertical;
+    transition: all 0.2s ease;
+}
+
+.vortex-style-description:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.25);
+}
+
+.vortex-style-counter {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.vortex-style-suggestions {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.vortex-suggested-style {
+    background-color: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-suggested-style:hover {
+    background-color: rgba(139, 92, 246, 0.2);
+}
+
+.vortex-parameter-group {
+    margin-bottom: 20px;
+}
+
+.vortex-parameter-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #334155;
+}
+
+.vortex-parameter {
+    margin-bottom: 15px;
+}
+
+.vortex-parameter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.vortex-parameter-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.vortex-parameter-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.vortex-parameter-slider {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e2e8f0;
+    border-radius: 3px;
+    outline: none;
+}
+
+.vortex-parameter-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #8b5cf6;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-parameter-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: none;
+    border-radius: 50%;
+    background: #8b5cf6;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-parameter-help {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+.vortex-checkbox-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.vortex-checkbox-option {
+    display: flex;
+    align-items: center;
+}
+
+.vortex-checkbox-input {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    accent-color: #8b5cf6;
+}
+
+.vortex-checkbox-label {
+    font-size: 14px;
+    color: #334155;
+}
+
+/* ========== Transform Button ========== */
+.vortex-transform-btn {
+    background-color: #8b5cf6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.vortex-transform-btn:hover {
+    background-color: #7c3aed;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(124, 58, 237, 0.2);
+}
+
+.vortex-transform-btn:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.vortex-transform-icon {
+    margin-right: 8px;
+}
+
+.vortex-cancel-transform {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.vortex-cancel-transform.active {
+    display: flex;
+}
+
+.vortex-cancel-transform:hover {
+    background-color: #dc2626;
+}
+
+.vortex-cancel-icon {
+    margin-right: 6px;
+}
+
+/* ========== Result Display ========== */
+.vortex-result-placeholder {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    color: #64748b;
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    min-height: 300px;
+}
+
+.vortex-result-placeholder-icon {
+    font-size: 48px;
+    color: #94a3b8;
+    margin-bottom: 15px;
+}
+
+.vortex-result-placeholder-text {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.vortex-result-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.vortex-result-container.active {
+    display: flex;
+}
+
+.vortex-result-image-container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.vortex-result-image {
+    max-width: 100%;
+    max-height: 450px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-transformation-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.vortex-stat {
+    background-color: white;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.vortex-stat-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.vortex-stat-label {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.vortex-result-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.vortex-result-btn {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vortex-save-result {
+    background-color: #10b981;
+    color: white;
+    border: none;
+}
+
+.vortex-save-result:hover {
+    background-color: #059669;
+}
+
+.vortex-download-result {
+    background-color: white;
+    color: #8b5cf6;
+    border: 1px solid #8b5cf6;
+}
+
+.vortex-download-result:hover {
+    background-color: rgba(139, 92, 246, 0.1);
+}
+
+.vortex-result-btn-icon {
+    margin-right: 6px;
+}
+
+.vortex-history-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.vortex-history-nav-btn {
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-history-nav-btn:hover:not(:disabled) {
+    background-color: #e2e8f0;
+}
+
+.vortex-history-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.vortex-prev-icon {
+    margin-right: 6px;
+}
+
+.vortex-next-icon {
+    margin-left: 6px;
+}
+
+/* ========== AI Analysis Sections ========== */
+.vortex-cloe-analysis {
+    background-color: rgba(139, 92, 246, 0.1);
+    border-left: 3px solid #8b5cf6;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 0 8px 8px 0;
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.vortex-cloe-analysis.active {
+    display: block;
+}
+
+.vortex-cloe-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.vortex-cloe-icon {
+    color: #8b5cf6;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.vortex-cloe-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #7c3aed;
+    margin: 0;
+}
+
+.vortex-cloe-content {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #334155;
+}
+
+.vortex-cloe-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.vortex-cloe-metric {
+    background-color: rgba(139, 92, 246, 0.2);
+    border-radius: 30px;
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.vortex-cloe-metric-icon {
+    margin-right: 6px;
+}
+
+.vortex-business-insights {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-left: 3px solid #10b981;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 0 8px 8px 0;
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.vortex-business-insights.active {
+    display: block;
+}
+
+.vortex-business-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.vortex-business-icon {
+    color: #10b981;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.vortex-business-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #059669;
+    margin: 0;
+}
+
+.vortex-business-content {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #334155;
+}
+
+.vortex-business-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.vortex-business-stat {
+    background-color: rgba(16, 185, 129, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.vortex-business-stat-label {
+    font-size: 12px;
+    color: #047857;
+}
+
+.vortex-business-stat-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #065f46;
+}
+
+/* ========== Settings Suggestions ========== */
+.vortex-settings-suggestion {
+    background-color: rgba(56, 189, 248, 0.1);
+    border-left: 3px solid #38bdf8;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 0 8px 8px 0;
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.vortex-settings-suggestion.active {
+    display: block;
+}
+
+.vortex-apply-suggested-settings {
+    background-color: #38bdf8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.vortex-apply-suggested-settings:hover {
+    background-color: #0ea5e9;
+}
+
+/* ========== Loading States ========== */
+.vortex-loading-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 8px;
+    display: none;
+}
+
+.vortex-loading-indicator.active {
+    display: flex;
+}
+
+.vortex-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(139, 92, 246, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #8b5cf6;
+    animation: img2img-spin 1s linear infinite;
+}
+
+@keyframes img2img-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.vortex-loading-text {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.vortex-upload-progress {
+    width: 80%;
+    height: 6px;
+    background-color: #e2e8f0;
+    border-radius: 3px;
+    margin-top: 15px;
+    overflow: hidden;
+    display: none;
+}
+
+.vortex-upload-progress.active {
+    display: block;
+}
+
+.vortex-upload-progress-bar {
+    height: 100%;
+    background-color: #8b5cf6;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* ========== Error Messages ========== */
+.vortex-messages {
+    margin: 15px 0;
+    display: none;
+}
+
+.vortex-messages.active {
+    display: block;
+}
+
+.vortex-message {
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    background-color: #eff6ff;
+    color: #1e40af;
+    font-size: 14px;
+}
+
+.vortex-message.vortex-error {
+    background-color: #fef2f2;
+    color: #b91c1c;
+}
+
+.vortex-message:last-child {
+    margin-bottom: 0;
+}
+
+/* ========== AI Learning Feedback ========== */
+.vortex-ai-learning-feedback {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(139, 92, 246, 0.9);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 30px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    transition: all 0.3s ease;
+    transform: translateY(100px);
+    opacity: 0;
+}
+
+.vortex-ai-learning-feedback.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.vortex-ai-learning-pulse {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+    animation: img2img-pulse 1.5s infinite;
+}
+
+/* ========== Responsive Styles ========== */
+@media screen and (max-width: 1024px) {
+    .vortex-img2img-interface {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .vortex-transformation-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .vortex-img2img-container {
+        padding: 15px;
+    }
+    
+    .vortex-img2img-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .vortex-ai-learning-indicators {
+        margin: 10px 0 0 0;
+    }
+    
+    .vortex-transformation-modes {
+        overflow-x: auto;
+        padding: 5px;
+        gap: 5px;
+    }
+    
+    .vortex-mode-tab {
+        min-width: 100px;
+        white-space: nowrap;
+    }
+    
+    .vortex-canvas-toolbar {
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    
+    .vortex-canvas-tool {
+        min-width: 80px;
+        white-space: nowrap;
+    }
+    
+    .vortex-result-actions {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .vortex-transformation-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .vortex-cloe-metrics,
+    .vortex-business-stats {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .vortex-history-navigation {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .vortex-parameter-group {
+        overflow-x: hidden;
+    }
+}
+
+/* ========== Animation for Learning Feedback ========== */
+@keyframes img2img-learn-flash {
+    0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+}
+
+.img2img-learning-in-progress {
+    animation: img2img-learn-flash 1.5s ease-in-out infinite;
+}
+
+/* ========== Accessibility Features ========== */
+.vortex-img2img-container *:focus {
+    outline: 2px solid #8b5cf6;
+    outline-offset: 2px;
+}
+
+.vortex-img2img-container button:focus {
+    outline: 2px solid #8b5cf6;
+    outline-offset: 2px;
+}
+
+/* Screen reader only class */
+.vortex-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+} 

@@ -1,0 +1,21 @@
+﻿{
+    "name": "vortex/vortex-ai-agents",
+    "description": "VORTEX AI AGENTS Plugin for WordPress",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Marianne",
+            "email": "email@example.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vortex\\": "includes/"
+        }
+    }
+}

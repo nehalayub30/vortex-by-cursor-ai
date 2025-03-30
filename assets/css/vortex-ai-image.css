@@ -1,0 +1,354 @@
+/* AI Image Detail Styles */
+.vortex-ai-image {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.vortex-ai-image-header {
+    margin-bottom: 30px;
+}
+
+.vortex-ai-image-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.vortex-ai-image-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.vortex-ai-date {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.vortex-ai-engine {
+    background-color: #5a67d8;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.vortex-blockchain-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #10b981;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.vortex-blockchain-badge img {
+    width: 14px;
+    height: 14px;
+}
+
+.vortex-ai-image-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.vortex-ai-image-main {
+    flex: 2;
+    min-width: 500px;
+}
+
+.vortex-ai-image-sidebar {
+    flex: 1;
+    min-width: 300px;
+}
+
+.vortex-ai-image-artwork {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.vortex-ai-artwork {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-ai-prompt {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.vortex-ai-prompt h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #4b5563;
+}
+
+.vortex-ai-prompt p {
+    margin: 0;
+    line-height: 1.6;
+    color: #1f2937;
+    font-style: italic;
+}
+
+.vortex-ai-description {
+    line-height: 1.7;
+}
+
+.vortex-ai-actions {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vortex-ai-actions button,
+.vortex-ai-actions a {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.vortex-create-nft-btn {
+    background-color: #8b5cf6;
+    color: white;
+    border: none;
+}
+
+.vortex-create-nft-btn:hover {
+    background-color: #7c3aed;
+}
+
+.vortex-modify-btn {
+    background-color: #5a67d8;
+    color: white;
+}
+
+.vortex-modify-btn:hover {
+    background-color: #4c51bf;
+}
+
+.vortex-download-btn {
+    background-color: #10b981;
+    color: white;
+    border: none;
+}
+
+.vortex-download-btn:hover {
+    background-color: #059669;
+}
+
+.vortex-share-btn {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.vortex-share-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.vortex-ai-details {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.vortex-ai-details h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #4b5563;
+}
+
+.vortex-ai-details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vortex-ai-details-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.vortex-ai-details-list li:last-child {
+    border-bottom: none;
+}
+
+.vortex-detail-label {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.vortex-detail-value {
+    color: #1f2937;
+    text-align: right;
+}
+
+.vortex-contract-address {
+    word-break: break-all;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.vortex-explorer-link {
+    color: #5a67d8;
+    text-decoration: none;
+}
+
+.vortex-explorer-link:hover {
+    text-decoration: underline;
+}
+
+.vortex-similar-images {
+    margin-top: 30px;
+}
+
+.vortex-similar-images h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #4b5563;
+}
+
+.vortex-similar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.vortex-similar-item {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.vortex-similar-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-similar-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+/* Modal styles for NFT creation */
+.vortex-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+}
+
+.vortex-modal-content {
+    background-color: #fefefe;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.vortex-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #6b7280;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.vortex-nft-form {
+    margin-top: 20px;
+}
+
+.vortex-form-field {
+    margin-bottom: 15px;
+}
+
+.vortex-form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.vortex-form-field input,
+.vortex-form-field textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+.vortex-form-field textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.vortex-form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.vortex-modal-cancel {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .vortex-ai-image-content {
+        flex-direction: column;
+    }
+    
+    .vortex-ai-image-main,
+    .vortex-ai-image-sidebar {
+        min-width: 100%;
+    }
+    
+    .vortex-similar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .vortex-modal-content {
+        margin: 20px;
+        padding: 15px;
+    }
+} 

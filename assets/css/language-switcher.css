@@ -1,0 +1,47 @@
+.vortex-language-switcher {
+    margin: 10px 0;
+}
+
+.vortex-language-switcher select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+}
+
+.vortex-language-switcher select:hover {
+    border-color: #999;
+}
+
+.vortex-language-switcher select:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 2px rgba(0,115,170,0.8);
+}
+
+/* RTL Support */
+.rtl .vortex-language-switcher select {
+    padding-right: 8px;
+    padding-left: 24px;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .vortex-language-switcher select {
+        background-color: #2c3338;
+        border-color: #50575e;
+        color: #fff;
+    }
+
+    .vortex-language-switcher select:hover {
+        border-color: #787c82;
+    }
+
+    .vortex-language-switcher select:focus {
+        border-color: #3582c4;
+        box-shadow: 0 0 2px rgba(53,130,196,0.8);
+    }
+} 

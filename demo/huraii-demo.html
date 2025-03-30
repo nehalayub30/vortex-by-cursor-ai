@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX HURAII | AI Art Generation & Trading</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #000000;
+            --primary-light: #333333;
+            --primary-dark: #000000;
+            --accent: #cc3333;
+            --accent-light: #e65555;
+            --light: #ffffff;
+            --light-gray: #f8f8f8;
+            --gray: #e0e0e0;
+            --gray-dark: #757575;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --card-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+            --purple: #6d4c9c;
+            --blue: #3a7bd5;
+            --green: #00c853;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mt-5 { margin-top: 2.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 2.5rem; }
+        
+        /* Header */
+        header {
+            background: var(--light);
+            color: var(--primary);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            padding: 0.5rem;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            font-weight: 600;
+        }
+        
+        .wallet-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+            color: var(--light);
+        }
+        
+        .btn-accent:hover {
+            background: var(--accent-light);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .btn-purple {
+            background: var(--purple);
+            color: var(--light);
+        }
+        
+        .btn-purple:hover {
+            background: #5d3d8c;
+        }
+        
+        .btn-blue {
+            background: var(--blue);
+            color: var(--light);
+        }
+        
+        .btn-blue:hover {
+            background: #2a6bc5;
+        }
+        
+        .btn-green {
+            background: var(--green);
+            color: var(--light);
+        }
+        
+        .btn-green:hover {
+            background: #00b248;
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/SACRED-GEOMATRY-500.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--light);
+            padding: 10rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        /* Main Content */
+        .tab-navigation {
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid var(--gray);
+            margin-bottom: 3rem;
+        }
+        
+        .tab-link {
+            padding: 1rem 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text-secondary);
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .tab-link.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .tab-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .tab-link.active::after {
+            width: 100%;
+        }
+        
+        .tab-content {
+            padding: 2rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* HURAII Generation Tools */
+        .generation-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .tool-card {
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .tool-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .tool-content {
+            padding: 1.5rem;
+        }
+        
+        .tool-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tool-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Generation Interface */
+        .generation-interface {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .interface-sidebar {
+            width: 300px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        
+        .interface-main {
+            flex: 1;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .interface-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .interface-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .interface-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-slider {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .slider-value {
+            margin-top: 0.5rem;
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .style-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .style-option {
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            padding: 0.5rem;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .style-option:hover, .style-option.selected {
+            border-color: var(--primary);
+            background: var(--light-gray);
+        }
+        
+        .style-option.selected {
+            font-weight: 600;
+        }
+        
+        .canvas-area {
+            flex: 1;
+            background: var(--light-gray);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .canvas-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .canvas-placeholder {
+            color: var(--gray-dark);
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .canvas-loading {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.8);
+        }
+        
+        .canvas-loading-spinner {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .canvas-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .history-preview {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+        
+        .history-item {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .history-item:hover, .history-item.selected {
+            border-color: var(--accent);
+        }
+        
+        .history-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Collection View */
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .collection-title {
+            font-size: 1.5rem;
+        }
+        
+        .collection-filters {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .collection-item {
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .collection-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .collection-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .collection-details {
+            padding: 1rem;
+        }
+        
+        .collection-item-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .collection-item-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .collection-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        /* Transaction Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .modal-content {
+            background: var(--light);
+            max-width: 800px;
+            width: 100%;
+            border-radius: 8px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--gray);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        /* Transaction Steps */
+        .transaction-steps {
+            display: flex;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .transaction-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .transaction-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            right: -10px;
+            width: calc(100% - 60px);
+            height: 2px;
+            background: var(--gray);
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            border: 2px solid var(--gray);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .transaction-step.active .step-number, .transaction-step.completed .step-number {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--light);
+        }
+        
+        .transaction-step.completed .step-number::after {
+            content: '✓';
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .step-description {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        
+        /* Transaction Content */
+        .artwork-preview {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .artwork-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .artwork-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .artwork-details {
+            flex: 1;
+        }
+        
+        .artwork-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artwork-creator {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .artwork-description {
+            margin-bottom: 1.5rem;
+        }
+        
+        .price-details {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .price-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            padding-top: 1rem;
+        }
+        
+        /* Payment Options */
+        .payment-options {
+            margin-bottom: 2rem;
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .payment-option:hover, .payment-option.selected {
+            border-color: var(--primary);
+            background: var(--light-gray);
+        }
+        
+        .payment-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .payment-option.selected .payment-radio::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+        
+        .payment-label {
+            flex: 1;
+        }
+        
+        .payment-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .payment-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Swap Interface */
+        .swap-interface {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .swap-artwork {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .swap-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 0 auto 1rem;
+        }
+        
+        .swap-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .swap-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .swap-creator {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .swap-price {
+            font-weight: 600;
+        }
+        
+        .swap-direction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .swap-terms {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        
+        .terms-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .terms-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .terms-checkbox {
+            width: 20px;
+            height: 20px;
+        }
+        
+        /* Confirmation */
+        .confirmation {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .confirmation-icon {
+            font-size: 4rem;
+            color: var(--green);
+            margin-bottom: 1.5rem;
+        }
+        
+        .confirmation-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .confirmation-message {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .transaction-details {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: var(--text-secondary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--light);
+            color: var(--primary);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--gray);
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--gray);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-nav {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .generation-interface {
+                flex-direction: column;
+            }
+            
+            .interface-sidebar {
+                width: 100%;
+            }
+            
+            .artwork-preview {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .artwork-image {
+                margin-bottom: 1.5rem;
+            }
+            
+            .swap-interface {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                VORTEX
+            </a>
+            <div class="header-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="vortex-homepage.html" class="nav-link">Dashboard</a>
+                <a href="marketplace.html" class="nav-link">Marketplace</a>
+                <a href="marianne-vortex-demo.html" class="nav-link">Artist Journey</a>
+                <a href="collector-experience.html" class="nav-link">Collector</a>
+                <a href="huraii-demo.html" class="nav-link active">HURAII</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="#" class="wallet-link">
+                    <i class="fas fa-wallet"></i>
+                    <span>3,450 TOLA</span>
+                </a>
+            </div>
+            <a href="#" class="btn btn-primary">Login / Register</a>
+            <div class="mobile-menu-toggle" style="display:none;"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>HURAII | AI-Powered Art Creation</h1>
+            <p>Generate, enhance, and trade unique digital artwork powered by VORTEX's advanced AI technology.</p>
+            <div>
+                <a href="#" class="btn btn-accent" onclick="scrollToSection('create')">Create Art</a>
+                <a href="#" class="btn btn-outline" onclick="scrollToSection('collect')">Collect & Trade</a>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container mt-5">
+        <div class="tab-navigation">
+            <a href="#" class="tab-link active" data-tab="create">Create with HURAII</a>
+            <a href="#" class="tab-link" data-tab="transaction">Collector Experience</a>
+            <a href="#" class="tab-link" data-tab="swap">Artist Swap</a>
+        </div>
+        
+        <!-- HURAII Create Tab -->
+        <div class="tab-content" id="create">
+            <div class="section-header">
+                <h2 class="section-title">HURAII Creation Suite</h2>
+                <p class="section-subtitle">Harness the power of AI to generate stunning artwork or enhance your existing creations.</p>
+            </div>
+            
+            <div class="generation-tools">
+                <div class="tool-card">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/NEM_ATLAS-1024x683.jpg" alt="Text to Image" class="tool-image">
+                    <div class="tool-content">
+                        <h3 class="tool-title">Text to Image</h3>
+                        <p class="tool-description">Transform your written descriptions into stunning visual artwork using our advanced AI algorithms.</p>
+                        <a href="#interface" class="btn btn-purple btn-sm">Generate Now</a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/Apollon-1024x683.jpg" alt="Image Enhancement" class="tool-image">
+                    <div class="tool-content">
+                        <h3 class="tool-title">Image Enhancement</h3>
+                        <p class="tool-description">Enhance and transform your existing artwork with AI-powered filters, styles, and improvements.</p>
+                        <a href="#interface" class="btn btn-blue btn-sm">Enhance Now</a>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/ANGEL-DE-LAMOUR-1024x683.jpg" alt="Style Transfer" class="tool-image">
+                    <div class="tool-content">
+                        <h3 class="tool-title">Style Transfer</h3>
+                        <p class="tool-description">Apply artistic styles from famous works or custom patterns to transform your creations.</p>
+                        <a href="#interface" class="btn btn-accent btn-sm">Apply Style</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="generation-interface" id="interface">
+                <div class="interface-sidebar">
+                    <div class="interface-header">
+                        <h3 class="interface-title">Generation Settings</h3>
+                        <p class="interface-description">Customize parameters to perfect your AI-generated artwork.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Generation Type</label>
+                        <select class="form-control">
+                            <option selected>Text to Image</option>
+                            <option>Image Enhancement</option>
+                            <option>Style Transfer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Text Prompt</label>
+                        <textarea class="form-control" placeholder="Describe the artwork you want to create...">A cosmic landscape with ethereal figures dancing through celestial light, in the style of digital surrealism</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Negative Prompt</label>
+                        <textarea class="form-control" placeholder="Elements to avoid in the generation...">Low quality, distorted faces, blurry, text, watermarks</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Image Size</label>
+                        <select class="form-control">
+                            <option>512 x 512</option>
+                            <option selected>1024 x 1024</option>
+                            <option>1024 x 1536</option>
+                            <option>1536 x 1024</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Style Guidance</label>
+                        <input type="range" class="form-slider" min="1" max="20" value="7">
+                        <div class="slider-value">7 - Balanced</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Artistic Style</label>
+                        <div class="style-options">
+                            <div class="style-option selected">Digital</div>
+                            <div class="style-option">3D</div>
+                            <div class="style-option">Fantasy</div>
+                            <div class="style-option">Abstract</div>
+                            <div class="style-option">Cinematic</div>
+                            <div class="style-option">Surreal</div>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="btn btn-purple" style="width: 100%;">Generate</a>
+                </div>
+                
+                <div class="interface-main">
+                    <div class="interface-header">
+                        <h3 class="interface-title">Canvas</h3>
+                        <div class="canvas-controls">
+                            <a href="#" class="btn btn-outline btn-sm">Undo</a>
+                            <a href="#" class="btn btn-outline btn-sm">Redo</a>
+                            <a href="#" class="btn btn-outline btn-sm">Download</a>
+                            <a href="#" class="btn btn-accent btn-sm">Add to Collection</a>
+                        </div>
+                    </div>
+                    
+                    <div class="canvas-area">
+                        <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/SACRED-GEOMATRY-500.jpg" alt="Generated Artwork" class="canvas-image">
+                        
+                        <div class="canvas-loading" style="display: none;">
+                            <div class="canvas-loading-spinner">
+                                <i class="fas fa-spinner"></i>
+                            </div>
+                            <div>Generating your masterpiece...</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="interface-title mb-1">Generation History</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

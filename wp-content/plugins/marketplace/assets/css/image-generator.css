@@ -1,0 +1,342 @@
+/**
+ * HURAII Image Generator Styles
+ */
+
+/* Tabs */
+.vortex-tabs {
+    margin: 20px 0;
+}
+
+.tab-content {
+    display: none;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Form Elements */
+.vortex-image-generator-form {
+    margin-bottom: 30px;
+}
+
+.form-row {
+    margin-bottom: 15px;
+}
+
+.form-row-columns {
+    display: flex;
+    gap: 15px;
+}
+
+.form-column {
+    flex: 1;
+}
+
+.form-row label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-row textarea {
+    width: 100%;
+    min-height: 80px;
+}
+
+/* Image Grid */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.image-item {
+    position: relative;
+    background: #f5f5f5;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.image-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: pointer;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.image-item:hover .image-overlay,
+.history-image:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-overlay button {
+    margin: 0 3px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-overlay button:hover {
+    background: #f0f0f0;
+}
+
+.image-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* History Tab */
+.history-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.history-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.history-item {
+    background: #f9f9f9;
+    border-radius: 4px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.history-prompt {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.history-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.history-image {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.history-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: pointer;
+}
+
+.history-date {
+    color: #666;
+    font-size: 12px;
+    text-align: right;
+}
+
+.empty-history {
+    text-align: center;
+    padding: 30px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.history-pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Modal */
+.vortex-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 100000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vortex-modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    max-width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.modal-image-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.modal-image-container img {
+    max-width: 100%;
+    max-height: 60vh;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Loading States */
+.vortex-loading {
+    text-align: center;
+    padding: 30px;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.global-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100001;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255,255,255,0.3);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Audit Tab */
+.audit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.audit-item {
+    background: #f9f9f9;
+    border-radius: 4px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.audit-item h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.audit-status {
+    margin: 10px 0;
+}
+
+.status-checking {
+    color: #666;
+    font-style: italic;
+}
+
+.status-success {
+    color: #46b450;
+    font-weight: bold;
+}
+
+.status-error {
+    color: #dc3232;
+    font-weight: bold;
+}
+
+.audit-description {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.audit-summary {
+    background: #f0f0f1;
+    border-left: 4px solid #2271b1;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.success-summary {
+    color: #46b450;
+}
+
+.error-summary {
+    color: #dc3232;
+}
+
+/* Settings Tab */
+.vortex-settings-form {
+    max-width: 600px;
+} 

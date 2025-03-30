@@ -1,0 +1,211 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: VORTEX AI Marketplace 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vortex-ai-marketplace\n"
+"POT-Creation-Date: 2024-01-01T00:00:00+00:00\n"
+"PO-Revision-Date: 2024-01-01T00:00:00+00:00\n"
+"Last-Translator: VORTEX Team\n"
+"Language-Team: VORTEX\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: VORTEX Translation System\n"
+"X-Domain: vortex-ai-marketplace\n"
+
+# AI Agent Messages
+msgid "HURAII_PROCESSING"
+msgstr "HURAII sta elaborando la tua opera d'arte..."
+
+msgid "HURAII_LEARNING"
+msgstr "HURAII sta imparando dalle tue preferenze di stile..."
+
+msgid "HURAII_GENERATION_COMPLETE"
+msgstr "Generazione opera d'arte completata"
+
+msgid "CLOE_ANALYZING"
+msgstr "CLOE sta analizzando il comportamento dell'utente..."
+
+msgid "CLOE_RECOMMENDATION"
+msgstr "CLOE ha raccomandazioni personalizzate per te"
+
+msgid "CLOE_LEARNING_PROGRESS"
+msgstr "Apprendimento dalle tue interazioni..."
+
+msgid "BUSINESS_STRATEGIST_ANALYZING"
+msgstr "Business Strategist sta analizzando le tendenze di mercato..."
+
+msgid "BUSINESS_STRATEGIST_PLAN"
+msgstr "Il tuo piano aziendale personalizzato è pronto"
+
+msgid "BUSINESS_STRATEGIST_LEARNING"
+msgstr "Ottimizzazione delle strategie basata sui dati di mercato..."
+
+# Error Messages
+msgid "ERROR_AI_CONNECTION"
+msgstr "Impossibile connettersi ai servizi AI. Riprova."
+
+msgid "ERROR_GENERATION_FAILED"
+msgstr "Generazione opera d'arte fallita. Riprova."
+
+msgid "ERROR_INVALID_INPUT"
+msgstr "Parametri di input non validi rilevati"
+
+msgid "ERROR_PROCESSING_TIMEOUT"
+msgstr "Timeout di elaborazione. Riprova."
+
+msgid "ERROR_UNAUTHORIZED"
+msgstr "Accesso non autorizzato rilevato"
+
+# Success Messages
+msgid "SUCCESS_ARTWORK_CREATED"
+msgstr "Opera d'arte creata con successo"
+
+msgid "SUCCESS_PLAN_GENERATED"
+msgstr "Piano aziendale generato con successo"
+
+msgid "SUCCESS_PROFILE_UPDATED"
+msgstr "Profilo aggiornato con successo con le informazioni AI"
+
+# Status Messages
+msgid "STATUS_AI_LEARNING_ACTIVE"
+msgstr "Apprendimento AI attivo"
+
+msgid "STATUS_PROCESSING"
+msgstr "Elaborazione"
+
+msgid "STATUS_COMPLETED"
+msgstr "Completato"
+
+msgid "STATUS_FAILED"
+msgstr "Fallito"
+
+# Admin Interface
+msgid "ADMIN_DASHBOARD_TITLE"
+msgstr "Dashboard VORTEX AI Marketplace"
+
+msgid "ADMIN_AI_STATUS"
+msgstr "Stato Agenti AI"
+
+msgid "ADMIN_SYSTEM_HEALTH"
+msgstr "Salute del Sistema"
+
+msgid "ADMIN_LEARNING_METRICS"
+msgstr "Metriche di Apprendimento"
+
+# Marketplace Interface
+msgid "MARKETPLACE_TITLE"
+msgstr "Mercato dell'Arte Potenziato dall'AI"
+
+msgid "MARKETPLACE_FILTER_TITLE"
+msgstr "Filtra Opere d'Arte"
+
+msgid "MARKETPLACE_SORT_TITLE"
+msgstr "Ordina per"
+
+# Artist Interface
+msgid "ARTIST_DASHBOARD_TITLE"
+msgstr "Dashboard Artista"
+
+msgid "ARTIST_GENERATION_TITLE"
+msgstr "Genera Opera d'Arte"
+
+msgid "ARTIST_ANALYTICS_TITLE"
+msgstr "Analisi delle Prestazioni"
+
+# Collector Interface
+msgid "COLLECTOR_DASHBOARD_TITLE"
+msgstr "Dashboard Collezionista"
+
+msgid "COLLECTOR_RECOMMENDATIONS"
+msgstr "Raccomandazioni Personalizzate"
+
+msgid "COLLECTOR_PORTFOLIO"
+msgstr "Il Tuo Portfolio"
+
+# AI Learning Status
+msgid "AI_LEARNING_PROGRESS"
+msgstr "Progresso Apprendimento"
+
+msgid "AI_LEARNING_ITERATIONS"
+msgstr "Iterazioni di Apprendimento"
+
+msgid "AI_LEARNING_ACCURACY"
+msgstr "Accuratezza Apprendimento"
+
+# Transaction Messages
+msgid "TRANSACTION_PROCESSING"
+msgstr "Elaborazione transazione..."
+
+msgid "TRANSACTION_SUCCESS"
+msgstr "Transazione completata con successo"
+
+msgid "TRANSACTION_FAILED"
+msgstr "Transazione fallita"
+
+# Notification Messages
+msgid "NOTIFICATION_NEW_ARTWORK"
+msgstr "Nuova opera d'arte disponibile nel tuo stile preferito"
+
+msgid "NOTIFICATION_MARKET_INSIGHT"
+msgstr "Nuova analisi di mercato disponibile"
+
+msgid "NOTIFICATION_LEARNING_COMPLETE"
+msgstr "Ciclo di apprendimento AI completato"
+
+# Button Labels
+msgid "BUTTON_GENERATE"
+msgstr "Genera"
+
+msgid "BUTTON_ANALYZE"
+msgstr "Analizza"
+
+msgid "BUTTON_LEARN"
+msgstr "Scopri di più"
+
+msgid "BUTTON_APPLY"
+msgstr "Applica"
+
+# Form Labels
+msgid "FORM_STYLE_LABEL"
+msgstr "Stile Artistico"
+
+msgid "FORM_MEDIUM_LABEL"
+msgstr "Medium"
+
+msgid "FORM_SIZE_LABEL"
+msgstr "Dimensione"
+
+msgid "FORM_PRICE_LABEL"
+msgstr "Prezzo"
+
+# Tooltips
+msgid "TOOLTIP_AI_LEARNING"
+msgstr "L'AI sta apprendendo attivamente da questa interazione"
+
+msgid "TOOLTIP_GENERATION_OPTIONS"
+msgstr "Personalizza le opzioni di generazione dell'opera d'arte"
+
+msgid "TOOLTIP_MARKET_ANALYSIS"
+msgstr "Visualizza analisi dettagliata del mercato"
+
+# Validation Messages
+msgid "VALIDATION_REQUIRED_FIELD"
+msgstr "Questo campo è obbligatorio"
+
+msgid "VALIDATION_INVALID_FORMAT"
+msgstr "Formato non valido"
+
+msgid "VALIDATION_PROCESSING_LIMIT"
+msgstr "Limite di elaborazione raggiunto"
+
+# Help Messages
+msgid "HELP_GETTING_STARTED"
+msgstr "Inizia con VORTEX AI Marketplace"
+
+msgid "HELP_AI_FEATURES"
+msgstr "Comprendi le funzionalità AI"
+
+msgid "HELP_TROUBLESHOOTING"
+msgstr "Guida alla risoluzione dei problemi" 

@@ -1,0 +1,94 @@
+/**
+ * VORTEX AI Marketplace Grid CSS
+ *
+ * Styles for grid layouts of artworks and artists
+ *
+ * @package    Vortex_AI_Marketplace
+ * @subpackage Vortex_AI_Marketplace/public/css
+ */
+
+/* Grid Container */
+.vortex-grid {
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Grid Column Configuration */
+.vortex-grid-columns-1 {
+  grid-template-columns: 1fr;
+}
+
+.vortex-grid-columns-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.vortex-grid-columns-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.vortex-grid-columns-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.vortex-grid-columns-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.vortex-grid-columns-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/* Grid Item */
+.vortex-grid-item {
+  background-color: var(--vortex-background);
+  border-radius: var(--vortex-border-radius);
+  overflow: hidden;
+  transition: var(--vortex-transition);
+  box-shadow: var(--vortex-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.vortex-grid-item:hover {
+  box-shadow: var(--vortex-shadow);
+  transform: translateY(-5px);
+}
+
+/* Grid Title */
+.vortex-grid-title {
+  margin-bottom: var(--vortex-space-lg);
+  position: relative;
+}
+
+.vortex-grid-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 50px;
+  height: 3px;
+  background-color: var(--vortex-primary-color);
+}
+
+/* Artwork Item Styles */
+.vortex-artwork-item .vortex-artwork-image {
+  position: relative;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  overflow: hidden;
+}
+
+.vortex-artwork-item .vortex-artwork-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.vortex-artwork-item:hover .vortex-artwork-image img {
+  transform: scale(1.05);
+} 

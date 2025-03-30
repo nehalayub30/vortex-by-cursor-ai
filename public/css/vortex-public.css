@@ -1,0 +1,560 @@
+/**
+ * VORTEX AI Marketplace Public CSS
+ *
+ * Main stylesheet for public-facing functionality
+ *
+ * @package    Vortex_AI_Marketplace
+ * @subpackage Vortex_AI_Marketplace/public/css
+ */
+
+/* CSS Variables for theme adaptability */
+:root {
+  /* Primary colors */
+  --vortex-primary-color: #3e6ae1;
+  --vortex-primary-dark: #2850b8;
+  --vortex-primary-light: #6389e8;
+  
+  /* Secondary colors */
+  --vortex-secondary-color: #21d07b;
+  --vortex-secondary-dark: #19a862;
+  --vortex-secondary-light: #4dda95;
+  
+  /* Accent colors */
+  --vortex-accent-color: #ff7846;
+  --vortex-accent-dark: #e65a29;
+  --vortex-accent-light: #ff9b76;
+  
+  /* Neutral colors */
+  --vortex-background: #ffffff;
+  --vortex-surface: #f8f9fa;
+  --vortex-border: #e0e0e5;
+  --vortex-text-primary: #333340;
+  --vortex-text-secondary: #6c757d;
+  --vortex-text-light: #9ea2a8;
+  
+  /* Feedback colors */
+  --vortex-success: #28a745;
+  --vortex-warning: #ffc107;
+  --vortex-error: #dc3545;
+  --vortex-info: #17a2b8;
+  
+  /* Spacing */
+  --vortex-space-xs: 0.25rem;
+  --vortex-space-sm: 0.5rem;
+  --vortex-space-md: 1rem;
+  --vortex-space-lg: 1.5rem;
+  --vortex-space-xl: 2rem;
+  
+  /* Typography */
+  --vortex-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --vortex-font-size-xs: 0.75rem;
+  --vortex-font-size-sm: 0.875rem;
+  --vortex-font-size-md: 1rem;
+  --vortex-font-size-lg: 1.25rem;
+  --vortex-font-size-xl: 1.5rem;
+  --vortex-font-size-xxl: 2rem;
+  
+  /* Borders */
+  --vortex-border-radius-sm: 0.25rem;
+  --vortex-border-radius: 0.5rem;
+  --vortex-border-radius-lg: 1rem;
+  
+  /* Shadows */
+  --vortex-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --vortex-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --vortex-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Z-indices */
+  --vortex-z-index-modal: 1000;
+  --vortex-z-index-dropdown: 100;
+  --vortex-z-index-header: 50;
+  
+  /* Transitions */
+  --vortex-transition-speed: 0.2s;
+  --vortex-transition: all var(--vortex-transition-speed) ease-in-out;
+}
+
+/* General Reset for VORTEX elements */
+.vortex-marketplace *,
+.vortex-marketplace *::before,
+.vortex-marketplace *::after {
+  box-sizing: border-box;
+}
+
+.vortex-marketplace {
+  font-family: var(--vortex-font-family);
+  color: var(--vortex-text-primary);
+  line-height: 1.5;
+  padding: var(--vortex-space-md) 0;
+  max-width: 100%;
+}
+
+/* Typography */
+.vortex-marketplace h1, 
+.vortex-marketplace h2, 
+.vortex-marketplace h3, 
+.vortex-marketplace h4, 
+.vortex-marketplace h5, 
+.vortex-marketplace h6 {
+  margin-top: 0;
+  margin-bottom: var(--vortex-space-md);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--vortex-text-primary);
+}
+
+.vortex-marketplace h1 {
+  font-size: var(--vortex-font-size-xxl);
+}
+
+.vortex-marketplace h2 {
+  font-size: var(--vortex-font-size-xl);
+}
+
+.vortex-marketplace h3 {
+  font-size: var(--vortex-font-size-lg);
+}
+
+.vortex-marketplace p {
+  margin-top: 0;
+  margin-bottom: var(--vortex-space-md);
+}
+
+.vortex-marketplace a {
+  color: var(--vortex-primary-color);
+  text-decoration: none;
+  transition: var(--vortex-transition);
+}
+
+.vortex-marketplace a:hover, 
+.vortex-marketplace a:focus {
+  color: var(--vortex-primary-dark);
+  text-decoration: underline;
+}
+
+/* Button Styles */
+.vortex-button {
+  display: inline-block;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem;
+  font-size: var(--vortex-font-size-md);
+  line-height: 1.5;
+  border-radius: var(--vortex-border-radius);
+  cursor: pointer;
+  transition: var(--vortex-transition);
+  background-color: var(--vortex-primary-color);
+  color: white;
+}
+
+.vortex-button:hover, 
+.vortex-button:focus {
+  background-color: var(--vortex-primary-dark);
+  text-decoration: none;
+  color: white;
+}
+
+.vortex-button.vortex-button-secondary {
+  background-color: var(--vortex-secondary-color);
+}
+
+.vortex-button.vortex-button-secondary:hover, 
+.vortex-button.vortex-button-secondary:focus {
+  background-color: var(--vortex-secondary-dark);
+}
+
+.vortex-button.vortex-button-outline {
+  background-color: transparent;
+  border-color: var(--vortex-primary-color);
+  color: var(--vortex-primary-color);
+}
+
+.vortex-button.vortex-button-outline:hover, 
+.vortex-button.vortex-button-outline:focus {
+  background-color: var(--vortex-primary-color);
+  color: white;
+}
+
+.vortex-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.vortex-button.vortex-loading {
+  position: relative;
+  color: transparent;
+}
+
+.vortex-button.vortex-loading::after {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  top: calc(50% - 0.5rem);
+  left: calc(50% - 0.5rem);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-right-color: white;
+  border-radius: 50%;
+  animation: vortex-button-spinner 0.75s linear infinite;
+}
+
+@keyframes vortex-button-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Form Elements */
+.vortex-form-group {
+  margin-bottom: var(--vortex-space-md);
+}
+
+.vortex-label {
+  display: inline-block;
+  margin-bottom: var(--vortex-space-xs);
+  font-weight: 600;
+}
+
+.vortex-input,
+.vortex-select,
+.vortex-textarea {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: var(--vortex-font-size-md);
+  line-height: 1.5;
+  color: var(--vortex-text-primary);
+  background-color: white;
+  background-clip: padding-box;
+  border: 1px solid var(--vortex-border);
+  border-radius: var(--vortex-border-radius);
+  transition: var(--vortex-transition);
+}
+
+.vortex-input:focus,
+.vortex-select:focus,
+.vortex-textarea:focus {
+  border-color: var(--vortex-primary-light);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(62, 106, 225, 0.25);
+}
+
+.vortex-input.vortex-error,
+.vortex-select.vortex-error,
+.vortex-textarea.vortex-error {
+  border-color: var(--vortex-error);
+}
+
+.vortex-error-message {
+  color: var(--vortex-error);
+  font-size: var(--vortex-font-size-sm);
+  margin-top: var(--vortex-space-xs);
+}
+
+/* Utility Classes */
+.vortex-text-center {
+  text-align: center;
+}
+
+.vortex-text-right {
+  text-align: right;
+}
+
+.vortex-text-left {
+  text-align: left;
+}
+
+.vortex-hidden {
+  display: none !important;
+}
+
+.vortex-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.vortex-clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Section Styling */
+.vortex-marketplace-section {
+  margin-bottom: var(--vortex-space-xl);
+}
+
+.vortex-section-title {
+  margin-bottom: var(--vortex-space-lg);
+  position: relative;
+  font-size: var(--vortex-font-size-xl);
+}
+
+.vortex-section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 50px;
+  height: 3px;
+  background-color: var(--vortex-primary-color);
+}
+
+.vortex-view-all {
+  display: inline-block;
+  margin-top: var(--vortex-space-md);
+  font-weight: 600;
+}
+
+/* Badges */
+.vortex-badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--vortex-border-radius-sm);
+  transition: var(--vortex-transition);
+}
+
+.vortex-badge-primary {
+  color: #fff;
+  background-color: var(--vortex-primary-color);
+}
+
+.vortex-badge-secondary {
+  color: #fff;
+  background-color: var(--vortex-secondary-color);
+}
+
+.vortex-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: var(--vortex-primary-color);
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.vortex-ai-badge {
+  background-color: var(--vortex-accent-color);
+  color: white;
+  padding: 2px 6px;
+  border-radius: var(--vortex-border-radius-sm);
+  font-size: var(--vortex-font-size-xs);
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.vortex-featured-badge {
+  background-color: var(--vortex-secondary-color);
+  color: white;
+  padding: 2px 6px;
+  border-radius: var(--vortex-border-radius-sm);
+  font-size: var(--vortex-font-size-xs);
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Notifications */
+.vortex-notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: var(--vortex-z-index-modal);
+  width: 300px;
+  max-width: calc(100% - 40px);
+}
+
+.vortex-notification {
+  background: white;
+  border-radius: var(--vortex-border-radius);
+  box-shadow: var(--vortex-shadow);
+  padding: var(--vortex-space-md);
+  margin-bottom: var(--vortex-space-md);
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  border-left: 4px solid var(--vortex-info);
+}
+
+.vortex-notification-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.vortex-notification-success {
+  border-left-color: var(--vortex-success);
+}
+
+.vortex-notification-error {
+  border-left-color: var(--vortex-error);
+}
+
+.vortex-notification-warning {
+  border-left-color: var(--vortex-warning);
+}
+
+.vortex-notification-message {
+  flex-grow: 1;
+  margin: 0 var(--vortex-space-md);
+}
+
+.vortex-notification-close {
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.vortex-notification-close:hover {
+  opacity: 1;
+}
+
+/* Loading Indicators */
+.vortex-loading-container {
+  position: relative;
+  min-height: 200px;
+}
+
+.vortex-loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+
+.vortex-loading-indicator:after {
+  content: " ";
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 4px;
+  border-radius: 50%;
+  border: 4px solid var(--vortex-primary-color);
+  border-color: var(--vortex-primary-color) transparent var(--vortex-primary-color) transparent;
+  animation: vortex-loading 1.2s linear infinite;
+}
+
+@keyframes vortex-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pagination */
+.vortex-pagination {
+  display: flex;
+  justify-content: center;
+  padding: var(--vortex-space-md) 0;
+}
+
+.vortex-pagination .page-numbers {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 3px;
+  min-width: 35px;
+  height: 35px;
+  padding: 0 5px;
+  border-radius: var(--vortex-border-radius);
+  background-color: var(--vortex-surface);
+  color: var(--vortex-text-primary);
+  text-decoration: none;
+  transition: var(--vortex-transition);
+}
+
+.vortex-pagination .page-numbers.current {
+  background-color: var(--vortex-primary-color);
+  color: white;
+}
+
+.vortex-pagination .page-numbers:hover {
+  background-color: var(--vortex-primary-light);
+  color: white;
+  text-decoration: none;
+}
+
+/* No Results */
+.vortex-no-results {
+  text-align: center;
+  padding: var(--vortex-space-xl) 0;
+  color: var(--vortex-text-secondary);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .vortex-marketplace h1 {
+    font-size: 1.75rem;
+  }
+  
+  .vortex-marketplace h2 {
+    font-size: 1.5rem;
+  }
+  
+  .vortex-marketplace h3 {
+    font-size: 1.25rem;
+  }
+  
+  .vortex-section-title {
+    margin-bottom: var(--vortex-space-md);
+  }
+  
+  .vortex-marketplace-section {
+    margin-bottom: var(--vortex-space-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .vortex-button {
+    display: block;
+    width: 100%;
+  }
+  
+  .vortex-marketplace h1 {
+    font-size: 1.5rem;
+  }
+  
+  .vortex-marketplace h2 {
+    font-size: 1.25rem;
+  }
+  
+  .vortex-marketplace h3 {
+    font-size: 1.125rem;
+  }
+  
+  .vortex-notifications {
+    max-width: calc(100% - 20px);
+    right: 10px;
+    top: 10px;
+  }
+} 

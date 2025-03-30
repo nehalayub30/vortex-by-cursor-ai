@@ -1,0 +1,226 @@
+/**
+ * Thorius Intelligence Dashboard Styles
+ */
+.vortex-thorius-intelligence {
+    max-width: 1200px;
+}
+
+.intelligence-query-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.intelligence-welcome {
+    margin-bottom: 20px;
+}
+
+.intelligence-welcome h2 {
+    color: #23282d;
+    font-size: 1.5em;
+    margin-top: 0;
+}
+
+.query-input-container {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.intelligence-query-input {
+    flex: 1;
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    font-size: 1.1em;
+}
+
+#intelligence-query-submit {
+    height: 40px;
+    border-radius: 0 4px 4px 0;
+}
+
+.suggested-queries {
+    margin-top: 15px;
+}
+
+.suggested-queries p {
+    margin: 0 0 8px 0;
+    font-style: italic;
+    color: #666;
+}
+
+.query-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.query-suggestion {
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.query-suggestion:hover {
+    background: #f0f0f0;
+}
+
+.intelligence-response-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.intelligence-loader {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.intelligence-loader p {
+    margin-top: 10px;
+    color: #666;
+}
+
+.response-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.response-header h3 {
+    margin: 0;
+    color: #23282d;
+}
+
+.response-meta {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.response-timestamp {
+    margin-right: 10px;
+}
+
+.refresh-data {
+    cursor: pointer;
+}
+
+.refresh-data:hover {
+    color: #0073aa;
+}
+
+.response-narrative {
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.data-section {
+    margin-bottom: 30px;
+}
+
+.data-section h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #23282d;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.data-visualization {
+    min-height: 200px;
+}
+
+.response-insights, .response-actions, .response-sources {
+    margin-bottom: 30px;
+}
+
+.insights-list li, .actions-list li, .sources-list li {
+    margin-bottom: 8px;
+}
+
+.response-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.follow-up-questions {
+    flex: 1;
+}
+
+.follow-up-questions h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.follow-up-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.follow-up-question {
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.follow-up-question:hover {
+    background: #f0f0f0;
+}
+
+.response-actions {
+    text-align: right;
+}
+
+.intelligence-history {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.intelligence-history h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #23282d;
+}
+
+.query-history-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.query-history-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.query-history-item:hover {
+    color: #0073aa;
+}
+
+.error-message {
+    color: #d63638;
+    padding: 10px;
+    background: #fcf0f1;
+    border-left: 4px solid #d63638;
+} 

@@ -1,0 +1,228 @@
+# Copyright (C) 2023 VORTEX AI Marketplace
+# This file is distributed under the same license as the VORTEX AI Marketplace package.
+msgid ""
+msgstr ""
+"Project-Id-Version: VORTEX AI Marketplace 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vortex-ai-marketplace\n"
+"POT-Creation-Date: 2023-11-15 12:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2023-11-15 15:00:00+00:00\n"
+"Last-Translator: VORTEX Team <info@vortexmarketplace.com>\n"
+"Language-Team: Spanish (Spain) <es_ES@li.org>\n"
+"Language: es_ES\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: vortex-marketplace\n"
+
+#: class-vortex-analytics.php:86
+msgid "Analytics"
+msgstr "Analítica"
+
+#: class-vortex-analytics.php:131
+msgid "Permission denied"
+msgstr "Permiso denegado"
+
+#: class-vortex-analytics.php:152
+msgid "Invalid analytics type"
+msgstr "Tipo de análisis no válido"
+
+#: class-vortex-huraii.php:221
+msgid "Analyzing artwork components..."
+msgstr "Analizando componentes de la obra de arte..."
+
+#: class-vortex-huraii.php:243
+msgid "Color Theory"
+msgstr "Teoría del Color"
+
+#: class-vortex-huraii.php:244
+msgid "Composition"
+msgstr "Composición"
+
+#: class-vortex-huraii.php:245
+msgid "Texture"
+msgstr "Textura"
+
+#: class-vortex-huraii.php:246
+msgid "Light and Shadow"
+msgstr "Luz y Sombra"
+
+#: class-vortex-huraii.php:247
+msgid "Perspective"
+msgstr "Perspectiva"
+
+#: class-vortex-huraii.php:248
+msgid "Symbolism"
+msgstr "Simbolismo"
+
+#: class-vortex-huraii.php:249
+msgid "Movement and Layering"
+msgstr "Movimiento y Capas"
+
+#: class-vortex-huraii.php:263
+msgid "Layer Analysis"
+msgstr "Análisis de Capas"
+
+#: class-vortex-huraii.php:264
+msgid "Detected %d layers in this artwork"
+msgstr "Detectadas %d capas en esta obra de arte"
+
+#: class-vortex-huraii.php:265
+msgid "Transparency Level: %s"
+msgstr "Nivel de Transparencia: %s"
+
+#: class-vortex-huraii.php:274
+msgid "High"
+msgstr "Alto"
+
+#: class-vortex-huraii.php:276
+msgid "Medium"
+msgstr "Medio"
+
+#: class-vortex-huraii.php:278
+msgid "Low"
+msgstr "Bajo"
+
+#: class-vortex-huraii.php:326
+msgid "Creating artwork from your prompt..."
+msgstr "Creando obra de arte a partir de tu petición..."
+
+#: class-vortex-huraii.php:345
+msgid "Error: Invalid prompt provided."
+msgstr "Error: Petición proporcionada no válida."
+
+#: class-vortex-huraii.php:412
+msgid "Welcome to HURAII!"
+msgstr "¡Bienvenido a HURAII!"
+
+#: class-vortex-huraii.php:413
+msgid "Let's create something amazing together."
+msgstr "Creemos algo increíble juntos."
+
+#: class-vortex-huraii.php:414
+msgid "Ready to bring your vision to life with Seed Art."
+msgstr "Listos para dar vida a tu visión con Seed Art."
+
+#: class-vortex-huraii.php:415
+msgid "Your artistic journey begins now!"
+msgstr "¡Tu viaje artístico comienza ahora!"
+
+#: class-vortex-img2img.php:189
+msgid "Processing style transfer..."
+msgstr "Procesando transferencia de estilo..."
+
+#: class-vortex-img2img.php:216
+msgid "Error: No image provided for style transfer."
+msgstr "Error: No se proporcionó imagen para la transferencia de estilo."
+
+#: class-vortex-img2img.php:271
+msgid "Processing inpainting..."
+msgstr "Procesando repintado..."
+
+#: class-vortex-img2img.php:299
+msgid "Error: No image or mask provided for inpainting."
+msgstr "Error: No se proporcionó imagen o máscara para el repintado."
+
+#: class-vortex-img2img.php:350
+msgid "Upscaling image..."
+msgstr "Aumentando resolución de imagen..."
+
+#: class-vortex-img2img.php:376
+msgid "Error: No image provided for upscaling."
+msgstr "Error: No se proporcionó imagen para aumentar la resolución."
+
+#: class-vortex-metrics.php:674
+msgid "Views"
+msgstr "Vistas"
+
+#: class-vortex-metrics.php:675
+msgid "Sales"
+msgstr "Ventas"
+
+#: class-vortex-metrics.php:676
+msgid "Revenue"
+msgstr "Ingresos"
+
+#: class-vortex-rankings.php:203
+msgid "Invalid ranking type"
+msgstr "Tipo de clasificación no válido"
+
+#: class-vortex-rankings.php:240
+msgid "Top Artworks"
+msgstr "Mejores Obras de Arte"
+
+#: class-vortex-rankings.php:273
+msgid "Top Artists"
+msgstr "Mejores Artistas"
+
+#: class-vortex-rankings.php:307
+msgid "Trending Artworks"
+msgstr "Obras de Arte Tendencia"
+
+#: class-vortex-rankings.php:342
+msgid "Sales Leaderboard"
+msgstr "Tabla de Ventas"
+
+#: metrics-dashboard.php:60
+msgid "You do not have sufficient permissions to access this page."
+msgstr "No tienes permisos suficientes para acceder a esta página."
+
+#: metrics-dashboard.php:90
+msgid "Last 7 Days"
+msgstr "Últimos 7 Días"
+
+#: metrics-dashboard.php:91
+msgid "Last 30 Days"
+msgstr "Últimos 30 Días"
+
+#: metrics-dashboard.php:92
+msgid "Last 90 Days"
+msgstr "Últimos 90 Días"
+
+#: metrics-dashboard.php:93
+msgid "All Time"
+msgstr "Todo el Tiempo"
+
+#: metrics-dashboard.php:110
+msgid "Loading data..."
+msgstr "Cargando datos..."
+
+#: metrics-dashboard.php:124
+msgid "VORTEX Marketplace Analytics"
+msgstr "Analítica del Mercado VORTEX"
+
+#: metrics-dashboard.php:129
+msgid "Time Period:"
+msgstr "Periodo de Tiempo:"
+
+#: metrics-dashboard.php:144
+msgid "Total Sales"
+msgstr "Ventas Totales"
+
+#: metrics-dashboard.php:151
+msgid "Total Revenue"
+msgstr "Ingresos Totales"
+
+#: metrics-dashboard.php:158
+msgid "Total Views"
+msgstr "Vistas Totales"
+
+#: metrics-dashboard.php:165
+msgid "Active Artists"
+msgstr "Artistas Activos"
+
+#: metrics-dashboard.php:173
+msgid "AI Insights"
+msgstr "Insights de IA"
+
+#: metrics-dashboard.php:176
+msgid "HURAII"
+msgstr "HURAII"
+
+#: metrics-dashboard.php:177
+msgid "CLOE"
+msgstr "CLOE"
+
+#: metrics-dashboard.php:178
+msgid "Business Strategist"
+msgstr "Estratega de Negocios" 

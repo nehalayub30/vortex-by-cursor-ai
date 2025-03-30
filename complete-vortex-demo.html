@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX | Complete AI Art Platform Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6200ea;
+            --primary-light: #b085f5;
+            --primary-dark: #4a00b0;
+            --secondary: #03dac6;
+            --secondary-light: #84ffff;
+            --secondary-dark: #00b0a1;
+            --accent: #ff4081;
+            --dark: #121212;
+            --light: #f5f7fa;
+            --gray: #e0e0e0;
+            --gray-dark: #757575;
+            --success: #00c853;
+            --warning: #ffab00;
+            --error: #ff5252;
+            --text-primary: #333333;
+            --text-secondary: #757575;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --grad-purple: linear-gradient(135deg, #6200ea, #b388ff);
+            --grad-teal: linear-gradient(135deg, #03dac6, #018786);
+            --grad-pink: linear-gradient(135deg, #ff4081, #d81b60);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mt-5 { margin-top: 2.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 2.5rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        
+        /* Header */
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            background: var(--grad-purple);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 0.5rem;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary);
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: var(--grad-purple);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 5px 15px rgba(98, 0, 234, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--grad-teal);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 5px 15px rgba(3, 218, 198, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(98, 0, 234, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--grad-purple);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before,
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+        }
+        
+        .hero::before {
+            top: -100px;
+            left: -100px;
+        }
+        
+        .hero::after {
+            bottom: -100px;
+            right: -100px;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        /* Demo Navigation */
+        .demo-nav {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: var(--card-shadow);
+            border-radius: 12px;
+            margin-top: -2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .persona-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .persona-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            opacity: 0.7;
+        }
+        
+        .persona-tab.active {
+            background-color: var(--light);
+            opacity: 1;
+        }
+        
+        .persona-tab:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+        
+        .persona-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .artist-icon {
+            background: var(--grad-purple);
+        }
+        
+        .collector-icon {
+            background: var(--grad-teal);
+        }
+        
+        .persona-name {
+            font-weight: 600;
+        }
+        
+        /* Journey Steps */
+        .journey {
+            padding: 4rem 0;
+        }
+        
+        .journey-container {
+            display: none;
+        }
+        
+        .journey-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .journey-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .journey-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .journey-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .steps-container {
+            position: relative;
+        }
+        
+        .step-progress {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--gray);
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+        
+        .step-progress-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background-color: var(--primary);
+            z-index: 1;
+            transition: height 0.5s ease;
+        }
+        
+        .journey-step {
+            display: flex;
+            margin-bottom: 5rem;
+            position: relative;
+            opacity: 0.5;
+            transition: all 0.5s ease;
+        }
+        
+        .journey-step.active {
+            opacity: 1;
+        }
+        
+        .step-number {
+            flex: 0 0 100px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-number-circle {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 3px solid var(--gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            transition: all 0.3s;
+        }
+        
+        .journey-step.active .step-number-circle {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 0 0 5px rgba(98, 0, 234, 0.2);
+        }
+        
+        .journey-step.completed .step-number-circle {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .step-content {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            max-width: 800px;
+            margin-left: 2rem;
+            position: relative;
+        }
+        
+        .step-content::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            transform: rotate(45deg);
+            box-shadow: -5px 5px 10px rgba(0,0,0,0.05);
+        }
+        
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .step-description {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Interactive Elements */
+        .interactive-element {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(98, 0, 234, 0.1);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        /* Image Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .gallery-item-selected {
+            border: 3px solid var(--primary);
+        }
+        
+        /* HURAII Design Interface */
+        .design-interface {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .design-controls {
+            flex: 1;
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .design-preview {
+            flex: 2;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .design-preview img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .prompt-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 1rem;
+        }
+        
+        .slider-control {
+            margin-bottom: 1.5rem;
+        }
+        
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--gray);
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+        
+        .style-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .style-option {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .style-option.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Marketplace */
+        .marketplace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .marketplace-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .marketplace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .artwork-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s;
+        }
+        
+        .artwork-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+        }
+        
+        .artwork-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        
+        .artwork-details {
+            padding: 1.5rem;
+        }
+        
+        .artwork-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artwork-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .artist-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .artist-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .artist-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .artwork-price {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .artwork-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .artwork-tag {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            background: var(--light);
+            font-size: 0.8rem;
+        }
+        
+        /* Swipe Interface */
+        .swipe-interface {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            perspective: 1000px;
+            position: relative;
+            height: 400px;
+        }
+        
+        .swipe-card {
+            position: absolute;
+            width: 100%;
+            height: 400px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.5s, opacity 0.5s;
+            background: white;
+            cursor: grab;
+        }
+        
+        .swipe-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+        
+        .swipe-details {
+            padding: 1rem;
+        }
+        
+        .swipe-card.swiped-left {
+            transform: translateX(-200%) rotateZ(-30deg);
+            opacity: 0;
+        }
+        
+        .swipe-card.swiped-right {
+            transform: translateX(200%) rotateZ(30deg);
+            opacity: 0;
+        }
+        
+        .swipe-actions {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .swipe-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .swipe-left {
+            background: white;
+            border: 2px solid var(--error);
+            color: var(--error);
+        }
+        
+        .swipe-left:hover {
+            background: var(--error);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .swipe-right {
+            background: white;
+            border: 2px solid var(--success);
+            color: var(--success);
+        }
+        
+        .swipe-right:hover {
+            background: var(--success);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        /* Business Strategy */
+        .strategy-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .strategy-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .strategy-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .strategy-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Blockchain Transaction */
+        .transaction-details {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .transaction-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .transaction-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+        }
+        
+        .transaction-hash {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 0.5rem;
+            border-radius: 4px;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+        
+        /* Notifications */
+        .notification-card {
+            display: flex;
+            gap: 1rem;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .notification-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .notification-icon {
+            flex: 0 0 60px;
+            height: 60px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .notification-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Chat Interface */
+        .chat-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+        }
+        
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .chat-messages {
+            padding: 1.5rem;
+            height: 300px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+        }
+        
+        .message-bubble {
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        
+        .message-incoming {
+            align-self: flex-start;
+        }
+        
+        .message-incoming .message-bubble {
+            background: var(--light);
+        }
+        
+        .message-outgoing {
+            margin-left: auto;
+        }
+        
+        .message-outgoing .message-bubble {
+            background: var(--primary-light);
+            color: white;
+        }
+        
+        .chat-input-area {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 20px;
+            margin-right: 0.8rem;
+        }
+        
+        /* Success Animation */
+        .success-animation {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .checkmark-circle {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkmark-circle .background {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--success);
+            position: absolute;
+        }
+        
+        .checkmark-circle .checkmark {
+            border-radius: 5px;
+        }
+        
+        .checkmark-circle .checkmark.draw:after {
+            animation-delay: 100ms;
+            animation-duration: 1s;
+            animation-timing-function: ease;
+            animation-name: checkmark;
+            transform: scaleX(-1) rotate(135deg);
+            animation-fill-mode: forwards;
+        }
+        
+        .checkmark-circle .checkmark:after {
+            opacity: 1;
+            height: 50px;
+            width: 25px;
+            transform-origin: left top;
+            border-right: 8px solid white;
+            border-top: 8px solid white;
+            content: '';
+            left: 30px;
+            top: 50px;
+            position: absolute;
+        }
+        
+        @keyframes checkmark {
+            0% {
+                height: 0;
+                width: 0;
+                opacity: 1;
+            }
+            20% {
+                height: 0;
+                width: 25px;
+                opacity: 1;
+            }
+            40% {
+                height: 50px;
+                width: 25px;
+                opacity: 1;
+            }
+            100% {
+                height: 50px;
+                width: 25px;
+                opacity: 1;
+            }
+        }
+        
+        /* AI Chat */
+        .ai-chat {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        
+        .ai-avatar {
+            flex: 0 0 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-right: 1rem;
+        }
+        
+        .ai-message {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+        
+        .ai-message::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            transform: rotate(45deg);
+            box-shadow: -5px 5px 10px rgba(0,0,0,0.05);
+        }
+        
+        .ai-message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .ai-name {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .ai-typing {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: typingAnimation 1.5s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--gray-dark);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .design-interface {
+                flex-direction: column;
+            }
+            
+            .step-content {
+                margin-left: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .step-number {
+                flex: 0 0 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .journey-step {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .step-content {
+                margin-left: 0;
+                margin-top: 1.5rem;
+                max-width: 100%;
+            }
+            
+            .step-content::before {
+                display: none;
+            }
+            
+            .step-progress {
+                display: none;
+            }
+            
+            .marketplace-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+            
+            .persona-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-cube"></i>
+                <span>VORTEX</span>
+            </a>
+            <div class="header-nav">
+                <a href="#" class="nav-link">Features</a>
+                <a href="#" class="nav-link">Marketplace</a>
+                <a href="#" class="nav-link">Login</a>
+            </div>
+        </div>
+    </header>
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Complete AI Art Platform Demo</h1>
+            <p>Experience the future of art with VORTEX</p>
+            <a href="#" class="btn btn-primary">Get Started</a>
+        </div>
+    </section>
+    <section class="demo-nav">
+        <div class="container persona-tabs">
+            <a href="#" class="persona-tab active">
+                <div class="persona-icon artist-icon"></div>
+                <span class="persona-name">Artist</span>
+            </a>
+            <a href="#" class="persona-tab">
+                <div class="persona-icon collector-icon"></div>
+                <span class="persona-name">Collector</span>
+            </a>
+        </div>
+    </section>
+    <section class="journey">
+        <div class="container">
+            <h2 class="journey-header">Artist Journey</h2>
+            <div class="journey-container active">
+                <div class="steps-container">
+                    <div class="step-progress">
+                        <div class="step-progress-bar"></div>
+                    </div>
+                </div>
+                <div class="journey-step active">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Registration</h3>
+                        <p class="step-description">Register with AI business strategist</p>
+                    </div>
+                </div>
+                <div class="journey-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Upload Artwork</h3>
+                        <p class="step-description">Upload original artwork to seed library</p>
+                    </div>
+                </div>
+                <div class="journey-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Generate Art</h3>
+                        <p class="step-description">Generate art with HURAII + smart contract integration</p>
+                    </div>
+                </div>
+                <div class="journey-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Share Artwork</h3>
+                        <p class="step-description">Share artwork on marketplace</p>
+                    </div>
+                </div>
+                <div class="journey-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Receive Sale Notification</h3>
+                        <p class="step-description">Receive sale notification</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="interactive-element">
+        <h2 class="journey-header">Registration</h2>
+        <div class="container">
+            <form class="form-group">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" class="form-control" placeholder="Enter your name">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </section>
+    <section class="gallery">
+        <h2 class="journey-header">Artwork Gallery</h2>
+        <div class="container">
+            <div class="gallery-item">
+                <img src="artwork1.jpg" alt="Artwork 1" class="gallery-image">
+            </div>
+            <div class="gallery-item">
+                <img src="artwork2.jpg" alt="Artwork 2" class="gallery-image">
+            </div>
+            <div class="gallery-item">
+                <img src="artwork3.jpg" alt="Artwork 3" class="gallery-image">
+            </div>
+        </div>
+    </section>
+    <section class="design-interface">
+        <div class="container">
+            <h2 class="journey-header">Design Interface</h2>
+            <div class="design-controls">
+                <h3>Design Controls</h3>
+                <img src="design-controls.jpg" alt="Design Controls" class="design-preview">
+            </div>
+            <div class="design-preview">
+                <h3>Design Preview</h3>
+                <img src="design-preview.jpg" alt="Design Preview" class="design-preview-image">
+            </div>
+        </div>
+    </section>
+    <section class="marketplace">
+        <h2 class="marketplace-header">Marketplace</h2>
+        <div class="container marketplace-filters">
+            <a href="#" class="filter-btn active">All</a>
+            <a href="#" class="filter-btn">Painting</a>
+            <a href="#" class="filter-btn">Sculpture</a>
+            <a href="#" class="filter-btn">Digital Art</a>
+        </div>
+        <div class="marketplace-grid">
+            <div class="artwork-card">
+                <img src="artwork1.jpg" alt="Artwork 1" class="artwork-image">
+                <div class="artwork-details">
+                    <h3 class="artwork-title">Artwork Title</h3>
+                    <div class="artwork-meta">
+                        <div class="artist-info">
+                            <img src="artist-avatar.jpg" alt="Artist Avatar" class="artist-avatar">
+                            <span class="artist-name">Artist Name</span>
+                        </div>
+                        <span class="artwork-price">$1000</span>
+                    </div>
+                    <div class="artwork-tags">
+                        <span class="artwork-tag">Painting</span>
+                        <span class="artwork-tag">Abstract</span>
+                    </div>
+                </div>
+            </div>
+            <div class="artwork-card">
+                <img src="artwork2.jpg" alt="Artwork 2" class="artwork-image">
+                <div class="artwork-details">
+                    <h3 class="artwork-title">Artwork Title</h3>
+                    <div class="artwork-meta">
+                        <div class="artist-info">
+                            <img src="artist-avatar.jpg" alt="Artist Avatar" class="artist-avatar">
+                            <span class="artist-name">Artist Name</span>
+                        </div>
+                        <span class="artwork-price">$1000</span>
+                    </div>
+                    <div class="artwork-tags">
+                        <span class="artwork-tag">Sculpture</span>
+                        <span class="artwork-tag">Bronze</span>
+                    </div>
+                </div>
+            </div>
+            <div class="artwork-card">
+                <img src="artwork3.jpg" alt="Artwork 3" class="artwork-image">
+                <div class="artwork-details">
+                    <h3 class="artwork-title">Artwork Title</h3>
+                    <div class="artwork-meta">
+                        <div class="artist-info">
+                            <img src="artist-avatar.jpg" alt="Artist Avatar" class="artist-avatar">
+                            <span class="artist-name">Artist Name</span>
+                        </div>
+                        <span class="artwork-price">$1000</span>
+                    </div>
+                    <div class="artwork-tags">
+                        <span class="artwork-tag">Digital Art</span>
+                        <span class="artwork-tag">Illustration</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="swipe-interface">
+        <h2 class="journey-header">Swipe Interface</h2>
+        <div class="container">
+            <div class="swipe-card">
+                <img src="swipe-card.jpg" alt="Swipe Card" class="swipe-image">
+                <div class="swipe-details">
+                    <h3>Artwork Title</h3>
+                    <p>Artist Name</p>
+                </div>
+            </div>
+            <div class="swipe-actions">
+                <button class="swipe-btn swipe-left">Left</button>
+                <button class="swipe-btn swipe-right">Right</button>
+            </div>
+        </div>
+    </section>
+    <section class="strategy-card">
+        <h2 class="journey-header">Business Strategy</h2>
+        <div class="container">
+            <h3 class="strategy-title">
+                <i class="fas fa-chart-bar"></i>
+                Business Strategy
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+    </section>
+    <section class="transaction-details">
+        <h2 class="journey-header">Transaction Details</h2>
+        <div class="container">
+            <div class="transaction-row">
+                <span>Transaction Hash:</span>
+                <span class="transaction-hash">0x1234567890abcdef</span>
+            </div>
+            <div class="transaction-row">
+                <span>Transaction Amount:</span>
+                <span class="transaction-amount">$1000</span>
+            </div>
+        </div>
+    </section>
+    <section class="notification-card">
+        <h2 class="journey-header">Notification</h2>
+        <div class="container">
+            <div class="notification-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="notification-content">
+                <h3 class="notification-title">New Sale Notification</h3>
+                <p class="notification-time">1 hour ago</p>
+            </div>
+        </div>
+    </section>
+    <section class="chat-container">
+        <h2 class="journey-header">Chat Interface</h2>
+        <div class="container">
+            <div class="chat-header">
+                <img src="chat-avatar.jpg" alt="Chat Avatar" class="chat-avatar">
+                <span>AI Business Strategist</span>
+            </div>
+            <div class="chat-messages">
+                <div class="message incoming">
+                    <div class="message-bubble">
+                        <p>Hello! How can I assist you today?</p>
+                    </div>
+                </div>
+                <div class="message outgoing">
+                    <div class="message-bubble">
+                        <p>Hello! I'm interested in your services.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" placeholder="Type your message...">
+                <button class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </section>
+    <section class="success-animation">
+        <h2 class="journey-header">Success!</h2>
+        <div class="container">
+            <div class="checkmark-circle">
+                <div class="background"></div>
+                <div class="checkmark draw"></div>
+            </div>
+            <p>Your transaction was successful!</p>
+        </div>
+    </section>
+    <section class="ai-chat">
+        <h2 class="journey-header">AI Chat</h2>
+        <div class="container">
+            <div class="ai-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="ai-message">
+                <div class="ai-message-header">
+                    <span class="ai-name">AI Business Strategist</span>
+                </div>
+                <p>Hello! I'm here to help you with your art journey.</p>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Art Generation</a></li>
+                    <li><a href="#">Marketplace</a></li>
+                    <li><a href="#">AI Business Strategist</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Email</a></li>
+                    <li><a href="#">Phone</a></li>
+                    <li><a href="#">Social Media</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2023 VORTEX. All rights reserved.</span>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

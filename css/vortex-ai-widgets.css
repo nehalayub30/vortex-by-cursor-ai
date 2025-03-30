@@ -1,0 +1,12 @@
+.vortex-ai-processing {
+    background: rgba(42, 63, 144, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.vortex-ai-result {
+    border-left: 4px solid #2a3f90;
+    padding-left: 1rem;
+    margin: 1rem 0;
+} 

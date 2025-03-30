@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX AI AGENTS - Digital Art Marketplace</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="nav-left">
+            <div class="logo">VORTEX</div>
+        </div>
+        <div class="nav-center">
+            <a href="#discover">Discover</a>
+            <a href="#marketplace">Marketplace</a>
+            <a href="#artists">Artists</a>
+            <a href="#collectors">Collectors</a>
+        </div>
+        <div class="nav-right">
+            <button class="wallet-btn">Connect Wallet</button>
+            <button class="profile-btn">Profile</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to the Future of Digital Art</h1>
+            <p>Powered by TOLA and HURAII AI</p>
+        </div>
+        <div class="tola-overlay">
+            <img src="images/tola.png" alt="Tree of Life Art" class="tola-background">
+        </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section class="featured">
+        <div class="section-header">
+            <h2>Featured Artworks</h2>
+            <div class="view-options">
+                <button class="active">Grid</button>
+                <button>List</button>
+            </div>
+        </div>
+        <div class="artwork-grid">
+            <!-- Dynamic artwork cards -->
+        </div>
+    </section>
+
+    <!-- Artist Studio -->
+    <section class="artist-studio" style="display: none;">
+        <div class="studio-header">
+            <h2>Artist Studio</h2>
+            <div class="studio-controls">
+                <button class="generate-btn">Generate Art</button>
+                <button class="upload-btn">Upload</button>
+            </div>
+        </div>
+        <div class="studio-workspace">
+            <div class="private-cloud">
+                <!-- Private cloud content -->
+            </div>
+            <div class="generation-space">
+                <!-- AI generation area -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Collector Space -->
+    <section class="collector-space" style="display: none;">
+        <div class="collection-header">
+            <h2>Your Collection</h2>
+            <div class="collection-stats">
+                <!-- Collection statistics -->
+            </div>
+        </div>
+        <div class="discovery-feed">
+            <!-- Artwork discovery feed -->
+        </div>
+    </section>
+
+    <!-- Marketplace -->
+    <section class="marketplace">
+        <div class="market-header">
+            <h2>TOLA Marketplace</h2>
+            <div class="market-filters">
+                <!-- Market filters -->
+            </div>
+        </div>
+        <div class="market-grid">
+            <!-- Market items -->
+        </div>
+    </section>
+
+    <!-- HURAII AI Assistant -->
+    <div class="huraii-assistant">
+        <div class="assistant-toggle">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="assistant-panel">
+            <!-- AI assistant interface -->
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/marketplace.js"></script>
+</body>
+</html>
+<div class="network-visualization">
+    <div class="visualization-controls">
+        <button class="view-toggle" data-view="force">Force Graph</button>
+        <button class="view-toggle" data-view="circular">Circular</button>
+        <button class="view-toggle" data-view="tree">Tree</button>
+    </div>
+    <div class="network-canvas">
+        <canvas id="networkGraph"></canvas>
+    </div>
+    <div class="network-stats">
+        <div class="stat-card">
+            <h4>Network Size</h4>
+            <span class="stat-value">0</span>
+        </div>
+        <div class="stat-card">
+            <h4>Active Connections</h4>
+            <span class="stat-value">0</span>
+        </div>
+        <div class="stat-card">
+            <h4>Engagement Rate</h4>
+            <span class="stat-value">0%</span>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Chat Interface -->
+<div class="chat-system">
+    <div class="chat-tabs">
+        <button class="chat-tab active" data-chat="users">User Chat</button>
+        <button class="chat-tab" data-chat="ai">AI Assistant</button>
+    </div>
+    
+    <div class="chat-container">
+        <!-- User to User Chat -->
+        <div class="chat-window active" id="userChat">
+            <div class="chat-header">
+                <div class="chat-user">
+                    <img src="images/user-avatar.png" alt="User" class="user-avatar">
+                    <span class="user-name">Connected User</span>
+                </div>
+                <div class="chat-actions">
+                    <button class="action-btn"><i class="fas fa-video"></i></button>
+                    <button class="action-btn"><i class="fas fa-phone"></i></button>
+                    <button class="action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+            </div>
+            <div class="chat-messages">
+                <!-- Dynamic messages -->
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Type your message...">
+                <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <!-- AI Assistant Chat -->
+        <div class="chat-window" id="aiChat">
+            <div class="chat-header ai-header">
+                <div class="ai-assistant">
+                    <img src="images/ai-avatar.png" alt="AI" class="ai-avatar">
+                    <span class="ai-name">HURAII Assistant</span>
+                </div>
+            </div>
+            <div class="chat-messages ai-messages">
+                <!-- Dynamic AI messages -->
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Ask HURAII...">
+                <button class="send-btn"><i class="fas fa-robot"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="advanced-chat-system">
+    <div class="chat-workspace">
+        <!-- Chat Tabs with Enhanced Features -->
+        <div class="chat-tabs">
+            <div class="tab-group">
+                <button class="chat-tab active" data-chat="main">
+                    <i class="fas fa-comments"></i>
+                    <span>Main Chat</span>
+                    <span class="notification-badge">3</span>
+                </button>
+                <button class="chat-tab" data-chat="ai">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Assistant</span>
+                </button>
+                <button class="chat-tab" data-chat="group">
+                    <i class="fas fa-users"></i>
+                    <span>Groups</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Enhanced Chat Interface -->
+        <div class="chat-interface">
+            <div class="chat-sidebar">
+                <div class="user-search">
+                    <input type="text" placeholder="Search conversations...">
+                </div>
+                <div class="conversation-list">
+                    <!-- Dynamic conversation items -->
+                </div>
+            </div>
+
+            <div class="chat-main">
+                <div class="chat-header">
+                    <div class="chat-info">
+                        <img src="images/avatar.png" alt="Chat" class="chat-avatar">
+                        <div class="chat-details">
+                            <h3 class="chat-title">Chat Title</h3>
+                            <span class="chat-status">Online</span>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="action-btn" title="Video Call">
+                            <i class="fas fa-video"></i>
+                        </button>
+                        <button class="action-btn" title="Voice Call">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                        <button class="action-btn" title="Share">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        <button class="action-btn" title="More">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-messages">
+                    <!-- Enhanced message display -->
+                </div>
+
+                <div class="chat-composer">
+                    <button class="composer-btn" title="Attach">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <div class="message-input" contenteditable="true" 
+                         placeholder="Type a message..."></div>
+                    <button class="composer-btn" title="Emoji">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                    <button class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ai-generation-widget">
+    <!-- AI Chat Interface -->
+    <div class="ai-chat-interface">
+        <div class="ai-chat-header">
+            <div class="ai-assistant-info">
+                <img src="images/huraii-avatar.png" alt="HURAII" class="ai-avatar">
+                <div class="ai-status">
+                    <span class="ai-name">HURAII</span>
+                    <span class="ai-mode">Art Generation Mode</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="generation-workspace">
+            <!-- Generation Grid -->
+            <div class="generation-grid">
+                <div class="generation-slot" data-slot="1">
+                    <div class="generation-preview"></div>
+                    <div class="generation-actions">
+                        <button class="action-btn upscale">U1</button>
+                        <button class="action-btn vary">V1</button>
+                    </div>
+                </div>
+                <!-- Repeat for slots 2-4 -->
+            </div>
+
+            <!-- Command Interface -->
+            <div class="command-interface">
+                <div class="prompt-area">
+                    <textarea 
+                        placeholder="/imagine prompt: A digital artwork featuring the Tree of Life with neon energy flows, cyberpunk style --ar 1:1 --v 5.2"
+                        class="prompt-input"
+                    ></textarea>
+                </div>
+                <div class="command-buttons">
+                    <button class="command-btn imagine">
+                        <i class="fas fa-wand-magic-sparkles"></i> Imagine
+                    </button>
+                    <button class="command-btn variation">
+                        <i class="fas fa-shuffle"></i> Variation
+                    </button>
+                    <button class="command-btn upscale">
+                        <i class="fas fa-up-right-and-down-left-from-center"></i> Upscale
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generation Progress -->
+        <div class="generation-progress">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-status">Generating variations...</div>
+        </div>
+    </div>
+</div>

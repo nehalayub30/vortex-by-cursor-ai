@@ -1,0 +1,274 @@
+/* Business Idea Form */
+.vortex-business-intake-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.vortex-business-intake-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.vortex-form-title {
+    font-size: 28px;
+    color: #4A26AB;
+    margin-bottom: 10px;
+}
+
+.vortex-form-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Tabs Navigation */
+.vortex-tabs {
+    margin-bottom: 30px;
+}
+
+.vortex-tab-headers {
+    display: flex;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 25px;
+}
+
+.vortex-tab-header {
+    padding: 12px 20px;
+    margin-right: 5px;
+    background-color: #f9f9f9;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.vortex-tab-header:hover {
+    background-color: #f0f0f0;
+}
+
+.vortex-tab-header.active {
+    background-color: #4A26AB;
+    color: white;
+}
+
+.vortex-tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.vortex-tab-content.active {
+    display: block;
+}
+
+/* Form Elements */
+.vortex-form-row {
+    margin-bottom: 20px;
+}
+
+.vortex-form-row label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.vortex-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 150px;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+.vortex-form textarea:focus {
+    border-color: #4A26AB;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 38, 171, 0.2);
+}
+
+.vortex-textarea-counter {
+    margin-top: 5px;
+    text-align: right;
+    color: #666;
+    font-size: 12px;
+}
+
+.vortex-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.vortex-form select:focus {
+    border-color: #4A26AB;
+    outline: none;
+}
+
+.vortex-checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.vortex-checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.vortex-checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Form Actions */
+.vortex-form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.vortex-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.vortex-primary-button {
+    background-color: #4A26AB;
+    color: white;
+}
+
+.vortex-primary-button:hover {
+    background-color: #3a1e8a;
+}
+
+.vortex-secondary-button {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.vortex-secondary-button:hover {
+    background-color: #e0e0e0;
+}
+
+.vortex-prev-tab {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #666;
+}
+
+.vortex-next-tab {
+    background-color: #4A26AB;
+    color: white;
+}
+
+/* Results display */
+.vortex-business-plan-result {
+    margin-top: 30px;
+    display: none;
+}
+
+.vortex-loading-spinner {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.vortex-business-plan-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    margin-top: 20px;
+}
+
+/* Notification Prompt */
+.vortex-notification-prompt {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    max-width: 350px;
+    display: none;
+}
+
+.vortex-notification-prompt h3 {
+    margin-top: 0;
+    color: #4A26AB;
+}
+
+.vortex-notification-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.vortex-notification-actions button {
+    flex: 1;
+    margin: 0 5px;
+}
+
+/* Business Plan Styling */
+.vortex-business-plan {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.vortex-business-plan-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.vortex-business-plan-actions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.vortex-business-plan-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.vortex-plan-highlight {
+    border-left: 4px solid #4A26AB;
+    background-color: #f8f5ff;
+}
+
+.vortex-business-plan-section h3 {
+    color: #4A26AB;
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.vortex-plan-content ul {
+    padding-left: 20px;
+}
+
+.vortex-business-plan-footer {
+    margin-top: 30px;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+} 

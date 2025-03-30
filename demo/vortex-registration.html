@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX AI | Artist Registration & AI Business Strategist</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #000000;
+            --primary-light: #333333;
+            --primary-dark: #000000;
+            --accent: #cc3333;
+            --accent-light: #e65555;
+            --light: #ffffff;
+            --light-gray: #f8f8f8;
+            --gray: #e0e0e0;
+            --gray-dark: #757575;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --card-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+            --purple: #6d4c9c;
+            --blue: #3a7bd5;
+            --green: #00c853;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mt-5 { margin-top: 2.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 2.5rem; }
+        
+        /* Header */
+        header {
+            background: var(--light);
+            color: var(--primary);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            padding: 0.5rem;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+            color: var(--light);
+        }
+        
+        .btn-accent:hover {
+            background: var(--accent-light);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .btn-purple {
+            background: var(--purple);
+            color: var(--light);
+        }
+        
+        .btn-purple:hover {
+            background: #5d3d8c;
+        }
+        
+        .btn-blue {
+            background: var(--blue);
+            color: var(--light);
+        }
+        
+        .btn-blue:hover {
+            background: #2a6bc5;
+        }
+        
+        .btn-green {
+            background: var(--green);
+            color: var(--light);
+        }
+        
+        .btn-green:hover {
+            background: #00b248;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/NEM_ATLAS-1024x683.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--light);
+            padding: 8rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        /* Registration Process */
+        .process-container {
+            max-width: 800px;
+            margin: 4rem auto;
+            background: var(--light);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+        
+        .process-header {
+            background: var(--primary);
+            color: var(--light);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .process-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .process-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .progress-container {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .progress-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .progress-step.completed:not(:last-child)::after {
+            background: var(--light);
+        }
+        
+        .step-indicator {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            border: 2px solid rgba(255,255,255,0.5);
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .progress-step.active .step-indicator {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .progress-step.completed .step-indicator {
+            background: var(--light);
+            border-color: var(--light);
+            color: var(--primary);
+        }
+        
+        .progress-step.completed .step-indicator::after {
+            content: '✓';
+            font-size: 0.8rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .step-label {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+        
+        .progress-step.active .step-label {
+            opacity: 1;
+            font-weight: 500;
+        }
+        
+        .process-body {
+            padding: 2rem;
+        }
+        
+        /* Registration Form */
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray);
+            padding-bottom: 0.8rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Quiz Section */
+        .quiz-section {
+            margin-bottom: 2rem;
+        }
+        
+        .quiz-question {
+            margin-bottom: 2rem;
+        }
+        
+        .question-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .quiz-option {
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .quiz-option:hover, .quiz-option.selected {
+            border-color: var(--primary);
+            background: var(--light-gray);
+        }
+        
+        .quiz-option.selected {
+            font-weight: 500;
+        }
+        
+        .quiz-image-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .quiz-image-option {
+            border: 2px solid transparent;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .quiz-image-option:hover, .quiz-image-option.selected {
+            border-color: var(--accent);
+        }
+        
+        .quiz-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .quiz-image-label {
+            padding: 0.8rem;
+            background: var(--light-gray);
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        /* AI Strategist */
+        .strategist-section {
+            margin-bottom: 2rem;
+        }
+        
+        .chat-container {
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            overflow: hidden;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background: var(--primary);
+            color: var(--light);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .ai-info {
+            flex: 1;
+        }
+        
+        .ai-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .ai-status {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: var(--light-gray);
+        }
+        
+        .message {
+            margin-bottom: 1.5rem;
+            max-width: 70%;
+        }
+        
+        .message-ai {
+            margin-right: auto;
+        }
+        
+        .message-user {
+            margin-left: auto;
+        }
+        
+        .message-content {
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .message-ai .message-content {
+            background: var(--light);
+            border: 1px solid var(--gray);
+        }
+        
+        .message-user .message-content {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .message-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .message-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--light);
+        }
+        
+        .message-user .message-avatar {
+            background: var(--primary-light);
+        }
+        
+        .message-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .message-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-left: auto;
+        }
+        
+        .message-user .message-time {
+            color: var(--light-gray);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: 0.3rem;
+            padding: 0.5rem 0;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gray-dark);
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid var(--gray);
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        /* Business Plan */
+        .plan-section {
+            margin-bottom: 2rem;
+        }
+        
+        .plan-container {
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .plan-header {
+            background: var(--primary);
+            color: var(--light);
+            padding: 1.5rem;
+        }
+        
+        .plan-header-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-header-subtitle {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        .plan-body {
+            padding: 1.5rem;
+        }
+        
+        .plan-section-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--gray);
+            padding-bottom: 0.5rem;
+        }
+        
+        .strategy-points {
+            margin-bottom: 2rem;
+        }
+        
+        .strategy-point {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .strategy-point::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .insight-card {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        
+        .insight-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .insight-title i {
+            color: var(--accent);
+        }
+        
+        .action-steps {
+            counter-reset: step;
+        }
+        
+        .action-step {
+            margin-bottom: 1.5rem;
+            counter-increment: step;
+            padding-left: 3rem;
+            position: relative;
+        }
+        
+        .action-step::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .action-step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Bio Preview */
+        .bio-preview {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .bio-preview-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-image-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--primary);
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-name {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .profile-title {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .bio-content {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .bio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .bio-tag {
+            background: var(--primary);
+            color: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .artist-focus {
+            margin-bottom: 1.5rem;
+        }
+        
+        .artist-focus-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artist-focus-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .focus-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .focus-item i {
+            color: var(--accent);
+        }
+        
+        .portfolio-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .portfolio-item {
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .portfolio-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        /* Completion Page */
+        .completion-section {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .completion-icon {
+            font-size: 4rem;
+            color: var(--green);
+            margin-bottom: 1.5rem;
+        }
+        
+        .completion-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .completion-message {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .next-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--light);
+            color: var(--primary);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--gray);
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--gray);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-nav {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .quiz-image-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .portfolio-preview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                VORTEX
+            </a>
+            <div class="header-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="vortex-homepage.html" class="nav-link">Dashboard</a>
+                <a href="marketplace.html" class="nav-link">Marketplace</a>
+                <a href="marianne-vortex-demo.html" class="nav-link">Artist Journey</a>
+                <a href="collector-experience.html" class="nav-link">Collector</a>
+                <a href="huraii-demo.html" class="nav-link">HURAII</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <a href="#" class="btn btn-primary">Login / Register</a>
+            <div class="mobile-menu-toggle" style="display:none;"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Join VORTEX as an Artist</h1>
+            <p>Create your profile, take our personalized quiz, and receive a custom business strategy from our AI Business Strategist.</p>
+            <a href="#registration" class="btn btn-accent">Begin Registration</a>
+        </div>
+    </section>
+    
+    <div class="container" id="registration">
+        <div class="process-container">
+            <div class="process-header">
+                <div>
+                    <h2 class="process-title">Artist Registration</h2>
+                    <p class="process-subtitle">Complete your profile and get personalized business strategy</p>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-step completed">
+                        <div class="step-indicator"></div>
+                        <div class="step-label">Basic Info</div>
+                    </div>
+                    <div class="progress-step active">
+                        <div class="step-indicator"></div>
+                        <div class="step-label">Artist Quiz</div>
+                    </div>
+                    <div class="progress-step">
+                        <div class="step-indicator"></div>
+                        <div class="step-label">AI Strategy</div>
+                    </div>
+                    <div class="progress-step">
+                        <div class="step-indicator"></div>
+                        <div class="step-label">Bio Setup</div>
+                    </div>
+                    <div class="progress-step">
+                        <div class="step-indicator"></div>
+                        <div class="step-label">Complete</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="process-body">
+                <!-- Step 1: Basic Information (Completed) -->
+                <div class="form-section" style="display: none;">
+                    <h3 class="form-title">Basic Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name*</label>
+                            <input type="text" class="form-control" value="Sarah">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name*</label>
+                            <input type="text" class="form-control" value="Chen">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Email Address*</label>
+                            <input type="email" class="form-control" value="sarah.chen@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" value="(555) 123-4567">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Password*</label>
+                            <input type="password" class="form-control" value="●●●●●●●●●●">
+                            <p class="form-note">Must be at least 8 characters with a mix of letters, numbers, and symbols</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Confirm Password*</label>
+                            <input type="password" class="form-control" value="●●●●●●●●●●">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Artist Name/Pseudonym (if different from legal name)</label>
+                        <input type="text" class="form-control" value="Sarah Chen">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-outline">Cancel</button>
+                        <button class="btn btn-primary">Continue to Quiz</button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Artist Quiz (Current) -->
+                <div class="quiz-section">
+                    <h3 class="form-title">Artist Style & Goals Quiz</h3>
+                    <p class="mb-4">Help us understand your artistic style and business goals to create a personalized strategy.</p>
+                    
+                    <div class="quiz-question">
+                        <div class="question-number">Question 1 of 8</div>
+                        <div class="question-text">Which artistic medium do you primarily work with?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option selected">Digital Art & NFTs</div>
+                            <div class="quiz-option">Painting & Traditional Media</div>
+                            <div class="quiz-option">Photography</div>
+                            <div class="quiz-option">Sculpture & 3D Art</div>
+                            <div class="quiz-option">Mixed Media</div>
+                            <div class="quiz-option">Other</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <div class="question-number">Question 2 of 8</div>
+                        <div class="question-text">Which artistic styles most closely align with your work? (Select up to 3)</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option selected">Abstract</div>
+                            <div class="quiz-option">Surrealism</div>
+                            <div class="quiz-option selected">Digital Futurism</div>
+                            <div class="quiz-option">Realism</div>
+                            <div class="quiz-option">Pop Art</div>
+                            <div class="quiz-option">Minimalism</div>
+                            <div class="quiz-option selected">Geometric</div>
+                            <div class="quiz-option">Expressionism</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <div class="question-number">Question 3 of 8</div>
+                        <div class="question-text">Which of these sample artworks most closely resembles your aesthetic?</div>
+                        <div class="quiz-image-options">
+                            <div class="quiz-image-option">
+                                <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/Apollon-1024x683.jpg" alt="Artwork Style 1" class="quiz-image">
+                                <div class="quiz-image-label">Classical Surrealism</div>
+                            </div>
+                            <div class="quiz-image-option selected">
+                                <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/SACRED-GEOMATRY-500.jpg" alt="Artwork Style 2" class="quiz-image">
+                                <div class="quiz-image-label">Digital Geometric</div>
+                            </div>
+                            <div class="quiz-image-option">
+                                <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/MNK77-1024x683.jpg" alt="Artwork Style 3" class="quiz-image">
+                                <div class="quiz-image-label">Abstract Expressionism</div>
+                            </div>
+                            <div class="quiz-image-option">
+                                <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/ANGEL-DE-LAMOUR-1024x683.jpg" alt="Artwork Style 4" class="quiz-image">
+                                <div class="quiz-image-label">3D Figurative</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <div class="question-number">Question 4 of 8</div>
+                        <div class="question-text">What are your primary goals as an artist on VORTEX? (Select up to 3)</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option selected">Sell my artwork and grow my income</div>
+                            <div class="quiz-option">Increase visibility and build my brand</div>
+                            <div class="quiz-option">Other</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

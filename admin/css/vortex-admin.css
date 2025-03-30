@@ -1,0 +1,470 @@
+/**
+ * VORTEX AI Marketplace Admin Styles
+ *
+ * Main styling for admin pages, settings forms, and common components.
+ *
+ * @package    Vortex_AI_Marketplace
+ * @subpackage Vortex_AI_Marketplace/admin/css
+ * @author     Marianne Nems <Marianne@VortexArtec.com>
+ */
+
+/* Admin Layout and Structure */
+.vortex-admin-wrap {
+  margin: 20px 0;
+  max-width: 1200px;
+}
+
+.vortex-admin-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-admin-logo {
+  margin-right: 15px;
+}
+
+.vortex-admin-logo img {
+  max-height: 40px;
+  width: auto;
+}
+
+.vortex-admin-header-content h1 {
+  font-size: 24px;
+  margin: 0 0 5px;
+}
+
+.vortex-admin-header-content p {
+  margin: 0;
+  color: #666;
+}
+
+.vortex-admin-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.vortex-admin-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.vortex-admin-sidebar {
+  width: 280px;
+}
+
+@media screen and (max-width: 782px) {
+  .vortex-admin-content {
+    flex-direction: column;
+  }
+  
+  .vortex-admin-sidebar {
+    width: 100%;
+  }
+}
+
+/* Admin Tabs */
+.vortex-tabs {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.vortex-tabs-nav {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vortex-tabs-nav li {
+  margin: 0 4px 0 0;
+}
+
+.vortex-tabs-nav a {
+  display: block;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  background: #f5f5f5;
+  color: #555;
+  text-decoration: none;
+  border-radius: 3px 3px 0 0;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.vortex-tabs-nav a:hover {
+  background: #fff;
+  color: #0073aa;
+}
+
+.vortex-tabs-nav li.ui-tabs-active a {
+  background: #fff;
+  color: #0073aa;
+  border-bottom-color: #fff;
+  margin-bottom: -1px;
+}
+
+.vortex-tab-content {
+  display: none;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 3px 3px;
+}
+
+.vortex-tab-content.ui-tabs-active {
+  display: block;
+}
+
+/* Form Styling */
+.vortex-settings-form {
+  max-width: 100%;
+}
+
+.vortex-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.vortex-section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.vortex-section-title h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #23282d;
+}
+
+.vortex-section-description {
+  margin-top: 5px;
+  color: #666;
+  font-style: italic;
+}
+
+.vortex-field-row {
+  margin-bottom: 15px;
+  padding: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.vortex-field-row:hover {
+  background-color: #f9f9f9;
+}
+
+.vortex-field-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.vortex-field-description {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+  font-size: 13px;
+}
+
+.vortex-field-error {
+  display: block;
+  color: #d63638;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.vortex-hidden {
+  display: none !important;
+}
+
+/* Form Controls */
+.vortex-text-field,
+.vortex-textarea-field,
+.vortex-select-field,
+.vortex-number-field {
+  width: 100%;
+  max-width: 400px;
+}
+
+.vortex-textarea-field {
+  min-height: 100px;
+}
+
+.vortex-code-field {
+  font-family: Consolas, Monaco, monospace;
+  padding: 10px;
+  width: 100%;
+  max-width: 600px;
+  min-height: 150px;
+}
+
+.vortex-color-picker-wrapper {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.vortex-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.vortex-checkbox-label,
+.vortex-radio-label {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.vortex-checkbox-label input,
+.vortex-radio-label input {
+  margin-right: 5px;
+}
+
+/* Card Elements */
+.vortex-card {
+  background: #fff;
+  border: 1px solid #ccd0d4;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.vortex-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #eee;
+}
+
+.vortex-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.vortex-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.vortex-card-content {
+  padding: 20px;
+}
+
+.vortex-card-footer {
+  padding: 12px 20px;
+  background: #f9f9f9;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Form Actions */
+.vortex-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.vortex-form-actions.right {
+  justify-content: flex-end;
+}
+
+.vortex-form-actions button,
+.vortex-form-actions .button {
+  margin-left: 10px;
+}
+
+.vortex-reset-settings {
+  color: #b32d2e;
+}
+
+.vortex-submit-spinner {
+  margin-left: 10px;
+  display: none;
+}
+
+/* Media Upload Fields */
+.vortex-media-field {
+  margin-bottom: 15px;
+}
+
+.vortex-media-preview {
+  margin: 10px 0;
+  max-width: 200px;
+}
+
+.vortex-media-preview img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  padding: 3px;
+  background: #fff;
+}
+
+.vortex-media-filename {
+  display: inline-block;
+  padding: 5px 10px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.vortex-media-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Tooltips */
+.vortex-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.vortex-tooltip-icon {
+  color: #666;
+  margin-left: 5px;
+  cursor: help;
+}
+
+/* Sortable Elements */
+.vortex-sortable {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vortex-sortable-item {
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vortex-sort-handle {
+  cursor: move;
+  color: #999;
+  padding: 5px;
+}
+
+.vortex-sort-handle:hover {
+  color: #0073aa;
+}
+
+/* Admin notices */
+.vortex-admin-js-notice {
+  position: relative;
+  padding-right: 38px;
+}
+
+/* Status indicators */
+.vortex-status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.vortex-status-indicator.status-active,
+.vortex-status-indicator.status-success {
+  background-color: #46b450;
+}
+
+.vortex-status-indicator.status-inactive,
+.vortex-status-indicator.status-error {
+  background-color: #dc3232;
+}
+
+.vortex-status-indicator.status-warning {
+  background-color: #ffb900;
+}
+
+.vortex-status-indicator.status-info {
+  background-color: #00a0d2;
+}
+
+/* Admin footer customization */
+.vortex-admin-footer {
+  margin-top: 20px;
+  padding-top: 10px;
+  color: #666;
+  font-size: 12px;
+}
+
+/* Loading indicators */
+.vortex-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.vortex-loading-indicator {
+  text-align: center;
+  padding: 20px;
+}
+
+.vortex-loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 115, 170, 0.3);
+  border-radius: 50%;
+  border-top-color: #0073aa;
+  animation: vortex-spin 1s ease-in-out infinite;
+}
+
+@keyframes vortex-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Admin RTL Support */
+.rtl .vortex-admin-logo {
+  margin-right: 0;
+  margin-left: 15px;
+}
+
+.rtl .vortex-tabs-nav li {
+  margin: 0 0 0 4px;
+}
+
+.rtl .vortex-checkbox-label input,
+.rtl .vortex-radio-label input {
+  margin-right: 0;
+  margin-left: 5px;
+}
+
+/* Custom Styles for Wp-admin Integration */
+#wpcontent .vortex-admin-wrap {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+@media screen and (max-width: 782px) {
+  #wpcontent .vortex-admin-wrap {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+} 

@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX AI AGENTS | Artist Journey</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6200ea;
+            --primary-light: #9d4edd;
+            --secondary: #03dac6;
+            --accent: #ff4081;
+            --dark: #121212;
+            --light: #f5f5f5;
+            --gray: #e0e0e0;
+            --text-primary: #333333;
+            --text-secondary: #757575;
+            --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --purple-gradient: linear-gradient(135deg, #6200ea, #9d4edd);
+            --teal-gradient: linear-gradient(135deg, #03dac6, #018786);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        header {
+            background: var(--purple-gradient);
+            color: white;
+            padding: 1.5rem 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .progress-container {
+            position: relative;
+            margin-top: 2rem;
+            padding: 1rem 0;
+        }
+        
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            background-color: var(--gray);
+            height: 4px;
+            width: 100%;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            background: var(--purple-gradient);
+            height: 4px;
+            width: 0%;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border: 2px solid var(--gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 3;
+            transition: all 0.3s;
+        }
+        
+        .progress-step.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: white;
+        }
+        
+        .progress-step.completed {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .progress-step-label {
+            position: absolute;
+            top: 45px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            width: 120px;
+            text-align: center;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .step-content {
+            display: none;
+            margin: 2rem 0;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .step-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .artist-profile {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+        
+        .profile-details {
+            flex: 1;
+        }
+        
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .profile-title {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .profile-level {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .level-badge {
+            background: var(--purple-gradient);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .tola-balance {
+            background: var(--teal-gradient);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .tola-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5000d6;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #02c9b7;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .artworks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .artwork-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s;
+            background: white;
+        }
+        
+        .artwork-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .artwork-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .artwork-details {
+            padding: 1rem;
+        }
+        
+        .artwork-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .artwork-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nft-badge {
+            background-color: var(--secondary);
+            color: var(--dark);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        .artwork-price {
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        .create-form {
+            margin-top: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .royalty-settings {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .royalty-percentage {
+            width: 80px;
+        }
+        
+        .drop-area {
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .drop-area:hover {
+            border-color: var(--primary);
+            background-color: rgba(98, 0, 234, 0.05);
+        }
+        
+        .drop-area i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .analytics-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .analytics-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            color: var(--primary);
+        }
+        
+        .analytics-chart {
+            width: 100%;
+            height: 300px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        
+        .chart-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+        
+        .notification {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+        }
+        
+        .notification-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .swap-request {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--gray);
+            background-color: white;
+        }
+        
+        .swap-artworks {
+            display: flex;
+            gap: 1rem;
+            flex: 1;
+        }
+        
+        .swap-artwork {
+            text-align: center;
+            width: 150px;
+        }
+        
+        .swap-artwork img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .swap-info {
+            flex: 1;
+        }
+        
+        .swap-details {
+            margin: 1rem 0;
+        }
+        
+        .swap-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .swap-detail:last-child {
+            border-bottom: none;
+        }
+        
+        .swap-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--gray);
+            background-color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .achievement-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .achievement-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--purple-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .achievement-locked .achievement-icon {
+            background: #e0e0e0;
+            color: #9e9e9e;
+        }
+        
+        .achievement-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .achievement-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .progress-indicator {
+            width: 100%;
+            height: 6px;
+            background-color: var(--gray);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-bar-indicator {
+            height: 100%;
+            background: var(--purple-gradient);
+            border-radius: 3px;
+        }
+        
+        .achievement-progress {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .achievement-locked .achievement-title,
+        .achievement-locked .achievement-description {
+            color: #9e9e9e;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .collector {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--gray);
+            background-color: white;
+            transition: all 0.2s;
+        }
+        
+        .collector:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .collector-info {
+            flex: 1;
+        }
+        
+        .collector img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .collector-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            border: 1px solid var(--gray);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: #f9f9f9;
+        }
+        
+        .message {
+            max-width: 70%;
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        
+        .message-incoming {
+            background-color: white;
+            border: 1px solid var(--gray);
+            align-self: flex-start;
+        }
+        
+        .message-outgoing {
+            background-color: var(--primary-light);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            background-color: white;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 20px;
+            margin-right: 0.8rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+        
+        .footer-links a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        .footer-text {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .artist-profile {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .swap-request {
+                flex-direction: column;
+            }
+            
+            .swap-artworks {
+                justify-content: center;
+            }
+            
+            .progress-step-label {
+                font-size: 0.7rem;
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-cube"></i>
+                    <span>VORTEX</span>
+                </div>
+                <div class="header-nav">
+                    <a href="#" class="nav-item">Home</a>
+                    <a href="#" class="nav-item">Marketplace</a>
+                    <a href="#" class="nav-item">Documentation</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-step completed" id="step1">
+                    <i class="fas fa-check"></i>
+                    <div class="progress-step-label">Profile Setup</div>
+                </div>
+                <div class="progress-step active" id="step2">
+                    2
+                    <div class="progress-step-label">Create & Mint</div>
+                </div>
+                <div class="progress-step" id="step3">
+                    3
+                    <div class="progress-step-label">Interact & Swap</div>
+                </div>
+                <div class="progress-step" id="step4">
+                    4
+                    <div class="progress-step-label">Sell & Earn</div>
+                </div>
+                <div class="progress-step" id="step5">
+                    5
+                    <div class="progress-step-label">Analytics & Growth</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- STEP 1: PROFILE SETUP -->
+        <div class="step-content" id="step1-content">
+            <div class="card">
+                <h2 class="card-title">Artist Profile</h2>
+                <div class="artist-profile">
+                    <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Alex Johnson" class="profile-image">
+                    <div class="profile-details">
+                        <div class="profile-header">
+                            <div>
+                                <h2 class="profile-name">Alex Johnson</h2>
+                                <div class="profile-title">Digital Artist & Illustrator</div>
+                            </div>
+                            <div class="profile-level">
+                                <span class="level-badge">Level 23</span>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                            </div>
+                        </div>
+                        
+                        <p>Contemporary digital artist specializing in surreal landscapes and AI-enhanced portraiture. My work explores the intersection of technology and human emotion through vibrant color palettes and dreamlike compositions.</p>
+                        
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">142</div>
+                                <div class="stat-label">Artworks</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">37</div>
+                                <div class="stat-label">NFTs Sold</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">1.2k</div>
+                                <div class="stat-label">Followers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">86</div>
+                                <div class="stat-label">Following</div>
+                            </div>
+                        </div>
+                        
+                        <div class="tola-balance">
+                            <div>
+                                <h3>TOLA Balance</h3>
+                                <div class="tola-amount">3,450 TOLA</div>
+                            </div>
+                            <a href="#" class="btn btn-secondary">Manage TOLA</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Featured Artworks</h2>
+                <div class="artworks-grid">
+                    <div class="artwork-card">
+                        <img src="https://picsum.photos/id/1020/500/500" alt="Artwork" class="artwork-image">
+                        <div class="artwork-details">
+                            <div><span class="nft-badge">NFT</span></div>
+                            <h3 class="artwork-title">Celestial Dreams #7</h3>
+                            <div class="artwork-meta">
+                                <span>Created 3 days ago</span>
+                                <span><i class="fas fa-heart"></i> 124</span>
+                            </div>
+                            <div class="artwork-price">850 TOLA</div>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-card">
+                        <img src="https://picsum.photos/id/1025/500/500" alt="Artwork" class="artwork-image">
+                        <div class="artwork-details">
+                            <div><span class="nft-badge">NFT</span></div>
+                            <h3 class="artwork-title">Neon City Nights</h3>
+                            <div class="artwork-meta">
+                                <span>Created 1 week ago</span>
+                                <span><i class="fas fa-heart"></i> 87</span>
+                            </div>
+                            <div class="artwork-price">1,200 TOLA</div>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-card">
+                        <img src="https://picsum.photos/id/1015/500/500" alt="Artwork" class="artwork-image">
+                        <div class="artwork-details">
+                            <h3 class="artwork-title">Mountain Whispers</h3>
+                            <div class="artwork-meta">
+                                <span>Created 2 weeks ago</span>
+                                <span><i class="fas fa-heart"></i> 56</span>
+                            </div>
+                            <div class="artwork-price">Not for sale</div>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-card">
+                        <img src="https://picsum.photos/id/1039/500/500" alt="Artwork" class="artwork-image">
+                        <div class="artwork-details">
+                            <div><span class="nft-badge">NFT</span></div>
+                            <h3 class="artwork-title">Digital Renaissance</h3>
+                            <div class="artwork-meta">
+                                <span>Created 3 weeks ago</span>
+                                <span><i class="fas fa-heart"></i> 142</span>
+                            </div>
+                            <div class="artwork-price">1,750 TOLA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="btn btn-outline nav-btn disabled">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button class="btn btn-primary nav-btn" onclick="goToStep(2)">
+                    Next: Create & Mint <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- STEP 2: CREATE & MINT -->
+        <div class="step-content active" id="step2-content">
+            <div class="card">
+                <h2 class="card-title">Create New Artwork</h2>
+                <div class="drop-area" id="dropArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drag & Drop Your Artwork Here</h3>
+                    <p>or click to browse files</p>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Supports JPG, PNG, GIF, SVG (Max: 50MB)</p>
+                </div>
+                
+                <div class="create-form">
+                    <div class="form-group">
+                        <label for="artworkTitle" class="form-label">Artwork Title</label>
+                        <input type="text" id="artworkTitle" class="form-control" placeholder="Enter a title for your artwork">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artworkDescription" class="form-label">Description</label>
+                        <textarea id="artworkDescription" class="form-control" rows="3" placeholder="Describe your artwork..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artworkTags" class="form-label">Tags</label>
+                        <input type="text" id="artworkTags" class="form-control" placeholder="Add tags separated by commas">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Mint as NFT</h2>
+                <p>Convert your artwork into a unique NFT on the blockchain with royalty settings.</p>
+                
+                <div class="create-form">
+                    <div class="form-group">
+                        <label class="form-label">Edition Type</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <div style="flex: 1;">
+                                <input type="radio" id="singleEdition" name="editionType" checked>
+                                <label for="singleEdition">Single Edition (1/1)</label>
+                            </div>
+                            <div style="flex: 1;">
+                                <input type="radio" id="multipleEditions" name="editionType">
+                                <label for="multipleEditions">Multiple Editions</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nftPrice" class="form-label">Initial Price (TOLA)</label>
+                        <input type="number" id="nftPrice" class="form-control" placeholder="Enter starting price">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Royalty Settings</label>
+                        <div class="royalty-settings">
+                            <input type="number" class="form-control royalty-percentage" value="10" min="0" max="25">
+                            <span>% of each secondary sale</span>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">Platform fee: 2.5% of each sale</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Rights & Licensing</label>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div>
+                                <input type="checkbox" id="allowRemix" name="rights">
+                                <label for="allowRemix">Allow remixing by other artists</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="allowCommercial" name="rights">
+                                <label for="allowCommercial">Allow commercial use</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="requireAttribution" name="rights" checked>
+                                <label for="requireAttribution">Require attribution</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Blockchain Transaction</h2>
+                <p>Review details before minting your NFT on the blockchain.</p>
+                
+                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                        <span>Minting Fee:</span>
+                        <span>0.5 TOLA</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                        <span>Transaction Fee:</span>
+                        <span>80 TOLA (one-time)</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-weight: bold;">
+                        <span>Total:</span>
+                        <span>80.5 TOLA</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button class="btn btn-outline">Save as Draft</button>
+                    <button class="btn btn-primary">Mint NFT</button>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="btn btn-outline nav-btn" onclick="goToStep(1)">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button class="btn btn-primary nav-btn" onclick="goToStep(3)">
+                    Next: Interact & Swap <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- STEP 3: INTERACT & SWAP -->
+        <div class="step-content" id="step3-content">
+            <div class="card">
+                <h2 class="card-title">Collaboration Opportunities</h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

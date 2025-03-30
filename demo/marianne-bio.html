@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marianne Nems Bio | VortexArtec</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #000000;
+            --primary-light: #333333;
+            --primary-dark: #000000;
+            --accent: #cc3333;
+            --accent-light: #e65555;
+            --light: #ffffff;
+            --light-gray: #f8f8f8;
+            --gray: #e0e0e0;
+            --gray-dark: #757575;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --card-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Header */
+        header {
+            background: var(--light);
+            color: var(--primary);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            padding: 0.5rem;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            font-weight: 600;
+        }
+        
+        .wallet-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+        
+        /* Bio Section */
+        .bio-header {
+            padding: 5rem 0;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://vendor.artmonad.com/gallery/vortex/wp-content/uploads/2023/05/abyss-of-dreams.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--light);
+            text-align: center;
+        }
+        
+        .bio-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .bio-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .bio-content {
+            padding: 4rem 0;
+        }
+        
+        .bio-section {
+            margin-bottom: 3rem;
+        }
+        
+        .bio-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray);
+            padding-bottom: 0.5rem;
+        }
+        
+        .bio-section p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .bio-image {
+            float: right;
+            width: 350px;
+            margin: 0 0 2rem 2rem;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .bio-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--light-gray);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .bio-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .gallery-image:hover {
+            transform: scale(1.05);
+            box-shadow: var(--card-shadow);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--light);
+            color: var(--primary);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--gray);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 992px) {
+            .header-nav {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .bio-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .bio-image {
+                float: none;
+                width: 100%;
+                margin: 0 0 2rem 0;
+            }
+            
+            .bio-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .bio-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="https://vendor.artmonad.com/gallery/vortex/wp-content/uploads/2023/05/vortex-logo.png" alt="VortexArtec" height="40">
+                VortexArtec
+            </a>
+            <div class="header-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="vortex-homepage.html" class="nav-link">Dashboard</a>
+                <a href="marketplace.html" class="nav-link">Marketplace</a>
+                <a href="huraii-demo.html" class="nav-link">HURAII</a>
+                <a href="marianne-vortex-demo.html" class="nav-link">Artist Journey</a>
+                <a href="collector-experience.html" class="nav-link">Collector</a>
+                <a href="vortex-registration.html" class="nav-link">Register</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="marianne-bio.html" class="nav-link active">About</a>
+                <a href="#" class="wallet-link">
+                    <i class="fas fa-wallet"></i>
+                    <span>3,450 TOLA</span>
+                </a>
+            </div>
+            <a href="vortex-registration.html" class="btn btn-primary">Login / Register</a>
+            <div class="mobile-menu-toggle" style="display:none;"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+    
+    <section class="bio-header">
+        <div class="container">
+            <h1>Marianne Nems</h1>
+            <p>Visionary Artist, Founder & CEO of VortexArtec</p>
+        </div>
+    </section>
+    
+    <section class="bio-content">
+        <div class="container">
+            <div class="bio-section">
+                <img src="https://vendor.artmonad.com/2023/06/19/bio-marianne/screenshot-2023-06-17-at-8.14.09-pm-1.png" alt="Marianne Nems" class="bio-image">
+                
+                <h2>UPFRONT</h2>
+                <p>Marianne Nems, a luminary artist, prolific wordsmith, and visionary designer, proudly stands as the pioneering inventor of the Cyber Renaissance Art Movement. Her illustrious journey as an artist and her unyielding quest to fuse traditional artistry with state-of-the-art technology form the bedrock of this groundbreaking artistic revolution. Marianne's singular perspective and profound insights have revolutionized how artists perceive and harness the power of the digital realm, kindling a new era of boundless creativity and innovation within the art domain.</p>
+                
+                <p>As the esteemed founder of <a href="index.html">VortexArtec</a>, Marianne Nems has transformed her visionary ideals into a tangible reality. <a href="index.html">VortexArtec</a> transcends the conventional art platform; it serves as a resounding testament to Marianne's unwavering commitment to artists and their artistic evolution. Under her visionary leadership, <a href="index.html">VortexArtec</a> has burgeoned into a dynamic community where artists can not only flourish but also acquire the knowledge and resources to thrive in our digital epoch.</p>
+                
+                <p>Marianne's fervent dedication to upholding artistic authenticity while embracing the endless potential of technology reverberates profoundly within the art community. Her tireless efforts to nurture talent and equip artists with the requisite tools for success lie at the heart of <a href="index.html">VortexArtec</a>'s overarching mission. Guided by the indomitable spirit of Marianne Nems, <a href="index.html">VortexArtec</a> is poised to redefine the future of art, cultivating an environment where creativity transcends boundaries, and artists emerge as the heralds of a new era.</p>
+            </div>
+            
+            <div class="bio-quote">
+                "Art is the bridge between traditional mastery and technological innovation, between what has been and what is yet to come."
+            </div>
+            
+            <div class="bio-gallery">
+                <img src="https://vendor.artmonad.com/gallery/vortex/wp-content/uploads/2023/05/abyss-of-dreams.jpg" alt="Abyss of Dreams" class="gallery-image">
+                <img src="https://vendor.artmonad.com/gallery/vortex/wp-content/uploads/2023/05/celestial-architectural-horizon.jpg" alt="Celestial Architectural Horizon" class="gallery-image">
+                <img src="https://vendor.artmonad.com/gallery/vortex/wp-content/uploads/2023/05/chasing-time.jpg" alt="Chasing Time" class="gallery-image">
+                <img src="https://vendor.artmonad.com/gallery/vortex/wp-content/uploads/2023/05/L25Z.jpg" alt="L2'5Z" class="gallery-image">
+                <img src="https://vendor.artmonad.com/gallery/vortex/wp-content/uploads/2023/05/allah.jpg" alt="Allah" class="gallery-image">
+                <img src="https://vendor.artmonad.com/gallery/vortex/wp-content/uploads/2023/05/claire.jpg" alt="Claire" class="gallery-image">
+            </div>
+            
+            <div class="bio-section">
+                <h2>A BIT OF HISTORY</h2>
+                <p>Marianne Nems, a visionary artist born in 1969, has embarked on a remarkable artistic journey that seamlessly weaves together influences from a multitude of artistic and intellectual giants. Residing amidst the vibrant energy of Miami Beach, Florida, Nems stands as a testament to the power of artistic expression rooted in a deep appreciation for the masters who came before.</p>
+                
+                <p>From the outset of her artistic journey, Nems discovered a wellspring of inspiration in the remarkable works of the French Impressionists — Claude Monet, Édouard Manet, Pierre-Auguste Renoir, Edgar Degas, and Camille Pissarro. These luminaries skillfully interwove texture and color palette, utilizing brushstrokes as pixels, as if imbuing their canvases with vibrant atmospheres. The direction and energy of their brushwork breathed life into their paintings, evoking an ineffable vitality.</p>
+                
+                <!-- Continued bio content - I've shortened it for clarity but would include the full text in the actual implementation -->
+                <p>With 25 years of experience in interior architecture and design, Nems brings an international perspective to her artistic endeavors. Hailing from a lineage of esteemed designers, she carries a family legacy that spans over a century. Her grand cousin, Michel Harmouch, designed the Museum of Beirut in the 1960s, while her father contributed to designing for Prince Suleiman, who now serves as the King of Saudi Arabia, in the 1980s.</p>
+                
+                <p>In 1997, Nems embarked on a significant move to the United States, settling in the vibrant cultural melting pot of New York City. It was here that she faced the challenges of being a single parent while tirelessly working to support her two children. These experiences shaped her into a fearless and determined individual, embodying a spirit of taking on challenges and pursuing happiness.</p>
+            </div>
+            
+            <div class="bio-section">
+                <h2>ARTISTIC VISION & LEGACY</h2>
+                <p>The culmination of Marianne Nems' artistic journey is a testament to her unwavering dedication and remarkable talent. Her exhibitions are not just a showcase of her artistic achievements, but an invitation to embark on a transformative and emotionally compelling experience. They beckon visitors to step into a world where the boundaries between art, philosophy, science, and spirituality dissolve, giving rise to a harmonious symphony of colors, forms, and ideas.</p>
+                
+                <p>In the presence of Nems' artworks, viewers are transported to a realm where happiness, introspection, and interconnectedness intertwine. The meticulous brushstrokes and carefully selected colors breathe life into her creations, invoking a range of emotions and stirring the depths of the soul. Each artwork tells a story, inviting the audience to interpret and reflect upon its layers of meaning.</p>
+                
+                <p>Dear reader, I extend to you an invitation to immerse yourself in the captivating world of Marianne Nems' exhibitions. Allow her art to transport you to a place where happiness and artistic expression intertwine, where the boundaries of convention are transcended, and where your own journey of self-reflection and discovery begins. Prepare to be moved, inspired, and emotionally compelled to experience the profound beauty and interconnectedness of the human experience through the remarkable artistry of Marianne Nems.</p>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>VortexArtec</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="huraii-demo.html">HURAII AI</a></li>
+                        <li><a href="vortex-registration.html">Register</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                        <li><a href="mailto:Marianne@VortexArtec.com">Marianne@VortexArtec.com</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Artist Guide</a></li>
+                        <li><a href="#">Collector FAQ</a></li>
+                        <li><a href="#">Blockchain 101</a></li>
+                        <li><a href="#">TOLA Token</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 VortexArtec. All rights reserved. Founded by Marianne Nems.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

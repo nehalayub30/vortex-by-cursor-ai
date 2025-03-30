@@ -1,0 +1,211 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: VORTEX AI Marketplace 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vortex-ai-marketplace\n"
+"POT-Creation-Date: 2024-01-01T00:00:00+00:00\n"
+"PO-Revision-Date: 2024-01-01T00:00:00+00:00\n"
+"Last-Translator: VORTEX Team\n"
+"Language-Team: VORTEX\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: VORTEX Translation System\n"
+"X-Domain: vortex-ai-marketplace\n"
+
+# AI Agent Messages
+msgid "HURAII_PROCESSING"
+msgstr "HURAIIがアートワークを処理中..."
+
+msgid "HURAII_LEARNING"
+msgstr "HURAIIがスタイルの好みから学習中..."
+
+msgid "HURAII_GENERATION_COMPLETE"
+msgstr "アートワーク生成完了"
+
+msgid "CLOE_ANALYZING"
+msgstr "CLOEがユーザー行動を分析中..."
+
+msgid "CLOE_RECOMMENDATION"
+msgstr "CLOEがパーソナライズされた推奨を提供"
+
+msgid "CLOE_LEARNING_PROGRESS"
+msgstr "インタラクションから学習中..."
+
+msgid "BUSINESS_STRATEGIST_ANALYZING"
+msgstr "ビジネスストラテジストが市場動向を分析中..."
+
+msgid "BUSINESS_STRATEGIST_PLAN"
+msgstr "パーソナライズされたビジネスプランが準備完了"
+
+msgid "BUSINESS_STRATEGIST_LEARNING"
+msgstr "市場データに基づいて戦略を最適化中..."
+
+# Error Messages
+msgid "ERROR_AI_CONNECTION"
+msgstr "AIサービスに接続できません。もう一度お試しください。"
+
+msgid "ERROR_GENERATION_FAILED"
+msgstr "アートワーク生成に失敗しました。もう一度お試しください。"
+
+msgid "ERROR_INVALID_INPUT"
+msgstr "無効な入力パラメータが検出されました"
+
+msgid "ERROR_PROCESSING_TIMEOUT"
+msgstr "処理がタイムアウトしました。もう一度お試しください。"
+
+msgid "ERROR_UNAUTHORIZED"
+msgstr "未認可のアクセスが検出されました"
+
+# Success Messages
+msgid "SUCCESS_ARTWORK_CREATED"
+msgstr "アートワークが正常に作成されました"
+
+msgid "SUCCESS_PLAN_GENERATED"
+msgstr "ビジネスプランが正常に生成されました"
+
+msgid "SUCCESS_PROFILE_UPDATED"
+msgstr "AIインサイトでプロフィールが更新されました"
+
+# Status Messages
+msgid "STATUS_AI_LEARNING_ACTIVE"
+msgstr "AI学習アクティブ"
+
+msgid "STATUS_PROCESSING"
+msgstr "処理中"
+
+msgid "STATUS_COMPLETED"
+msgstr "完了"
+
+msgid "STATUS_FAILED"
+msgstr "失敗"
+
+# Admin Interface
+msgid "ADMIN_DASHBOARD_TITLE"
+msgstr "VORTEX AIマーケットプレイスダッシュボード"
+
+msgid "ADMIN_AI_STATUS"
+msgstr "AIエージェントステータス"
+
+msgid "ADMIN_SYSTEM_HEALTH"
+msgstr "システムヘルス"
+
+msgid "ADMIN_LEARNING_METRICS"
+msgstr "学習メトリクス"
+
+# Marketplace Interface
+msgid "MARKETPLACE_TITLE"
+msgstr "AI駆動アートマーケットプレイス"
+
+msgid "MARKETPLACE_FILTER_TITLE"
+msgstr "アートワークをフィルター"
+
+msgid "MARKETPLACE_SORT_TITLE"
+msgstr "並び替え"
+
+# Artist Interface
+msgid "ARTIST_DASHBOARD_TITLE"
+msgstr "アーティストダッシュボード"
+
+msgid "ARTIST_GENERATION_TITLE"
+msgstr "アートワーク生成"
+
+msgid "ARTIST_ANALYTICS_TITLE"
+msgstr "パフォーマンス分析"
+
+# Collector Interface
+msgid "COLLECTOR_DASHBOARD_TITLE"
+msgstr "コレクターダッシュボード"
+
+msgid "COLLECTOR_RECOMMENDATIONS"
+msgstr "パーソナライズされた推奨"
+
+msgid "COLLECTOR_PORTFOLIO"
+msgstr "あなたのポートフォリオ"
+
+# AI Learning Status
+msgid "AI_LEARNING_PROGRESS"
+msgstr "学習進捗"
+
+msgid "AI_LEARNING_ITERATIONS"
+msgstr "学習イテレーション"
+
+msgid "AI_LEARNING_ACCURACY"
+msgstr "学習精度"
+
+# Transaction Messages
+msgid "TRANSACTION_PROCESSING"
+msgstr "取引処理中..."
+
+msgid "TRANSACTION_SUCCESS"
+msgstr "取引成功"
+
+msgid "TRANSACTION_FAILED"
+msgstr "取引失敗"
+
+# Notification Messages
+msgid "NOTIFICATION_NEW_ARTWORK"
+msgstr "お好みのスタイルの新しいアートワークが利用可能"
+
+msgid "NOTIFICATION_MARKET_INSIGHT"
+msgstr "新しい市場インサイトが利用可能"
+
+msgid "NOTIFICATION_LEARNING_COMPLETE"
+msgstr "AI学習サイクル完了"
+
+# Button Labels
+msgid "BUTTON_GENERATE"
+msgstr "生成"
+
+msgid "BUTTON_ANALYZE"
+msgstr "分析"
+
+msgid "BUTTON_LEARN"
+msgstr "詳細を見る"
+
+msgid "BUTTON_APPLY"
+msgstr "適用"
+
+# Form Labels
+msgid "FORM_STYLE_LABEL"
+msgstr "アートスタイル"
+
+msgid "FORM_MEDIUM_LABEL"
+msgstr "メディア"
+
+msgid "FORM_SIZE_LABEL"
+msgstr "サイズ"
+
+msgid "FORM_PRICE_LABEL"
+msgstr "価格"
+
+# Tooltips
+msgid "TOOLTIP_AI_LEARNING"
+msgstr "AIがこのインタラクションから積極的に学習中"
+
+msgid "TOOLTIP_GENERATION_OPTIONS"
+msgstr "アートワーク生成オプションをカスタマイズ"
+
+msgid "TOOLTIP_MARKET_ANALYSIS"
+msgstr "詳細な市場分析を表示"
+
+# Validation Messages
+msgid "VALIDATION_REQUIRED_FIELD"
+msgstr "このフィールドは必須です"
+
+msgid "VALIDATION_INVALID_FORMAT"
+msgstr "無効な形式"
+
+msgid "VALIDATION_PROCESSING_LIMIT"
+msgstr "処理制限に達しました"
+
+# Help Messages
+msgid "HELP_GETTING_STARTED"
+msgstr "VORTEX AIマーケットプレイスを始める"
+
+msgid "HELP_AI_FEATURES"
+msgstr "AI機能を理解する"
+
+msgid "HELP_TROUBLESHOOTING"
+msgstr "トラブルシューティングガイド" 

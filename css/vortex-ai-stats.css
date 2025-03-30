@@ -1,0 +1,94 @@
+.vortex-ai-stats-widget {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-ai-agent-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.vortex-ai-agent-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.agent-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.agent-header i {
+    font-size: 1.5rem;
+    color: #2a3f90;
+}
+
+.agent-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.agent-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 1.25rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2a3f90;
+}
+
+/* Agent-specific colors */
+.vortex-ai-agent-section:nth-child(1) .stat-value {
+    color: #2a3f90; /* HURAII */
+}
+
+.vortex-ai-agent-section:nth-child(2) .stat-value {
+    color: #1a7f4b; /* CLOE */
+}
+
+.vortex-ai-agent-section:nth-child(3) .stat-value {
+    color: #9c27b0; /* Business Strategist */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .agent-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .agent-stats-grid {
+        grid-template-columns: 1fr;
+    }
+} 

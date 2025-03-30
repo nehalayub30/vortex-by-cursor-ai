@@ -1,0 +1,211 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: VORTEX AI Marketplace 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vortex-ai-marketplace\n"
+"POT-Creation-Date: 2024-01-01T00:00:00+00:00\n"
+"PO-Revision-Date: 2024-01-01T00:00:00+00:00\n"
+"Last-Translator: VORTEX Team\n"
+"Language-Team: VORTEX\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: VORTEX Translation System\n"
+"X-Domain: vortex-ai-marketplace\n"
+
+# AI Agent Messages
+msgid "HURAII_PROCESSING"
+msgstr "HURAII is processing your artwork..."
+
+msgid "HURAII_LEARNING"
+msgstr "HURAII is learning from your style preferences..."
+
+msgid "HURAII_GENERATION_COMPLETE"
+msgstr "Artwork generation complete"
+
+msgid "CLOE_ANALYZING"
+msgstr "CLOE is analyzing user behavior..."
+
+msgid "CLOE_RECOMMENDATION"
+msgstr "CLOE has personalized recommendations for you"
+
+msgid "CLOE_LEARNING_PROGRESS"
+msgstr "Learning from your interactions..."
+
+msgid "BUSINESS_STRATEGIST_ANALYZING"
+msgstr "Business Strategist is analyzing market trends..."
+
+msgid "BUSINESS_STRATEGIST_PLAN"
+msgstr "Your personalized business plan is ready"
+
+msgid "BUSINESS_STRATEGIST_LEARNING"
+msgstr "Optimizing strategies based on market data..."
+
+# Error Messages
+msgid "ERROR_AI_CONNECTION"
+msgstr "Unable to connect to AI services. Please try again."
+
+msgid "ERROR_GENERATION_FAILED"
+msgstr "Artwork generation failed. Please try again."
+
+msgid "ERROR_INVALID_INPUT"
+msgstr "Invalid input parameters detected"
+
+msgid "ERROR_PROCESSING_TIMEOUT"
+msgstr "Processing timeout. Please try again."
+
+msgid "ERROR_UNAUTHORIZED"
+msgstr "Unauthorized access detected"
+
+# Success Messages
+msgid "SUCCESS_ARTWORK_CREATED"
+msgstr "Artwork successfully created"
+
+msgid "SUCCESS_PLAN_GENERATED"
+msgstr "Business plan successfully generated"
+
+msgid "SUCCESS_PROFILE_UPDATED"
+msgstr "Profile successfully updated with AI insights"
+
+# Status Messages
+msgid "STATUS_AI_LEARNING_ACTIVE"
+msgstr "AI Learning Active"
+
+msgid "STATUS_PROCESSING"
+msgstr "Processing"
+
+msgid "STATUS_COMPLETED"
+msgstr "Completed"
+
+msgid "STATUS_FAILED"
+msgstr "Failed"
+
+# Admin Interface
+msgid "ADMIN_DASHBOARD_TITLE"
+msgstr "VORTEX AI Marketplace Dashboard"
+
+msgid "ADMIN_AI_STATUS"
+msgstr "AI Agents Status"
+
+msgid "ADMIN_SYSTEM_HEALTH"
+msgstr "System Health"
+
+msgid "ADMIN_LEARNING_METRICS"
+msgstr "Learning Metrics"
+
+# Marketplace Interface
+msgid "MARKETPLACE_TITLE"
+msgstr "AI-Powered Art Marketplace"
+
+msgid "MARKETPLACE_FILTER_TITLE"
+msgstr "Filter Artworks"
+
+msgid "MARKETPLACE_SORT_TITLE"
+msgstr "Sort By"
+
+# Artist Interface
+msgid "ARTIST_DASHBOARD_TITLE"
+msgstr "Artist Dashboard"
+
+msgid "ARTIST_GENERATION_TITLE"
+msgstr "Generate Artwork"
+
+msgid "ARTIST_ANALYTICS_TITLE"
+msgstr "Performance Analytics"
+
+# Collector Interface
+msgid "COLLECTOR_DASHBOARD_TITLE"
+msgstr "Collector Dashboard"
+
+msgid "COLLECTOR_RECOMMENDATIONS"
+msgstr "Personalized Recommendations"
+
+msgid "COLLECTOR_PORTFOLIO"
+msgstr "Your Portfolio"
+
+# AI Learning Status
+msgid "AI_LEARNING_PROGRESS"
+msgstr "Learning Progress"
+
+msgid "AI_LEARNING_ITERATIONS"
+msgstr "Learning Iterations"
+
+msgid "AI_LEARNING_ACCURACY"
+msgstr "Learning Accuracy"
+
+# Transaction Messages
+msgid "TRANSACTION_PROCESSING"
+msgstr "Processing transaction..."
+
+msgid "TRANSACTION_SUCCESS"
+msgstr "Transaction successful"
+
+msgid "TRANSACTION_FAILED"
+msgstr "Transaction failed"
+
+# Notification Messages
+msgid "NOTIFICATION_NEW_ARTWORK"
+msgstr "New artwork available in your preferred style"
+
+msgid "NOTIFICATION_MARKET_INSIGHT"
+msgstr "New market insight available"
+
+msgid "NOTIFICATION_LEARNING_COMPLETE"
+msgstr "AI learning cycle completed"
+
+# Button Labels
+msgid "BUTTON_GENERATE"
+msgstr "Generate"
+
+msgid "BUTTON_ANALYZE"
+msgstr "Analyze"
+
+msgid "BUTTON_LEARN"
+msgstr "Learn More"
+
+msgid "BUTTON_APPLY"
+msgstr "Apply"
+
+# Form Labels
+msgid "FORM_STYLE_LABEL"
+msgstr "Art Style"
+
+msgid "FORM_MEDIUM_LABEL"
+msgstr "Medium"
+
+msgid "FORM_SIZE_LABEL"
+msgstr "Size"
+
+msgid "FORM_PRICE_LABEL"
+msgstr "Price"
+
+# Tooltips
+msgid "TOOLTIP_AI_LEARNING"
+msgstr "AI is actively learning from this interaction"
+
+msgid "TOOLTIP_GENERATION_OPTIONS"
+msgstr "Customize your artwork generation options"
+
+msgid "TOOLTIP_MARKET_ANALYSIS"
+msgstr "View detailed market analysis"
+
+# Validation Messages
+msgid "VALIDATION_REQUIRED_FIELD"
+msgstr "This field is required"
+
+msgid "VALIDATION_INVALID_FORMAT"
+msgstr "Invalid format"
+
+msgid "VALIDATION_PROCESSING_LIMIT"
+msgstr "Processing limit reached"
+
+# Help Messages
+msgid "HELP_GETTING_STARTED"
+msgstr "Getting started with VORTEX AI Marketplace"
+
+msgid "HELP_AI_FEATURES"
+msgstr "Understanding AI features"
+
+msgid "HELP_TROUBLESHOOTING"
+msgstr "Troubleshooting guide" 

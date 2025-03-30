@@ -1,0 +1,330 @@
+/* VORTEX Business Strategist Widgets
+   ========================================================================== */
+
+/* Base Widget Styles
+   ========================================================================== */
+.vortex-business-widget {
+    background: var(--vortex-background, #ffffff);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.vortex-business-widget:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.vortex-business-widget-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--vortex-border-color, #e9ecef);
+}
+
+.vortex-business-widget-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--vortex-text, #212529);
+    margin: 0;
+}
+
+.vortex-business-widget-icon {
+    margin-right: 10px;
+    color: var(--vortex-primary, #007bff);
+}
+
+/* Business Quiz Widget
+   ========================================================================== */
+.vortex-quiz-widget {
+    background: linear-gradient(135deg, var(--vortex-background, #ffffff) 0%, var(--vortex-background-alt, #f8f9fa) 100%);
+}
+
+.vortex-quiz-question {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: var(--vortex-background, #ffffff);
+    border-radius: 6px;
+    border: 1px solid var(--vortex-border-color, #e9ecef);
+}
+
+.vortex-quiz-question-title {
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--vortex-text, #212529);
+}
+
+.vortex-quiz-options {
+    display: grid;
+    gap: 10px;
+}
+
+.vortex-quiz-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: var(--vortex-background-alt, #f8f9fa);
+    border: 1px solid var(--vortex-border-color, #e9ecef);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-quiz-option:hover {
+    background: var(--vortex-primary-light, #e7f1ff);
+    border-color: var(--vortex-primary, #007bff);
+}
+
+.vortex-quiz-option.selected {
+    background: var(--vortex-primary, #007bff);
+    border-color: var(--vortex-primary, #007bff);
+    color: #ffffff;
+}
+
+/* Business Plan Widget
+   ========================================================================== */
+.vortex-plan-widget {
+    background: linear-gradient(135deg, var(--vortex-background, #ffffff) 0%, var(--vortex-background-alt, #f8f9fa) 100%);
+}
+
+.vortex-plan-type-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.vortex-plan-type {
+    padding: 15px;
+    background: var(--vortex-background, #ffffff);
+    border: 2px solid var(--vortex-border-color, #e9ecef);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.vortex-plan-type:hover {
+    border-color: var(--vortex-primary, #007bff);
+    transform: translateY(-2px);
+}
+
+.vortex-plan-type.selected {
+    border-color: var(--vortex-primary, #007bff);
+    background: var(--vortex-primary-light, #e7f1ff);
+}
+
+.vortex-plan-type-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--vortex-text, #212529);
+}
+
+.vortex-plan-type-description {
+    font-size: 0.875rem;
+    color: var(--vortex-text-muted, #6c757d);
+}
+
+/* Career Milestones Widget
+   ========================================================================== */
+.vortex-milestones-widget {
+    background: linear-gradient(135deg, var(--vortex-background, #ffffff) 0%, var(--vortex-background-alt, #f8f9fa) 100%);
+}
+
+.vortex-milestone {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    background: var(--vortex-background, #ffffff);
+    border-radius: 6px;
+    border: 1px solid var(--vortex-border-color, #e9ecef);
+    margin-bottom: 15px;
+}
+
+.vortex-milestone-status {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.vortex-milestone-status.pending {
+    background: var(--vortex-warning, #ffc107);
+}
+
+.vortex-milestone-status.completed {
+    background: var(--vortex-success, #28a745);
+}
+
+.vortex-milestone-content {
+    flex-grow: 1;
+}
+
+.vortex-milestone-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--vortex-text, #212529);
+}
+
+.vortex-milestone-description {
+    font-size: 0.875rem;
+    color: var(--vortex-text-muted, #6c757d);
+    margin-bottom: 10px;
+}
+
+.vortex-milestone-progress {
+    height: 4px;
+    background: var(--vortex-border-color, #e9ecef);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.vortex-milestone-progress-bar {
+    height: 100%;
+    background: var(--vortex-primary, #007bff);
+    transition: width 0.3s ease;
+}
+
+/* Learning Resources Widget
+   ========================================================================== */
+.vortex-resources-widget {
+    background: linear-gradient(135deg, var(--vortex-background, #ffffff) 0%, var(--vortex-background-alt, #f8f9fa) 100%);
+}
+
+.vortex-resource {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    background: var(--vortex-background, #ffffff);
+    border-radius: 6px;
+    border: 1px solid var(--vortex-border-color, #e9ecef);
+    margin-bottom: 15px;
+    transition: all 0.2s ease;
+}
+
+.vortex-resource:hover {
+    transform: translateX(5px);
+    border-color: var(--vortex-primary, #007bff);
+}
+
+.vortex-resource-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+    flex-shrink: 0;
+    color: var(--vortex-primary, #007bff);
+}
+
+.vortex-resource-content {
+    flex-grow: 1;
+}
+
+.vortex-resource-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--vortex-text, #212529);
+}
+
+.vortex-resource-description {
+    font-size: 0.875rem;
+    color: var(--vortex-text-muted, #6c757d);
+    margin-bottom: 10px;
+}
+
+.vortex-resource-meta {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--vortex-text-muted, #6c757d);
+}
+
+.vortex-resource-meta span {
+    margin-right: 15px;
+}
+
+/* Common Elements
+   ========================================================================== */
+.vortex-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background: var(--vortex-primary, #007bff);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.vortex-button:hover {
+    background: var(--vortex-primary-dark, #0056b3);
+    transform: translateY(-1px);
+}
+
+.vortex-button:active {
+    transform: translateY(0);
+}
+
+.vortex-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--vortex-border-color, #e9ecef);
+    border-top-color: var(--vortex-primary, #007bff);
+    border-radius: 50%;
+    animation: vortex-spin 0.8s linear infinite;
+    margin-right: 8px;
+}
+
+.vortex-error {
+    color: var(--vortex-danger, #dc3545);
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+
+.vortex-success {
+    color: var(--vortex-success, #28a745);
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+
+/* Animations
+   ========================================================================== */
+@keyframes vortex-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design
+   ========================================================================== */
+@media (max-width: 768px) {
+    .vortex-business-widget {
+        padding: 15px;
+    }
+    
+    .vortex-plan-type-selector {
+        grid-template-columns: 1fr;
+    }
+    
+    .vortex-milestone,
+    .vortex-resource {
+        flex-direction: column;
+    }
+    
+    .vortex-milestone-status,
+    .vortex-resource-icon {
+        margin-bottom: 10px;
+    }
+    
+    .vortex-resource-meta {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+} 

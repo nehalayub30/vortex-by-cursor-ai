@@ -1,0 +1,387 @@
+# Copyright (C) 2023 VORTEX AI Marketplace
+# This file is distributed under the same license as the VORTEX AI Marketplace package.
+msgid ""
+msgstr ""
+"Project-Id-Version: VORTEX AI Marketplace 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vortex-ai-marketplace\n"
+"POT-Creation-Date: 2023-11-15 12:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: vortex-marketplace\n"
+
+#: class-vortex-analytics.php:86
+msgid "Analytics"
+msgstr ""
+
+#: class-vortex-analytics.php:131
+msgid "Permission denied"
+msgstr ""
+
+#: class-vortex-analytics.php:152
+msgid "Invalid analytics type"
+msgstr ""
+
+#: class-vortex-huraii.php:221
+msgid "Analyzing artwork components..."
+msgstr ""
+
+#: class-vortex-huraii.php:243
+msgid "Color Theory"
+msgstr ""
+
+#: class-vortex-huraii.php:244
+msgid "Composition"
+msgstr ""
+
+#: class-vortex-huraii.php:245
+msgid "Texture"
+msgstr ""
+
+#: class-vortex-huraii.php:246
+msgid "Light and Shadow"
+msgstr ""
+
+#: class-vortex-huraii.php:247
+msgid "Perspective"
+msgstr ""
+
+#: class-vortex-huraii.php:248
+msgid "Symbolism"
+msgstr ""
+
+#: class-vortex-huraii.php:249
+msgid "Movement and Layering"
+msgstr ""
+
+#: class-vortex-huraii.php:263
+msgid "Layer Analysis"
+msgstr ""
+
+#: class-vortex-huraii.php:264
+msgid "Detected %d layers in this artwork"
+msgstr ""
+
+#: class-vortex-huraii.php:265
+msgid "Transparency Level: %s"
+msgstr ""
+
+#: class-vortex-huraii.php:274
+msgid "High"
+msgstr ""
+
+#: class-vortex-huraii.php:276
+msgid "Medium"
+msgstr ""
+
+#: class-vortex-huraii.php:278
+msgid "Low"
+msgstr ""
+
+#: class-vortex-huraii.php:326
+msgid "Creating artwork from your prompt..."
+msgstr ""
+
+#: class-vortex-huraii.php:345
+msgid "Error: Invalid prompt provided."
+msgstr ""
+
+#: class-vortex-huraii.php:412
+msgid "Welcome to HURAII!"
+msgstr ""
+
+#: class-vortex-huraii.php:413
+msgid "Let's create something amazing together."
+msgstr ""
+
+#: class-vortex-huraii.php:414
+msgid "Ready to bring your vision to life with Seed Art."
+msgstr ""
+
+#: class-vortex-huraii.php:415
+msgid "Your artistic journey begins now!"
+msgstr ""
+
+#: class-vortex-img2img.php:189
+msgid "Processing style transfer..."
+msgstr ""
+
+#: class-vortex-img2img.php:216
+msgid "Error: No image provided for style transfer."
+msgstr ""
+
+#: class-vortex-img2img.php:271
+msgid "Processing inpainting..."
+msgstr ""
+
+#: class-vortex-img2img.php:299
+msgid "Error: No image or mask provided for inpainting."
+msgstr ""
+
+#: class-vortex-img2img.php:350
+msgid "Upscaling image..."
+msgstr ""
+
+#: class-vortex-img2img.php:376
+msgid "Error: No image provided for upscaling."
+msgstr ""
+
+#: class-vortex-metrics.php:674
+msgid "Views"
+msgstr ""
+
+#: class-vortex-metrics.php:675
+msgid "Sales"
+msgstr ""
+
+#: class-vortex-metrics.php:676
+msgid "Revenue"
+msgstr ""
+
+#: class-vortex-rankings.php:203
+msgid "Invalid ranking type"
+msgstr ""
+
+#: class-vortex-rankings.php:240
+msgid "Top Artworks"
+msgstr ""
+
+#: class-vortex-rankings.php:273
+msgid "Top Artists"
+msgstr ""
+
+#: class-vortex-rankings.php:307
+msgid "Trending Artworks"
+msgstr ""
+
+#: class-vortex-rankings.php:342
+msgid "Sales Leaderboard"
+msgstr ""
+
+#: metrics-dashboard.php:60
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: metrics-dashboard.php:90
+msgid "Last 7 Days"
+msgstr ""
+
+#: metrics-dashboard.php:91
+msgid "Last 30 Days"
+msgstr ""
+
+#: metrics-dashboard.php:92
+msgid "Last 90 Days"
+msgstr ""
+
+#: metrics-dashboard.php:93
+msgid "All Time"
+msgstr ""
+
+#: metrics-dashboard.php:110
+msgid "Loading data..."
+msgstr ""
+
+#: metrics-dashboard.php:124
+msgid "VORTEX Marketplace Analytics"
+msgstr ""
+
+#: metrics-dashboard.php:129
+msgid "Time Period:"
+msgstr ""
+
+#: metrics-dashboard.php:144
+msgid "Total Sales"
+msgstr ""
+
+#: metrics-dashboard.php:151
+msgid "Total Revenue"
+msgstr ""
+
+#: metrics-dashboard.php:158
+msgid "Total Views"
+msgstr ""
+
+#: metrics-dashboard.php:165
+msgid "Active Artists"
+msgstr ""
+
+#: metrics-dashboard.php:173
+msgid "AI Insights"
+msgstr ""
+
+#: metrics-dashboard.php:176
+msgid "HURAII"
+msgstr ""
+
+#: metrics-dashboard.php:177
+msgid "CLOE"
+msgstr ""
+
+#: metrics-dashboard.php:178
+msgid "Business Strategist"
+msgstr ""
+
+#: metrics-dashboard.php:183
+msgid "Visual Trends Analysis"
+msgstr ""
+
+#: metrics-dashboard.php:184
+msgid "HURAII is analyzing visual trends across the marketplace."
+msgstr ""
+
+#: metrics-dashboard.php:195
+msgid "HURAII is analyzing visual data. Check back soon for insights on artwork quality, style trends, and Seed Art component usage patterns."
+msgstr ""
+
+#: metrics-dashboard.php:204
+msgid "Curation & Discovery Insights"
+msgstr ""
+
+#: metrics-dashboard.php:205
+msgid "CLOE is analyzing audience preferences and artwork engagement."
+msgstr ""
+
+#: metrics-dashboard.php:216
+msgid "CLOE is analyzing user engagement data. Check back soon for insights on audience preferences, collection recommendations, and emerging artists."
+msgstr ""
+
+#: metrics-dashboard.php:225
+msgid "Market Analysis"
+msgstr ""
+
+#: metrics-dashboard.php:226
+msgid "BusinessStrategist is analyzing market trends and sales data."
+msgstr ""
+
+#: metrics-dashboard.php:237
+msgid "BusinessStrategist is analyzing market data. Check back soon for insights on price trends, revenue optimization, and market opportunities."
+msgstr ""
+
+#: metrics-dashboard.php:247
+msgid "Sales & Views Trends"
+msgstr ""
+
+#: metrics-dashboard.php:255
+msgid "Category Performance"
+msgstr ""
+
+#: metrics-dashboard.php:263
+msgid "Trending Artworks"
+msgstr ""
+
+#: metrics-dashboard.php:272
+msgid "View All"
+msgstr ""
+
+#: metrics-dashboard.php:281
+msgid "Seed Art Components Analysis"
+msgstr ""
+
+#: metrics-dashboard.php:286
+msgid "HURAII Component Analysis"
+msgstr ""
+
+#: metrics-dashboard.php:288
+msgid "Loading HURAII insights..."
+msgstr ""
+
+#: top-artists.php:111
+msgid "No artists found."
+msgstr ""
+
+#: top-artists.php:163
+msgid "Artworks"
+msgstr ""
+
+#: top-artists.php:169
+msgid "Quality"
+msgstr ""
+
+#: top-artists.php:176
+msgid "CLOE Recommends"
+msgstr ""
+
+#: top-artists.php:186
+msgid "View Profile"
+msgstr ""
+
+#: trending-artworks.php:121
+msgid "No trending artworks found."
+msgstr ""
+
+#: trending-artworks.php:147
+msgid "Trend"
+msgstr ""
+
+#: trending-artworks.php:158
+msgid "By"
+msgstr ""
+
+#: trending-artworks.php:170
+msgid "Views"
+msgstr ""
+
+#: trending-artworks.php:176
+msgid "Sales"
+msgstr ""
+
+#: trending-artworks.php:186
+msgid "HURAII Analysis"
+msgstr ""
+
+#: trending-artworks.php:196
+msgid "CLOE Pick"
+msgstr ""
+
+#: trending-artworks.php:206
+msgid "View Artwork"
+msgstr ""
+
+#: sales-leaderboard.php:122
+msgid "Business Strategist"
+msgstr ""
+
+#: sales-leaderboard.php:128
+msgid "No sales data found for this period."
+msgstr ""
+
+#: sales-leaderboard.php:177
+msgid "Revenue"
+msgstr ""
+
+#: sales-leaderboard.php:189
+msgid "Efficiency Score"
+msgstr ""
+
+#: sales-leaderboard.php:196
+msgid "Investment Opportunity"
+msgstr ""
+
+#: sales-leaderboard.php:204
+msgid "Purchase"
+msgstr ""
+
+#: class-vortex-model-loader.php:145
+msgid "Loading AI model..."
+msgstr ""
+
+#: class-vortex-model-loader.php:166
+msgid "Error: Model not found."
+msgstr ""
+
+#: class-vortex-model-loader.php:187
+msgid "Model loaded successfully."
+msgstr ""
+
+#: class-vortex-smart-contract.php:218
+msgid "Setting royalties..."
+msgstr ""
+
+#: class-vortex-smart-contract.php:245
+msgid "Error: Invalid royalty percentage."
+msgstr "" 

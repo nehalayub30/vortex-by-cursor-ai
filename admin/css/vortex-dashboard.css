@@ -1,0 +1,97 @@
+/**
+ * VORTEX AI Marketplace Dashboard Styles
+ *
+ * Styling for the main dashboard page, widgets, and summary displays.
+ *
+ * @package    Vortex_AI_Marketplace
+ * @subpackage Vortex_AI_Marketplace/admin/css
+ * @author     Marianne Nems <Marianne@VortexArtec.com>
+ */
+
+/* Dashboard Layout */
+.vortex-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.vortex-dashboard.vortex-dashboard-main {
+  grid-template-columns: repeat(12, 1fr);
+}
+
+/* Dashboard Widget Sizing */
+.vortex-dashboard-widget {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-1 {
+  grid-column: span 3;
+}
+
+.vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-2 {
+  grid-column: span 6;
+}
+
+.vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-3 {
+  grid-column: span 9;
+}
+
+.vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-4,
+.vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.full-width {
+  grid-column: span 12;
+}
+
+@media screen and (max-width: 1200px) {
+  .vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-1 {
+    grid-column: span 4;
+  }
+  
+  .vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-2,
+  .vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-3 {
+    grid-column: span 6;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  .vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-1,
+  .vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-2,
+  .vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-3,
+  .vortex-dashboard.vortex-dashboard-main .vortex-dashboard-widget.size-4 {
+    grid-column: span 12;
+  }
+}
+
+/* Dashboard Widget Header */
+.vortex-widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  background: #f8f9fa;
+}
+
+.vortex-widget-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.vortex-widget-icon {
+  margin-right: 8px;
+  color: #0073aa;
+}
+
+.vortex-widget-actions {
+  display: flex;
+  gap: 8px;
+} 

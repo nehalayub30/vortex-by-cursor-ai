@@ -1,0 +1,187 @@
+/* General Styles */
+.vortex-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Form Styles */
+.vortex-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vortex-form-group {
+    margin-bottom: 20px;
+}
+
+.vortex-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.vortex-form-group input,
+.vortex-form-group select,
+.vortex-form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.vortex-button {
+    background: #0073aa;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.vortex-button:hover {
+    background: #005177;
+}
+
+/* Message Styles */
+.vortex-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    display: none;
+}
+
+.vortex-message-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.vortex-message-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* List Styles */
+.vortex-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vortex-list-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.vortex-list-item:last-child {
+    border-bottom: none;
+}
+
+/* Swiping Function Styles */
+.vortex-swipe-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.vortex-swipe-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.vortex-swipe-item.swiped-left {
+    transform: translateX(-100%);
+}
+
+.vortex-swipe-item.swiped-right {
+    transform: translateX(100%);
+}
+
+.vortex-swipe-content {
+    padding: 20px;
+}
+
+.vortex-swipe-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.vortex-swipe-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.vortex-swipe-button.reject {
+    background: #dc3545;
+    color: #fff;
+}
+
+.vortex-swipe-button.accept {
+    background: #28a745;
+    color: #fff;
+}
+
+/* Pagination Styles */
+.vortex-pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.vortex-pagination .page-numbers {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #0073aa;
+}
+
+.vortex-pagination .page-numbers.current {
+    background: #0073aa;
+    color: #fff;
+    border-color: #0073aa;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .vortex-container {
+        padding: 10px;
+    }
+    
+    .vortex-form-group input,
+    .vortex-form-group select,
+    .vortex-form-group textarea {
+        font-size: 16px;
+    }
+    
+    .vortex-swipe-container {
+        height: 150px;
+    }
+} 

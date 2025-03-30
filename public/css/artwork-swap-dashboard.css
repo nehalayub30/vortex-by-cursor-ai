@@ -1,0 +1,251 @@
+.tola-rewards {
+    background-color: #f3e5f5;
+    border: 1px solid #e1bee7;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.tola-rewards h4 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    color: #4a148c;
+}
+
+.reward-info {
+    display: flex;
+    align-items: center;
+}
+
+.tola-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6f42c1 0%, #4c6ef5 100%);
+    margin-right: 10px;
+    position: relative;
+}
+
+.tola-icon::before {
+    content: 'T';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.tola-amount {
+    font-size: 20px;
+    font-weight: 600;
+    color: #6f42c1;
+    margin-right: 10px;
+}
+
+.reward-description {
+    font-size: 14px;
+    color: #666;
+}
+
+/* AI Badge */
+.ai-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    background: linear-gradient(135deg, #6f42c1 0%, #4c6ef5 100%);
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.artists-section-title {
+    margin: 30px 0 15px;
+    font-size: 18px;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+/* Notifications */
+.vortex-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    min-width: 300px;
+    max-width: 400px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    z-index: 1100;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.vortex-notification.success {
+    border-left: 4px solid #4caf50;
+}
+
+.vortex-notification.error {
+    border-left: 4px solid #e53935;
+}
+
+.vortex-notification .dashicons {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.vortex-notification.success .dashicons {
+    color: #4caf50;
+}
+
+.vortex-notification.error .dashicons {
+    color: #e53935;
+}
+
+.notification-content {
+    flex-grow: 1;
+}
+
+.vortex-notification p {
+    margin: 0;
+    color: #333;
+}
+
+.vortex-notification h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.close-notification {
+    font-size: 18px;
+    color: #adb5bd;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.2s ease;
+}
+
+.close-notification:hover {
+    color: #495057;
+}
+
+.vortex-notification.swap-completed {
+    min-width: 350px;
+    max-width: 450px;
+}
+
+.transaction-info a {
+    color: #4c6ef5;
+    text-decoration: none;
+    font-family: monospace;
+}
+
+.tola-reward {
+    margin-top: 10px;
+    font-weight: 500;
+    color: #6f42c1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .tabs-nav {
+        flex-wrap: wrap;
+    }
+    
+    .tabs-nav li {
+        margin-right: 0;
+        margin-bottom: 2px;
+        width: 100%;
+    }
+    
+    .tabs-nav li a {
+        text-align: center;
+        border-radius: 0;
+    }
+    
+    .swap-artworks {
+        flex-direction: column;
+    }
+    
+    .swap-artwork {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    .swap-direction {
+        flex-direction: row;
+        margin: 10px 0;
+    }
+    
+    .swap-history-header,
+    .swap-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .swap-status,
+    .swap-date {
+        margin-top: 10px;
+    }
+    
+    .swap-history-filters {
+        flex-direction: column;
+    }
+    
+    .filter-group,
+    .sort-group {
+        margin-bottom: 10px;
+    }
+    
+    .modal-content {
+        margin: 20px;
+        padding: 15px;
+    }
+    
+    .artist-profile-header {
+        flex-direction: column;
+    }
+    
+    .artist-avatar-large {
+        margin: 0 auto 15px;
+    }
+    
+    .artist-profile-info {
+        text-align: center;
+    }
+    
+    .artist-social-links {
+        justify-content: center;
+    }
+    
+    .swap-artworks-selection {
+        flex-direction: column;
+    }
+    
+    .their-artwork,
+    .your-artwork {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    .swap-arrows {
+        flex-direction: row;
+        margin: 10px 0;
+    }
+    
+    .vortex-notification {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+} 

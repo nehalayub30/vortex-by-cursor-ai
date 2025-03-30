@@ -1,0 +1,21 @@
+Place the following demo images in this directory:
+
+1. artist-avatar.jpg - A professional headshot of the artist
+
+In the "generated" subfolder, place these sample artwork images:
+
+abstract-1.jpg
+abstract-2.jpg
+impressionist-1.jpg
+impressionist-2.jpg
+cubist-1.jpg
+cubist-2.jpg
+surreal-1.jpg
+surreal-2.jpg
+minimal-1.jpg
+minimal-2.jpg
+
+These images should showcase different artistic styles that HURAII can generate. For best results:
+- Use high-quality, landscape-oriented images
+- Each image should represent a distinct variation of the style
+- Recommended size: 800x600 pixels 

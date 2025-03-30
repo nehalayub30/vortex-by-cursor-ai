@@ -1,0 +1,11 @@
+.vortex-message {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.vortex-message-success {
+    background: #e 

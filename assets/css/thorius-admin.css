@@ -1,0 +1,108 @@
+/**
+ * Thorius Admin Styles
+ */
+
+/* Admin Page Layout */
+.thorius-admin {
+    margin: 20px 0;
+}
+
+/* Tab Navigation */
+.thorius-tab-nav {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.thorius-tab-button {
+    padding: 10px 20px;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.thorius-tab-button.nav-tab-active {
+    color: #2271b1;
+    border-bottom-color: #2271b1;
+}
+
+/* Tab Content */
+.thorius-tab-content {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.thorius-agent-description {
+    margin-bottom: 30px;
+}
+
+.thorius-agent-description h2 {
+    margin-top: 0;
+    color: #2271b1;
+}
+
+/* Settings Form */
+.thorius-settings-form {
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+.thorius-form-field {
+    margin-bottom: 20px;
+}
+
+.thorius-form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.thorius-form-field input[type="text"],
+.thorius-form-field input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.thorius-form-field input[type="range"] {
+    width: 100%;
+    margin-right: 10px;
+}
+
+.thorius-range-value {
+    font-weight: bold;
+}
+
+.thorius-form-submit {
+    margin-top: 20px;
+}
+
+/* Shortcode Examples */
+.thorius-agent-shortcodes {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.thorius-code-snippet {
+    margin-bottom: 15px;
+}
+
+.thorius-code-snippet code {
+    display: block;
+    padding: 12px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    font-family: monospace;
+    margin-bottom: 5px;
+}
+
+.thorius-code-snippet p {
+    color: #666;
+    margin: 5px 0 0 0;
+    font-style: italic;
+} 

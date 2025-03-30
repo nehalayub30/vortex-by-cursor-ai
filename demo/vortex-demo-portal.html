@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX AI | Marianne Nems Art Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #000000;
+            --primary-light: #333333;
+            --primary-dark: #000000;
+            --accent: #cc3333;
+            --light: #ffffff;
+            --light-gray: #f8f8f8;
+            --gray: #e0e0e0;
+            --gray-dark: #757575;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --card-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mt-5 { margin-top: 2.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 2.5rem; }
+        
+        /* Header */
+        header {
+            background: var(--light);
+            color: var(--primary);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            padding: 0.5rem;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--light-gray);
+            color: var(--primary);
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Features */
+        .features-section {
+            padding: 6rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--light);
+            border: 1px solid var(--gray);
+            padding: 2rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .feature-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-link {
+            margin-top: auto;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+        
+        .feature-link:hover {
+            gap: 0.8rem;
+        }
+        
+        /* Showcase */
+        .showcase-section {
+            padding: 6rem 0;
+            background: var(--light-gray);
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .showcase-image {
+            grid-column: span 6;
+            height: 400px;
+            object-fit: cover;
+        }
+        
+        @media (max-width: 768px) {
+            .showcase-image {
+                grid-column: span 12;
+            }
+        }
+        
+        /* Demo Section */
+        .demo-section {
+            padding: 6rem 0;
+        }
+        
+        .demo-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray);
+            margin-bottom: 3rem;
+        }
+        
+        .demo-tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+        }
+        
+        .demo-tab.active {
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .demo-content {
+            display: none;
+        }
+        
+        .demo-content.active {
+            display: block;
+        }
+        
+        .demo-frame {
+            width: 100%;
+            height: 600px;
+            border: 1px solid var(--gray);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 0;
+            background: var(--primary);
+            color: var(--light);
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+        }
+        
+        .btn-light {
+            background: var(--light);
+            color: var(--primary);
+        }
+        
+        .btn-light:hover {
+            background: var(--gray);
+        }
+        
+        .btn-outline-light {
+            background: transparent;
+            color: var(--light);
+            border: 1px solid var(--light);
+        }
+        
+        .btn-outline-light:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--light);
+            color: var(--primary);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--gray);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            color: var(--light);
+            border-color: var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-nav {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                VORTEX
+            </a>
+            <div class="header-nav">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#showcase" class="nav-link">Gallery</a>
+                <a href="#demo" class="nav-link">Interactive Demo</a>
+                <a href="#" class="btn btn-outline">Log In</a>
+                <a href="#" class="btn btn-primary">Register</a>
+            </div>
+            <div class="mobile-menu-toggle" style="display:none;"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Marianne Nems Art Experience</h1>
+                <p>Explore the innovative VORTEX AI platform featuring Marianne Nems' exclusive artwork collection enhanced by artificial intelligence and blockchain technology.</p>
+                <a href="#demo" class="btn btn-primary">Experience the Demo</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Platform Features</h2>
+                <p class="section-subtitle">Discover how VORTEX AI revolutionizes the creation, distribution, and collection of digital art.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card" onclick="location.href='artist-dashboard.html'">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/NemAtena-1-1024x683.jpg" alt="Artist Dashboard" class="feature-image">
+                    <h3 class="feature-title">Artist Dashboard</h3>
+                    <p class="feature-description">Access performance metrics, rankings, and creation tools designed specifically for artists.</p>
+                    <a href="artist-dashboard.html" class="feature-link">Explore Dashboard <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card" onclick="location.href='ai-generation.html'">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/ANGEL-DE-LAMOUR-1024x683.jpg" alt="AI Art Generation" class="feature-image">
+                    <h3 class="feature-title">HURAII Creation</h3>
+                    <p class="feature-description">Generate new artwork using our HURAII AI system while maintaining your unique artistic style.</p>
+                    <a href="ai-generation.html" class="feature-link">Try Creator <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card" onclick="location.href='marketplace.html'">
+                    <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/MNK55-1024x683.jpg" alt="Art Marketplace" class="feature-image">
+                    <h3 class="feature-title">Art Marketplace</h3>
+                    <p class="feature-description">Buy, sell, and trade artwork with secure blockchain transactions and TOLA token rewards.</p>
+                    <a href="marketplace.html" class="feature-link">Visit Marketplace <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="showcase-section" id="showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Artworks</h2>
+                <p class="section-subtitle">Explore Marianne Nems' extraordinary collection of premium artworks available on the VORTEX platform.</p>
+            </div>
+            
+            <div class="showcase-grid">
+                <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/MNK55-1024x683.jpg" alt="AMOUR: THE COSMIC RHAPSODY" class="showcase-image">
+                <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/ANGEL-DE-LAMOUR-1024x683.jpg" alt="ANGELS OF LOVE" class="showcase-image">
+                <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2022/03/NemAtena-1-1024x683.jpg" alt="ATHENA'S DANCE" class="showcase-image">
+                <img src="https://vendor.artmonad.com/gallery/mariannenems/wp-content/uploads/2023/06/AQUAFLORA-ESSENCE-1024x683.jpg" alt="AQUAFLORA ESSENCE" class="showcase-image">
+            </div>
+        </div>
+    </section>
+    
+    <section class="demo-section" id="demo">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Interactive Demo Experience</h2>
+                <p class="section-subtitle">Explore the full functionality of the VORTEX AI platform through our comprehensive interactive demos.</p>
+            </div>
+            
+            <div class="demo-tabs">
+                <div class="demo-tab active" onclick="switchTab('artist-journey')">Artist Journey</div>
+                <div class="demo-tab" onclick="switchTab('collector-experience')">Collector Experience</div>
+                <div class="demo-tab" onclick="switchTab('metrics-rankings')">Metrics & Rankings</div>
+                <div class="demo-tab" onclick="switchTab('marketplace-demo')">Marketplace</div>
+            </div>
+            
+            <div id="artist-journey" class="demo-content active">
+                <iframe src="marianne-vortex-demo.html" class="demo-frame" title="Artist Journey Demo"></iframe>
+                <div class="mt-3">
+                    <h3>Experience the Artist's Journey</h3>
+                    <p class="mt-2">Follow Marianne Nems through the complete artist workflow from business strategy development with AI assistance to artwork creation, smart contract integration, and marketplace listing. See how VORTEX AI empowers artists to maximize their creative potential and market reach.</p>
+                    <a href="marianne-vortex-demo.html" target="_blank" class="btn btn-outline mt-3">Open in New Window</a>
+                </div>
+            </div>
+            
+            <div id="collector-experience" class="demo-content">
+                <iframe src="collector-experience.html" class="demo-frame" title="Collector Experience Demo"></iframe>
+                <div class="mt-3">
+                    <h3>Discover the Collector Experience</h3>
+                    <p class="mt-2">Explore how art collectors interact with the VORTEX platform, from discovering new artists to acquiring artwork with blockchain verification. See the comprehensive collector dashboard, curation tools, and community engagement features.</p>
+                    <a href="collector-experience.html" target="_blank" class="btn btn-outline mt-3">Open in New Window</a>
+                </div>
+            </div>
+            
+            <div id="metrics-rankings" class="demo-content">
+                <iframe src="vortex-homepage.html" class="demo-frame" title="Metrics & Rankings Demo"></iframe>
+                <div class="mt-3">
+                    <h3>Explore Metrics & Rankings</h3>
+                    <p class="mt-2">Dive into the comprehensive metrics and ranking system that powers the VORTEX AI platform. See how artist and collector performance is measured, tracked and rewarded through daily rankings, achievement badges, and TOLA token rewards.</p>
+                    <a href="vortex-homepage.html" target="_blank" class="btn btn-outline mt-3">Open in New Window</a>
+                </div>
+            </div>
+            
+            <div id="marketplace-demo" class="demo-content">
+                <iframe src="marketplace.html" class="demo-frame" title="Marketplace Demo"></iframe>
+                <div class="mt-3">
+                    <h3>Tour the VORTEX Marketplace</h3>
+                    <p class="mt-2">Experience the VORTEX marketplace featuring Marianne Nems' premium artwork collection. Browse available pieces, explore pricing and edition information, and simulate the purchase process with TOLA token transactions.</p>
+                    <a href="marketplace.html" target="_blank" class="btn btn-outline mt-3">Open in New Window</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Join the VORTEX Revolution</h2>
+                <p>Become part of the future of digital art creation and collection. Register today to access the full platform and connect with a global community of artists and collectors.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-light">Register Now</a>
+                    <a href="#" class="btn btn-outline-light">Schedule a Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>VORTEX</h3>
+                    <p class="mb-3">A revolutionary platform for digital art creation, distribution, and collection powered by AI and blockchain technology.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Platform</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">For Artists</a></li>
+                        <li><a href="#">For Collectors</a></li>
+                        <li><a href="#">HURAII AI Studio</a></li>
+                        <li><a href="#">NFT Marketplace</a></li>
+                        <li><a href="#">TOLA Token</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Artist Guide</a></li>
+                        <li><a href="#">Collector Guide</a></li>
+                        <li><a href="#">Blockchain Basics</a></li>
+                        <li><a href="#">TOLA Economics</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 VORTEX AI. All rights reserved. Featuring Marianne Nems Art.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        function switchTab(tabId) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.demo-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Hide all content
+            document.querySelectorAll('.demo-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            document.querySelector(`.demo-tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            
+            // Show selected content
+            document.getElementById(tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html> 

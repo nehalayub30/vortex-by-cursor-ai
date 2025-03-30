@@ -1,0 +1,19 @@
+.vortex-tola-balance {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, #2a3f90, #1a2b6d);
+    color: white;
+    border-radius: 8px;
+}
+
+.vortex-transaction-button {
+    position: relative;
+    overflow: hidden;
+    background: #2a3f90;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+} 

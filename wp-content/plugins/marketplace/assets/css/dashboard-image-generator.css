@@ -1,0 +1,51 @@
+/**
+ * Dashboard Widget Styles for HURAII Image Generator
+ */
+
+.vortex-dashboard-image-generator {
+    padding: 0;
+}
+
+.quick-generate {
+    margin-bottom: 15px;
+}
+
+.quick-generate textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.generate-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.results-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.results-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.loading-container {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.loading-container .spinner {
+    float: none;
+    margin: 0 auto 10px;
+} 
