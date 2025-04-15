@@ -309,11 +309,7 @@ class Vortex_AI_Marketplace {
      * @since    1.0.0
      */
     public function __construct() {
-        if (defined('VORTEX_AI_MARKETPLACE_VERSION')) {
-            $this->version = VORTEX_AI_MARKETPLACE_VERSION;
-        } else {
-            $this->version = '1.0.0';
-        }
+        $this->version = VORTEX_AI_MARKETPLACE_VERSION;
         $this->plugin_name = 'vortex-ai-marketplace';
 
         $this->load_dependencies();

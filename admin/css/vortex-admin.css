@@ -18,28 +18,18 @@
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  background: #fff;
-  padding: 15px 20px;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
 }
 
-.vortex-admin-logo {
-  margin-right: 15px;
+.vortex-logo {
+  max-width: 100px;
+  height: auto;
+  margin-right: 20px;
 }
 
-.vortex-admin-logo img {
-  max-height: 40px;
-  width: auto;
-}
-
-.vortex-admin-header-content h1 {
-  font-size: 24px;
-  margin: 0 0 5px;
-}
-
-.vortex-admin-header-content p {
-  margin: 0;
+.vortex-description {
+  font-size: 14px;
   color: #666;
 }
 
@@ -64,6 +54,28 @@
   }
   
   .vortex-admin-sidebar {
+    width: 100%;
+  }
+  
+  .vortex-admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .vortex-logo {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .vortex-settings-form .form-table th {
+    width: 100%;
+    padding-bottom: 0;
+  }
+  
+  .vortex-settings-form input[type="url"],
+  .vortex-settings-form input[type="text"],
+  .vortex-settings-form input[type="password"],
+  .vortex-settings-form .regular-text {
     width: 100%;
   }
 }
@@ -125,7 +137,23 @@
 
 /* Form Styling */
 .vortex-settings-form {
-  max-width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+.vortex-settings-form .form-table th {
+  width: 200px;
+  padding: 20px 10px 20px 0;
+}
+
+.vortex-settings-form .regular-text {
+  width: 400px;
+}
+
+.vortex-settings-form input[type="url"],
+.vortex-settings-form input[type="text"],
+.vortex-settings-form input[type="password"] {
+  width: 400px;
 }
 
 .vortex-section {
@@ -383,28 +411,18 @@
 /* Status indicators */
 .vortex-status-indicator {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   margin-right: 5px;
 }
 
-.vortex-status-indicator.status-active,
-.vortex-status-indicator.status-success {
+.vortex-status-indicator.connected {
   background-color: #46b450;
 }
 
-.vortex-status-indicator.status-inactive,
-.vortex-status-indicator.status-error {
+.vortex-status-indicator.disconnected {
   background-color: #dc3232;
-}
-
-.vortex-status-indicator.status-warning {
-  background-color: #ffb900;
-}
-
-.vortex-status-indicator.status-info {
-  background-color: #00a0d2;
 }
 
 /* Admin footer customization */
@@ -673,4 +691,59 @@
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid #eee;
+}
+
+/* API Connection Tester */
+#vortex-test-api-connection {
+    margin-left: 10px;
+}
+
+#vortex-api-test-result {
+    margin-top: 10px;
+}
+
+.vortex-api-field {
+    position: relative;
+}
+
+.vortex-api-field input[type="password"],
+.vortex-api-field input[type="text"] {
+    padding-right: 40px;
+}
+
+.vortex-toggle-visibility {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #777;
+    padding: 0;
+}
+
+.vortex-toggle-visibility:hover {
+    color: #0073aa;
+}
+
+/* Help Section */
+.vortex-admin-help {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #0073aa;
+}
+
+.vortex-admin-help h2 {
+    margin-top: 0;
+    color: #0073aa;
+}
+
+.vortex-admin-help a {
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.vortex-admin-help a:hover {
+    text-decoration: underline;
 } 

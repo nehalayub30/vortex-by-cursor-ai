@@ -16,61 +16,51 @@ class Vortex_Activator {
     /**
      * Activate the plugin.
      *
-     * Initialize database tables, settings, and initial content during plugin activation.
+     * Set up the default options and any necessary database tables.
      *
      * @since    1.0.0
      */
     public static function activate() {
-        // Check minimum requirements
-        self::check_requirements();
-        
-        // Create database tables
-        self::create_tables();
-        
-        // Create default options
-        self::create_options();
-        
-        // Schedule recurring events
-        self::schedule_events();
-        
-        // Create default content if needed
-        self::create_initial_content();
-        
-        // Create sample swipeable items for collector-collector workplace
-        self::create_sample_items();
-        
-        // Create rewrite rules and flush them
-        self::create_rewrite_rules();
-        
-        // Set activation flag
-        update_option( 'vortex_activated', 'yes' );
-        update_option( 'vortex_activation_time', time() );
-        
-        // Trigger vortex_ai_activate action to run database migrations
-        do_action('vortex_ai_activate');
-        
-        // Set admin notice for database update
-        $notices = get_transient('vortex_admin_notices');
-        if (!$notices) {
-            $notices = array();
+        // Set default options
+        if ( ! get_option( 'vortex_api_endpoint' ) ) {
+            update_option( 'vortex_api_endpoint', 'https://www.vortexartec.com/api/v1' );
         }
-        
-        $notices['db_update_required'] = array(
-            'class' => 'notice-warning',
-            'message' => sprintf(
-                __('VORTEX AI Marketplace: Please run a database update to ensure all tables are created correctly. <a href="%s">Go to Settings</a>', 'vortex-ai-marketplace'),
-                admin_url('admin.php?page=vortex-settings&tab=advanced')
-            ),
-            'dismissible' => true
-        );
-        
-        set_transient('vortex_admin_notices', $notices, 60 * 60 * 24 * 7); // 1 week expiration
-        
-        // Fix known database issues
-        self::fix_database_issues();
-        
-        // Create Thorius learning tables
-        self::create_thorius_learning_tables();
+
+        // Flush rewrite rules
+        flush_rewrite_rules();
+
+        // Add activation timestamp
+        update_option( 'vortex_ai_marketplace_activated', time() );
+
+        // Create necessary directories if they don't exist
+        self::create_directories();
+    }
+
+    /**
+     * Create necessary directories.
+     *
+     * @since    1.0.0
+     */
+    private static function create_directories() {
+        // Create the cache directory if it doesn't exist
+        $cache_dir = WP_CONTENT_DIR . '/cache/vortex-ai-marketplace';
+        if ( ! file_exists( $cache_dir ) ) {
+            wp_mkdir_p( $cache_dir );
+        }
+
+        // Create an .htaccess file to protect the cache directory
+        $htaccess_file = $cache_dir . '/.htaccess';
+        if ( ! file_exists( $htaccess_file ) ) {
+            $htaccess_content = "# Disable directory browsing\n";
+            $htaccess_content .= "Options -Indexes\n\n";
+            $htaccess_content .= "# Deny access to all files\n";
+            $htaccess_content .= "<FilesMatch \".*\">\n";
+            $htaccess_content .= "    Order Allow,Deny\n";
+            $htaccess_content .= "    Deny from all\n";
+            $htaccess_content .= "</FilesMatch>\n";
+
+            file_put_contents( $htaccess_file, $htaccess_content );
+        }
     }
 
     /**
@@ -185,48 +175,6 @@ class Vortex_Activator {
     }
 
     /**
-     * Set default plugin options.
-     *
-     * @since    1.0.0
-     */
-    private static function create_options() {
-        // Set blockchain options if they don't exist
-        if ( false === get_option( 'vortex_blockchain_network' ) ) {
-            add_option( 'vortex_blockchain_network', 'solana' );
-        }
-        
-        if ( false === get_option( 'vortex_solana_rpc_url' ) ) {
-            add_option( 'vortex_solana_rpc_url', 'https://api.mainnet-beta.solana.com' );
-        }
-        
-        if ( false === get_option( 'vortex_solana_network' ) ) {
-            add_option( 'vortex_solana_network', 'mainnet-beta' );
-        }
-        
-        if ( false === get_option( 'vortex_solana_decimals' ) ) {
-            add_option( 'vortex_solana_decimals', 9 );
-        }
-        
-        // Legacy options
-        if ( false === get_option( 'vortex_web3_provider_url' ) ) {
-            add_option( 'vortex_web3_provider_url', 'https://mainnet.infura.io/v3/your-project-id' );
-        }
-        
-        // Marketplace options
-        if ( false === get_option( 'vortex_marketplace_enabled' ) ) {
-            add_option( 'vortex_marketplace_enabled', 'yes' );
-        }
-        
-        if ( false === get_option( 'vortex_marketplace_currency' ) ) {
-            add_option( 'vortex_marketplace_currency', 'SOL' );
-        }
-        
-        if ( false === get_option( 'vortex_marketplace_commission' ) ) {
-            add_option( 'vortex_marketplace_commission', 5 );
-        }
-    }
-
-    /**
      * Create required pages if they don't exist.
      *
      * @since    1.0.0
@@ -294,144 +242,6 @@ class Vortex_Activator {
         add_role('vortex_collector', 'VORTEX Collector', array(
             'read' => true,
         ));
-    }
-
-    /**
-     * Flush rewrite rules to make custom post types work.
-     *
-     * @since    1.0.0
-     */
-    private static function create_rewrite_rules() {
-        flush_rewrite_rules();
-    }
-
-    /**
-     * Check minimum requirements.
-     *
-     * @since    1.0.0
-     */
-    private static function check_requirements() {
-        // Implementation of check_requirements method
-    }
-
-    /**
-     * Schedule recurring events.
-     *
-     * @since    1.0.0
-     */
-    private static function schedule_events() {
-        // Implementation of schedule_events method
-    }
-
-    /**
-     * Create initial content if needed.
-     *
-     * @since    1.0.0
-     */
-    private static function create_initial_content() {
-        // Implementation of create_initial_content method
-    }
-
-    /**
-     * Create sample swipeable items
-     */
-    private static function create_sample_items() {
-        // Check if items already exist
-        $existing_items = get_posts(array(
-            'post_type' => 'vortex_item',
-            'post_status' => 'publish',
-            'numberposts' => 1
-        ));
-        
-        if (!empty($existing_items)) {
-            return; // Sample items already exist
-        }
-        
-        // Sample items data
-        $sample_items = array(
-            array(
-                'title' => 'Abstract Digital Art Collection',
-                'content' => 'A stunning collection of abstract digital art pieces created by leading AI artists. This collection explores the boundaries between human creativity and machine learning.',
-                'category' => 'Digital Art'
-            ),
-            array(
-                'title' => 'Physical Oil Painting - "Summer Breeze"',
-                'content' => 'Original oil painting depicting a serene summer landscape. Created by emerging artist Maria Laurent, this piece captures the essence of warm summer afternoons.',
-                'category' => 'Painting'
-            ),
-            array(
-                'title' => 'Limited Edition Photography Print',
-                'content' => 'Black and white urban photography capturing the architecture of modern cities. Limited edition of 50 prints, each signed and numbered by the photographer.',
-                'category' => 'Photography'
-            ),
-            array(
-                'title' => 'AI-Generated Portrait Series',
-                'content' => 'A series of unique AI-generated portraits exploring human emotions and expressions. Each piece is a one-of-a-kind digital asset authenticated on the blockchain.',
-                'category' => 'AI Art'
-            ),
-            array(
-                'title' => 'Surrealist Sculpture Collection',
-                'content' => 'Digital 3D models of surrealist sculptures inspired by the works of Salvador Dalí. These models can be printed or used in virtual reality environments.',
-                'category' => '3D Models'
-            )
-        );
-        
-        // Register the item category taxonomy if it doesn't exist yet
-        if (!taxonomy_exists('item_category')) {
-            register_taxonomy('item_category', 'vortex_item', array(
-                'hierarchical' => true,
-                'public' => true,
-                'show_admin_column' => true,
-                'show_in_rest' => true
-            ));
-        }
-        
-        // Create sample items
-        foreach ($sample_items as $item) {
-            // Create item post
-            $post_id = wp_insert_post(array(
-                'post_title' => $item['title'],
-                'post_content' => $item['content'],
-                'post_status' => 'publish',
-                'post_type' => 'vortex_item'
-            ));
-            
-            if (!is_wp_error($post_id)) {
-                // Create category if it doesn't exist
-                $term = term_exists($item['category'], 'item_category');
-                if (!$term) {
-                    $term = wp_insert_term($item['category'], 'item_category');
-                }
-                
-                // Assign category to item
-                if (!is_wp_error($term)) {
-                    wp_set_object_terms($post_id, $term['term_id'], 'item_category');
-                }
-            }
-        }
-    }
-
-    /**
-     * Fix known database issues
-     *
-     * @since    1.0.0
-     */
-    private static function fix_database_issues() {
-        global $wpdb;
-        
-        // Fix missing referrers table
-        $referrers_table = $wpdb->prefix . 'vortex_referrers';
-        if ($wpdb->get_var("SHOW TABLES LIKE '$referrers_table'") !== $referrers_table) {
-            require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-migrations.php';
-            $db_migrations = new \Vortex_DB_Migrations();
-            $db_migrations->create_referrers_table();
-        }
-        
-        // Fix missing campaigns table
-        $campaigns_table = $wpdb->prefix . 'vortex_campaigns';
-        if ($wpdb->get_var("SHOW TABLES LIKE '$campaigns_table'") !== $campaigns_table) {
-            // Campaign table is created by the same method above
-        }
     }
 
     /**

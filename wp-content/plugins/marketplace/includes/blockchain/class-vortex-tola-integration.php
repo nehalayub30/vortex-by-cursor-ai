@@ -528,6 +528,90 @@ class VORTEX_TOLA_Integration {
             ]
         ];
     }
+
+    /**
+     * Log blockchain operation
+     *
+     * @param string $level Log level
+     * @param string $operation Specific operation
+     * @param string $message Log message
+     * @param array $context Additional context
+     * @param array $data Technical data
+     * @return int|false Log ID or false on failure
+     */
+    protected function log_operation($level, $operation, $message, $context = array(), $data = array()) {
+        if (class_exists('VORTEX_Blockchain_Error_Logger')) {
+            $logger = VORTEX_Blockchain_Error_Logger::get_instance();
+            return $logger->log($level, VORTEX_Blockchain_Error_Logger::CAT_TRANSACTION, $operation, $message, $context, $data);
+        }
+        
+        // Fallback to WP error log
+        if (in_array($level, array('error', 'critical'))) {
+            error_log("VORTEX Blockchain {$level}: [{$operation}] {$message}");
+        }
+        
+        return false;
+    }
+
+    /**
+     * Log debug message
+     *
+     * @param string $operation Specific operation
+     * @param string $message Log message
+     * @param array $context Additional context
+     * @param array $data Technical data
+     */
+    protected function log_debug($operation, $message, $context = array(), $data = array()) {
+        $this->log_operation('debug', $operation, $message, $context, $data);
+    }
+
+    /**
+     * Log info message
+     *
+     * @param string $operation Specific operation
+     * @param string $message Log message
+     * @param array $context Additional context
+     * @param array $data Technical data
+     */
+    protected function log_info($operation, $message, $context = array(), $data = array()) {
+        $this->log_operation('info', $operation, $message, $context, $data);
+    }
+
+    /**
+     * Log warning message
+     *
+     * @param string $operation Specific operation
+     * @param string $message Log message
+     * @param array $context Additional context
+     * @param array $data Technical data
+     */
+    protected function log_warning($operation, $message, $context = array(), $data = array()) {
+        $this->log_operation('warning', $operation, $message, $context, $data);
+    }
+
+    /**
+     * Log error message
+     *
+     * @param string $operation Specific operation
+     * @param string $message Log message
+     * @param array $context Additional context
+     * @param array $data Technical data
+     */
+    protected function log_error($operation, $message, $context = array(), $data = array()) {
+        $this->log_operation('error', $operation, $message, $context, $data);
+    }
+
+    /**
+     * Log critical message
+     *
+     * @param string $operation Specific operation
+     * @param string $message Log message
+     * @param array $context Additional context
+     * @param array $data Technical data
+     */
+    protected function log_critical($operation, $message, $context = array(), $data = array()) {
+        $this->log_operation('critical', $operation, $message, $context, $data);
+    }
 }
 
 // Initialize TOLA Integration

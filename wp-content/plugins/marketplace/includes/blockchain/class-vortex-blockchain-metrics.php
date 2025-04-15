@@ -11,7 +11,9 @@ if (!defined('ABSPATH')) {
 
 class VORTEX_Blockchain_Metrics {
     private static $instance = null;
-    private $cache_expiry = 300; // 5 minutes
+    private $cache_expiry = 300; // Default cache time (5 minutes)
+    private $long_cache_expiry = 3600; // 1 hour for less frequently changing data
+    private $memcache_available = false;
     
     /**
      * Get class instance
@@ -35,11 +37,47 @@ class VORTEX_Blockchain_Metrics {
         add_action('vortex_token_transferred', array($this, 'invalidate_metrics_cache'), 10, 2);
         add_action('vortex_marketplace_sale_completed', array($this, 'invalidate_metrics_cache'), 10, 2);
         
-        // Schedule hourly cache refresh
+        // Schedule hourly cache refresh and preloading
         if (!wp_next_scheduled('vortex_refresh_blockchain_metrics')) {
             wp_schedule_event(time(), 'hourly', 'vortex_refresh_blockchain_metrics');
         }
         add_action('vortex_refresh_blockchain_metrics', array($this, 'refresh_all_metrics_cache'));
+        
+        // Add hook for site init to preload common metrics
+        add_action('init', array($this, 'preload_common_metrics'), 20);
+        
+        // Check if memcache/redis is available for object caching
+        $this->memcache_available = (wp_using_ext_object_cache() && !defined('WP_CACHE') || defined('WP_CACHE') && WP_CACHE);
+    }
+    
+    /**
+     * Preload common metrics on site initialization
+     */
+    public function preload_common_metrics() {
+        // Only preload for non-admin pages to avoid slowing down admin
+        if (!is_admin() && !wp_doing_ajax() && !wp_doing_cron()) {
+            // Use a transient to prevent preloading on every page load
+            $preload_lock = get_transient('vortex_metrics_preload_lock');
+            if (!$preload_lock) {
+                // Set a short-lived lock
+                set_transient('vortex_metrics_preload_lock', true, 60);
+                
+                // Schedule preloading to run in the background
+                wp_schedule_single_event(time(), 'vortex_preload_metrics');
+            }
+        }
+    }
+    
+    /**
+     * Preload metrics in the background
+     */
+    public function do_preload_metrics() {
+        // Load the most commonly accessed metrics and cache them
+        $this->get_metrics('artwork', 7, true);
+        $this->get_metrics('token', 7, true);
+        $this->get_total_tokenized_artworks();
+        $this->get_total_token_holders();
+        $this->get_current_token_price();
     }
     
     /**
@@ -52,9 +90,22 @@ class VORTEX_Blockchain_Metrics {
      */
     public function get_metrics($metric_type = 'artwork', $days = 7, $force_refresh = false) {
         $cache_key = 'vortex_blockchain_metrics_' . $metric_type . '_' . $days;
-        $cached_data = get_transient($cache_key);
         
+        // Try to get from object cache first if available (faster)
+        if ($this->memcache_available) {
+            $cached_data = wp_cache_get($cache_key, 'vortex_blockchain');
+            if ($cached_data !== false && !$force_refresh) {
+                return $cached_data;
+            }
+        }
+        
+        // Fall back to transients
+        $cached_data = get_transient($cache_key);
         if ($cached_data !== false && !$force_refresh) {
+            // If data was in transient but not object cache, store in object cache
+            if ($this->memcache_available) {
+                wp_cache_set($cache_key, $cached_data, 'vortex_blockchain', $this->determine_cache_expiry($metric_type));
+            }
             return $cached_data;
         }
         
@@ -77,11 +128,66 @@ class VORTEX_Blockchain_Metrics {
                 break;
         }
         
-        // Cache the data for 1 hour by default
-        $cache_duration = apply_filters('vortex_blockchain_metrics_cache_duration', HOUR_IN_SECONDS);
+        // Cache duration depends on the metric type and frequency of changes
+        $cache_duration = $this->determine_cache_expiry($metric_type);
+        
+        // Store in transient cache
         set_transient($cache_key, $data, $cache_duration);
         
+        // Store in object cache if available
+        if ($this->memcache_available) {
+            wp_cache_set($cache_key, $data, 'vortex_blockchain', $cache_duration);
+        }
+        
+        // Store metadata about this cache
+        $this->update_cache_metadata($cache_key, $cache_duration);
+        
         return $data;
+    }
+    
+    /**
+     * Determine appropriate cache expiry time based on data type
+     *
+     * @param string $metric_type Type of metrics
+     * @return int Cache duration in seconds
+     */
+    private function determine_cache_expiry($metric_type) {
+        // Base the cache time on data volatility
+        switch ($metric_type) {
+            case 'token':
+                // Token data changes more frequently
+                return $this->cache_expiry;
+            case 'artwork':
+                // Artwork data is less volatile
+                return $this->long_cache_expiry;
+            case 'all':
+                // Use shorter time for combined data
+                return $this->cache_expiry;
+            default:
+                return $this->cache_expiry;
+        }
+    }
+    
+    /**
+     * Update cache metadata for monitoring
+     *
+     * @param string $cache_key Cache key
+     * @param int $duration Cache duration
+     */
+    private function update_cache_metadata($cache_key, $duration) {
+        $cache_meta = get_option('vortex_blockchain_cache_meta', array());
+        $cache_meta[$cache_key] = array(
+            'last_updated' => current_time('mysql'),
+            'expires' => date('Y-m-d H:i:s', current_time('timestamp') + $duration),
+            'duration' => $duration
+        );
+        
+        // Limit the size of metadata stored
+        if (count($cache_meta) > 50) {
+            $cache_meta = array_slice($cache_meta, -50, 50, true);
+        }
+        
+        update_option('vortex_blockchain_cache_meta', $cache_meta, false);
     }
     
     /**
@@ -328,20 +434,21 @@ class VORTEX_Blockchain_Metrics {
      * Invalidate metrics cache when new events occur
      */
     public function invalidate_metrics_cache() {
-        // Clear artwork metrics cache for all timeframes
-        delete_transient('vortex_blockchain_metrics_artwork_7');
-        delete_transient('vortex_blockchain_metrics_artwork_30');
-        delete_transient('vortex_blockchain_metrics_artwork_90');
+        // Get cache metadata to selectively invalidate
+        $cache_meta = get_option('vortex_blockchain_cache_meta', array());
         
-        // Clear token metrics cache for all timeframes
-        delete_transient('vortex_blockchain_metrics_token_7');
-        delete_transient('vortex_blockchain_metrics_token_30');
-        delete_transient('vortex_blockchain_metrics_token_90');
+        foreach ($cache_meta as $cache_key => $meta) {
+            // Delete from transients
+            delete_transient($cache_key);
+            
+            // Delete from object cache if available
+            if ($this->memcache_available) {
+                wp_cache_delete($cache_key, 'vortex_blockchain');
+            }
+        }
         
-        // Clear all metrics cache
-        delete_transient('vortex_blockchain_metrics_all_7');
-        delete_transient('vortex_blockchain_metrics_all_30');
-        delete_transient('vortex_blockchain_metrics_all_90');
+        // Clear cache metadata
+        update_option('vortex_blockchain_cache_meta', array(), false);
         
         // Fire action for any listeners
         do_action('vortex_blockchain_metrics_cache_invalidated');
@@ -354,9 +461,13 @@ class VORTEX_Blockchain_Metrics {
         // Force refresh of all metrics for common timeframes
         $this->get_metrics('artwork', 7, true);
         $this->get_metrics('artwork', 30, true);
-        $this->get_metrics('token', 7, true);
-        $this->get_metrics('token', 30, true);
+        $this->get_token_metrics(7, true);
+        $this->get_token_metrics(30, true);
         $this->get_metrics('all', 7, true);
+        
+        // Preload additional time periods that might be requested
+        $this->get_metrics('artwork', 90, true);
+        $this->get_token_metrics(90, true);
         
         // Log refresh
         error_log('VORTEX blockchain metrics cache refreshed at ' . current_time('mysql'));
@@ -513,6 +624,23 @@ class VORTEX_Blockchain_Metrics {
      * AJAX handler for getting blockchain metrics
      */
     public function ajax_get_blockchain_metrics() {
+        // Check rate limiting
+        if (class_exists('VORTEX_API_Rate_Limiter')) {
+            $rate_limiter = VORTEX_API_Rate_Limiter::get_instance();
+            $endpoint = 'ajax/blockchain-metrics';
+            $limit = 30; // 30 requests
+            $window = 60; // per minute
+            
+            if ($rate_limiter->is_rate_limited($endpoint, $limit, $window)) {
+                $retry_after = $rate_limiter->get_retry_after($endpoint);
+                wp_send_json_error(array(
+                    'message' => 'Too many requests, please try again later.',
+                    'retry_after' => $retry_after
+                ), 429);
+                return;
+            }
+        }
+        
         check_ajax_referer('vortex_nonce', 'nonce');
         
         $days = isset($_GET['days']) ? intval($_GET['days']) : 7;
@@ -556,3 +684,6 @@ $vortex_blockchain_metrics = VORTEX_Blockchain_Metrics::get_instance();
 
 // Register deactivation hook
 register_deactivation_hook(__FILE__, array('VORTEX_Blockchain_Metrics', 'cleanup'));
+
+// Register the preload hook
+add_action('vortex_preload_metrics', array(VORTEX_Blockchain_Metrics::get_instance(), 'do_preload_metrics'));
