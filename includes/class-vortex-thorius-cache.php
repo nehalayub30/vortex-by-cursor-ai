@@ -1,8 +1,6 @@
 <?php
 /**
- * Thorius Cache Manager
- * 
- * Handles caching of API responses and query results for optimal performance
+ * Thorius Cache Management
  *
  * @package    Vortex_AI_Marketplace
  * @subpackage Vortex_AI_Marketplace/includes
@@ -14,7 +12,7 @@ if (!defined('WPINC')) {
 }
 
 /**
- * Thorius Cache Manager
+ * Class responsible for managing Thorius cache
  */
 class Vortex_Thorius_Cache {
     /**
@@ -23,104 +21,114 @@ class Vortex_Thorius_Cache {
     private $table_name;
     
     /**
-     * Constructor
+     * Cache group
      */
-    public function __construct() {
+    private $cache_group;
+    
+    /**
+     * Default TTL in seconds
+     */
+    private $default_ttl;
+    
+    /**
+     * Constructor
+     *
+     * @param string $cache_group Cache group name
+     * @param int $ttl Default TTL in hours
+     */
+    public function __construct($cache_group = 'thorius', $ttl = 24) {
         global $wpdb;
         $this->table_name = $wpdb->prefix . 'vortex_thorius_cache';
+        $this->cache_group = $cache_group;
+        $this->default_ttl = $ttl * HOUR_IN_SECONDS;
         
-        // Schedule cache cleanup
+        // Initialize cleanup schedule
         if (!wp_next_scheduled('vortex_thorius_cache_cleanup')) {
             wp_schedule_event(time(), 'daily', 'vortex_thorius_cache_cleanup');
         }
         
-        // Register cleanup action
+        // Add cleanup hook
         add_action('vortex_thorius_cache_cleanup', array($this, 'cleanup_expired_cache'));
         
-        // Register query filters to utilize cache
+        // Add filter for query results
         add_filter('vortex_thorius_before_query', array($this, 'check_query_cache'), 10, 2);
         add_action('vortex_thorius_after_query', array($this, 'store_query_result'), 10, 3);
     }
     
     /**
-     * Get cached item
-     * 
-     * @param string $key Cache key
-     * @return mixed|false Cached data or false if not found
+     * Initialize cache table
      */
-    public function get($key) {
+    public function init_cache_table() {
         global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
         
-        // Check if caching is enabled
-        if (!$this->is_caching_enabled()) {
-            return false;
-        }
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->table_name} (
+            cache_key varchar(191) NOT NULL,
+            cache_value longtext NOT NULL,
+            cache_group varchar(50) NOT NULL,
+            expiration datetime NOT NULL,
+            PRIMARY KEY  (cache_key),
+            KEY cache_group (cache_group),
+            KEY expiration (expiration)
+        ) $charset_collate;";
         
-        // Get cached item
-        $cached = $wpdb->get_row(
-            $wpdb->prepare(
-                "SELECT cache_value, expiry FROM {$this->table_name} WHERE cache_key = %s",
-                $key
-            )
-        );
-        
-        // Check if item exists and is not expired
-        if ($cached && time() < $cached->expiry) {
-            return maybe_unserialize($cached->cache_value);
-        }
-        
-        return false;
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($sql);
     }
     
     /**
-     * Store item in cache
-     * 
+     * Set cache value
+     *
      * @param string $key Cache key
-     * @param mixed $value Data to cache
-     * @param int $ttl Time to live in seconds
-     * @return bool Success status
+     * @param mixed $value Value to cache
+     * @param int $ttl TTL in seconds (optional)
+     * @return bool Success
      */
-    public function set($key, $value, $ttl = 3600) {
+    public function set($key, $value, $ttl = null) {
         global $wpdb;
         
-        // Check if caching is enabled
-        if (!$this->is_caching_enabled()) {
-            return false;
+        if ($ttl === null) {
+            $ttl = $this->default_ttl;
         }
         
-        $expiry = time() + $ttl;
-        $data = maybe_serialize($value);
+        // Normalize key
+        $key = $this->normalize_key($key);
+        
+        // Calculate expiration time
+        $expiration = date('Y-m-d H:i:s', time() + $ttl);
+        
+        // Serialize value
+        $serialized_value = serialize($value);
         
         // Check if key exists
-        $exists = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT COUNT(*) FROM {$this->table_name} WHERE cache_key = %s",
-                $key
-            )
-        );
+        $exists = $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$this->table_name} WHERE cache_key = %s",
+            $key
+        ));
         
         if ($exists) {
-            // Update existing item
+            // Update existing cache
             $result = $wpdb->update(
                 $this->table_name,
                 array(
-                    'cache_value' => $data,
-                    'expiry' => $expiry
+                    'cache_value' => $serialized_value,
+                    'expiration' => $expiration
                 ),
                 array('cache_key' => $key),
-                array('%s', '%d'),
+                array('%s', '%s'),
                 array('%s')
             );
         } else {
-            // Insert new item
+            // Insert new cache
             $result = $wpdb->insert(
                 $this->table_name,
                 array(
                     'cache_key' => $key,
-                    'cache_value' => $data,
-                    'expiry' => $expiry
+                    'cache_value' => $serialized_value,
+                    'cache_group' => $this->cache_group,
+                    'expiration' => $expiration
                 ),
-                array('%s', '%s', '%d')
+                array('%s', '%s', '%s', '%s')
             );
         }
         
@@ -128,13 +136,51 @@ class Vortex_Thorius_Cache {
     }
     
     /**
-     * Delete cached item
-     * 
+     * Get cache value
+     *
      * @param string $key Cache key
-     * @return bool Success status
+     * @param mixed $default Default value if not found
+     * @return mixed Cached value or default
+     */
+    public function get($key, $default = null) {
+        global $wpdb;
+        
+        // Normalize key
+        $key = $this->normalize_key($key);
+        
+        // Get cached value
+        $value = $wpdb->get_var($wpdb->prepare(
+            "SELECT cache_value FROM {$this->table_name} 
+            WHERE cache_key = %s AND expiration > %s",
+            $key,
+            current_time('mysql')
+        ));
+        
+        if ($value === null) {
+            return $default;
+        }
+        
+        // Unserialize value
+        $unserialized = @unserialize($value);
+        
+        if ($unserialized === false && $value !== serialize(false)) {
+            return $default;
+        }
+        
+        return $unserialized;
+    }
+    
+    /**
+     * Delete cache
+     *
+     * @param string $key Cache key
+     * @return bool Success
      */
     public function delete($key) {
         global $wpdb;
+        
+        // Normalize key
+        $key = $this->normalize_key($key);
         
         $result = $wpdb->delete(
             $this->table_name,
@@ -146,122 +192,127 @@ class Vortex_Thorius_Cache {
     }
     
     /**
-     * Clear all cache
-     * 
-     * @return bool Success status
-     */
-    public function clear_all() {
-        global $wpdb;
-        
-        $result = $wpdb->query("TRUNCATE TABLE {$this->table_name}");
-        
-        return $result !== false;
-    }
-    
-    /**
-     * Clean up expired cache items
+     * Cleanup expired cache
+     *
+     * @return int Number of items deleted
      */
     public function cleanup_expired_cache() {
         global $wpdb;
         
-        $wpdb->query(
-            $wpdb->prepare(
-                "DELETE FROM {$this->table_name} WHERE expiry < %d",
-                time()
-            )
-        );
+        $result = $wpdb->query($wpdb->prepare(
+            "DELETE FROM {$this->table_name} WHERE expiration < %s",
+            current_time('mysql')
+        ));
+        
+        return $result;
     }
     
     /**
-     * Check if query result is in cache
-     * 
-     * @param bool $should_proceed Whether to proceed with query
-     * @param array $query_data Query data
-     * @return mixed|bool Cached result or original value
+     * Normalize cache key
+     *
+     * @param string $key Raw key
+     * @return string Normalized key
      */
-    public function check_query_cache($should_proceed, $query_data) {
-        // Skip cache if disabled or if explicitly requested
-        if (!$should_proceed || !empty($query_data['skip_cache'])) {
-            return $should_proceed;
+    private function normalize_key($key) {
+        return 'vortex_thorius_' . $key;
+    }
+    
+    /**
+     * Cache query results
+     *
+     * @param bool $is_cached Whether to use cache or not
+     */
+    private function is_cache_enabled() {
+        return !defined('VORTEX_THORIUS_DISABLE_CACHE') || !VORTEX_THORIUS_DISABLE_CACHE;
+    }
+    
+    /**
+     * Check for cached query results
+     *
+     * @param mixed $result Current result (null)
+     * @param array $params Query parameters
+     * @return mixed Cached result or null
+     */
+    public function check_query_cache($result, $params) {
+        // Skip if cache is disabled
+        if (!$this->is_cache_enabled()) {
+            return $result;
         }
         
-        // Generate cache key
-        $cache_key = 'thorius_query_' . md5(serialize($query_data));
+        // Generate cache key based on query params
+        $cache_key = 'query_' . md5(serialize($params));
         
-        // Check cache
+        // Get from cache
         $cached = $this->get($cache_key);
         
-        if ($cached !== false) {
-            // Return cached response
+        if ($cached !== null) {
             return $cached;
         }
         
-        return $should_proceed;
+        return $result;
     }
     
     /**
      * Store query result in cache
-     * 
-     * @param array $response Query response
-     * @param array $query_data Original query data
-     * @param bool $success Whether query was successful
+     *
+     * @param array $params Query parameters
+     * @param mixed $result Query result
+     * @param int $ttl Time to live in seconds
      */
-    public function store_query_result($response, $query_data, $success) {
-        // Skip if query failed or caching is explicitly skipped
-        if (!$success || !empty($query_data['skip_cache'])) {
+    public function store_query_result($params, $result, $ttl = null) {
+        // Skip if cache is disabled
+        if (!$this->is_cache_enabled()) {
             return;
         }
         
-        // Generate cache key
-        $cache_key = 'thorius_query_' . md5(serialize($query_data));
+        // Skip caching errors
+        if (is_wp_error($result)) {
+            return;
+        }
         
-        // Get cache TTL based on query type
-        $ttl = $this->get_cache_ttl($query_data);
+        // Use custom TTL or default for this type of query
+        if ($ttl === null) {
+            $ttl = $this->get_ttl_for_query_type($params);
+        }
+        
+        // Generate cache key based on query params
+        $cache_key = 'query_' . md5(serialize($params));
         
         // Store in cache
-        $this->set($cache_key, $response, $ttl);
+        $this->set($cache_key, $result, $ttl);
     }
     
     /**
-     * Get cache TTL based on query type
-     * 
-     * @param array $query_data Query data
+     * Get appropriate TTL for different query types
+     *
+     * @param array $params Query parameters
      * @return int TTL in seconds
      */
-    private function get_cache_ttl($query_data) {
-        // Default TTL is 1 hour
-        $default_ttl = 3600;
+    private function get_ttl_for_query_type($params) {
+        $default_ttl = $this->default_ttl;
         
-        // Get custom TTL from options
+        // Check for custom TTL setting
         $custom_ttl = get_option('vortex_thorius_cache_ttl', $default_ttl);
         
-        // Get query-specific TTL
-        $query_type = isset($query_data['type']) ? $query_data['type'] : 'default';
-        
-        switch ($query_type) {
-            case 'conversation':
-                // Conversations have shorter TTL as they're more dynamic
-                return min($custom_ttl, 900); // Max 15 minutes
-                
-            case 'reference':
-                // Reference data can be cached longer
-                return max($custom_ttl, 86400); // Min 24 hours
-                
-            case 'analytics':
-                // Analytics data should be kept fresh
-                return min($custom_ttl, 300); // Max 5 minutes
-                
-            default:
-                return $custom_ttl;
+        if (isset($params['type'])) {
+            switch ($params['type']) {
+                case 'conversation':
+                    // Conversation queries shouldn't be cached as long
+                    return min($custom_ttl, 3600); // 1 hour max
+                    
+                case 'artwork_search':
+                    // Art search results can be cached longer
+                    return $custom_ttl;
+                    
+                case 'market_data':
+                    // Market data needs fresher data
+                    return min($custom_ttl, 1800); // 30 minutes max
+                    
+                default:
+                    return $custom_ttl;
+            }
         }
-    }
-    
-    /**
-     * Check if caching is enabled
-     * 
-     * @return bool Whether caching is enabled
-     */
-    private function is_caching_enabled() {
-        return get_option('vortex_thorius_enable_caching', true);
+        
+        return $custom_ttl;
     }
 } 

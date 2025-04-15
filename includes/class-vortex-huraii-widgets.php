@@ -37,6 +37,17 @@ class VORTEX_HURAII_Widgets {
     private $huraii;
     
     /**
+     * Initializes the plugin by setting up hooks.
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public static function init() {
+        $instance = self::get_instance();
+        return $instance;
+    }
+    
+    /**
      * Constructor
      *
      * @since 1.0.0

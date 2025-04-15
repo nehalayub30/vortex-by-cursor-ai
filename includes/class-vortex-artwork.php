@@ -98,6 +98,7 @@ class Vortex_Artwork {
         add_filter('single_template', array($this, 'single_artwork_template'));
         add_filter('archive_template', array($this, 'archive_artwork_template'));
         add_filter('taxonomy_template', array($this, 'taxonomy_artwork_template'));
+        add_action('rest_api_init', array($this, 'register_rest_fields'));
         
         // AJAX actions
         add_action('wp_ajax_vortex_update_artwork_featured', array($this, 'ajax_update_featured'));
@@ -238,5 +239,138 @@ class Vortex_Artwork {
      */
     private function ajax_update_price() {
         // Implementation of ajax_update_price method
+    }
+
+    /**
+     * Register REST API fields for artwork post type.
+     *
+     * @since    1.0.0
+     */
+    public function register_rest_fields() {
+        register_rest_field(
+            $this->post_type,
+            'artwork_meta',
+            array(
+                'get_callback'    => array($this, 'get_artwork_meta_for_api'),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+        
+        register_rest_field(
+            $this->post_type,
+            'artwork_stats',
+            array(
+                'get_callback'    => array($this, 'get_artwork_stats_for_api'),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+        
+        register_rest_field(
+            $this->post_type,
+            'artwork_ai_data',
+            array(
+                'get_callback'    => array($this, 'get_artwork_ai_data_for_api'),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+        
+        register_rest_field(
+            $this->post_type,
+            'artwork_blockchain',
+            array(
+                'get_callback'    => array($this, 'get_artwork_blockchain_for_api'),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+    }
+    
+    /**
+     * Get artwork meta data for REST API.
+     *
+     * @since    1.0.0
+     * @param    array     $object      The post object.
+     * @param    string    $field_name  The field name.
+     * @param    array     $request     The request data.
+     * @return   array                  The artwork meta data.
+     */
+    public function get_artwork_meta_for_api($object, $field_name, $request) {
+        $post_id = $object['id'];
+        
+        return array(
+            'price'             => (float) get_post_meta($post_id, '_vortex_artwork_price', true),
+            'tola_price'        => (float) get_post_meta($post_id, '_vortex_tola_price', true),
+            'edition_size'      => (int) get_post_meta($post_id, '_vortex_artwork_edition_size', true),
+            'dimensions'        => get_post_meta($post_id, '_vortex_artwork_dimensions', true),
+            'medium'            => get_post_meta($post_id, '_vortex_artwork_medium', true),
+            'is_featured'       => (bool) get_post_meta($post_id, '_vortex_artwork_is_featured', true),
+            'is_sold_out'       => (bool) get_post_meta($post_id, '_vortex_artwork_is_sold_out', true),
+            'is_limited_edition' => (bool) get_post_meta($post_id, '_vortex_artwork_is_limited_edition', true),
+        );
+    }
+    
+    /**
+     * Get artwork stats data for REST API.
+     *
+     * @since    1.0.0
+     * @param    array     $object      The post object.
+     * @param    string    $field_name  The field name.
+     * @param    array     $request     The request data.
+     * @return   array                  The artwork stats data.
+     */
+    public function get_artwork_stats_for_api($object, $field_name, $request) {
+        $post_id = $object['id'];
+        
+        return array(
+            'view_count'        => (int) get_post_meta($post_id, '_vortex_artwork_view_count', true),
+            'like_count'        => (int) get_post_meta($post_id, '_vortex_artwork_like_count', true),
+            'share_count'       => (int) get_post_meta($post_id, '_vortex_artwork_share_count', true),
+            'purchase_count'    => (int) get_post_meta($post_id, '_vortex_artwork_purchase_count', true),
+        );
+    }
+    
+    /**
+     * Get artwork AI data for REST API.
+     *
+     * @since    1.0.0
+     * @param    array     $object      The post object.
+     * @param    string    $field_name  The field name.
+     * @param    array     $request     The request data.
+     * @return   array                  The artwork AI data.
+     */
+    public function get_artwork_ai_data_for_api($object, $field_name, $request) {
+        $post_id = $object['id'];
+        
+        return array(
+            'created_with_huraii' => (bool) get_post_meta($post_id, '_vortex_created_with_huraii', true),
+            'ai_prompt'           => get_post_meta($post_id, '_vortex_artwork_ai_prompt', true),
+            'ai_negative_prompt'  => get_post_meta($post_id, '_vortex_artwork_ai_negative_prompt', true),
+            'ai_model'            => get_post_meta($post_id, '_vortex_artwork_ai_model', true),
+            'ai_seed'             => get_post_meta($post_id, '_vortex_artwork_ai_seed', true),
+            'ai_guidance_scale'   => (float) get_post_meta($post_id, '_vortex_artwork_ai_guidance_scale', true),
+            'ai_steps'            => (int) get_post_meta($post_id, '_vortex_artwork_ai_steps', true),
+        );
+    }
+    
+    /**
+     * Get artwork blockchain data for REST API.
+     *
+     * @since    1.0.0
+     * @param    array     $object      The post object.
+     * @param    string    $field_name  The field name.
+     * @param    array     $request     The request data.
+     * @return   array                  The artwork blockchain data.
+     */
+    public function get_artwork_blockchain_for_api($object, $field_name, $request) {
+        $post_id = $object['id'];
+        
+        return array(
+            'token_id'           => get_post_meta($post_id, '_vortex_blockchain_token_id', true),
+            'contract_address'   => get_post_meta($post_id, '_vortex_blockchain_contract_address', true),
+            'blockchain_name'    => get_post_meta($post_id, '_vortex_blockchain_name', true),
+        );
     }
 } 

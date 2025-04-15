@@ -19,6 +19,11 @@ if (!defined('ABSPATH')) {
  */
 class VORTEX_CLOE {
     /**
+     * Use the analytics trait for safe database operations
+     */
+    use VORTEX_CLOE_Analytics;
+    
+    /**
      * Instance of this class.
      */
     protected static $instance = null;
@@ -391,8 +396,14 @@ class VORTEX_CLOE {
         
         // Session tracking
         add_action('wp_login', array($this, 'start_session_tracking'), 10, 2);
-        add_action('wp_logout', array($this, 'end_session_tracking'));
-        add_action('init', array($this, 'continue_session_tracking'));
+        
+        // Re-register the end_session_tracking hook explicitly to ensure it works
+        remove_action('wp_logout', array($this, 'end_session_tracking'));
+        add_action('wp_logout', array($this, 'end_session_tracking'), 10);
+        
+        // Add session tracking to init hook
+        remove_action('init', array($this, 'continue_session_tracking'));
+        add_action('init', array($this, 'continue_session_tracking'), 10);
         
         // Admin reporting
         add_action('admin_menu', array($this, 'add_admin_menu'));
@@ -680,6 +691,296 @@ class VORTEX_CLOE {
     }
     
     /**
+     * Start session tracking
+     * 
+     * @param string $user_login User login name
+     * @param WP_User $user User object
+     */
+    public function start_session_tracking($user_login, $user) {
+        try {
+            $user_id = $user->ID;
+            
+            // Generate unique session ID
+            $session_id = md5(uniqid($user_id . '_', true));
+            
+            // Store session info
+            update_user_meta($user_id, 'vortex_current_session', $session_id);
+            
+            // Record session start time
+            $start_time = time();
+            update_user_meta($user_id, 'vortex_session_start', $start_time);
+            
+            // Get user's IP and user agent
+            $ip_address = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field($_SERVER['REMOTE_ADDR']) : '';
+            $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '';
+            
+            // Store session data in the database
+            global $wpdb;
+            $session_table = $wpdb->prefix . 'vortex_user_sessions';
+            
+            // Check if the table exists before attempting to insert
+            if ($this->table_exists('vortex_user_sessions')) {
+                $current_time = date('Y-m-d H:i:s', $start_time);
+                
+                // Insert session record
+                $wpdb->insert(
+                    $session_table,
+                    array(
+                        'session_id' => $session_id,
+                        'user_id' => $user_id,
+                        'start_time' => $current_time,
+                        'last_activity' => $current_time,
+                        'activity_time' => $current_time,
+                        'ip_address' => $ip_address,
+                        'user_agent' => $user_agent,
+                        'active' => 1
+                    ),
+                    array('%s', '%d', '%s', '%s', '%s', '%s', '%s', '%d')
+                );
+            }
+            
+            // Record the session start event
+            $this->record_user_event($user_id, 'session_start', array(
+                'session_id' => $session_id,
+                'timestamp' => $start_time,
+                'ip_address' => $ip_address,
+                'user_agent' => $user_agent
+            ));
+        } catch (Exception $e) {
+            // Log error but prevent it from breaking the page
+            error_log('VORTEX_CLOE: Error in start_session_tracking: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * End session tracking
+     */
+    public function end_session_tracking() {
+        try {
+            // Check if user is logged in
+            if (!is_user_logged_in()) {
+                return;
+            }
+            
+            $user_id = get_current_user_id();
+            
+            // Get current session
+            $session_id = get_user_meta($user_id, 'vortex_current_session', true);
+            
+            if (empty($session_id)) {
+                return;
+            }
+            
+            // Get session start time
+            $start_time = (int)get_user_meta($user_id, 'vortex_session_start', true);
+            $end_time = time();
+            $duration = $end_time - $start_time;
+            
+            // Update session in database
+            global $wpdb;
+            $session_table = $wpdb->prefix . 'vortex_user_sessions';
+            
+            // Check if table exists before attempting update
+            if ($this->table_exists('vortex_user_sessions')) {
+                $result = $wpdb->update(
+                    $session_table,
+                    array(
+                        'end_time' => date('Y-m-d H:i:s', $end_time),
+                        'duration' => $duration,
+                        'active' => 0
+                    ),
+                    array('session_id' => $session_id),
+                    array('%s', '%d', '%d'),
+                    array('%s')
+                );
+                
+                if ($result === false) {
+                    // Log error but don't throw exception
+                    error_log('VORTEX_CLOE: Failed to update session in database. Session ID: ' . $session_id);
+                }
+            }
+            
+            // Record session end event
+            $this->record_user_event($user_id, 'session_end', array(
+                'session_id' => $session_id,
+                'start_time' => $start_time,
+                'end_time' => $end_time,
+                'duration' => $duration
+            ));
+            
+            // Clear session data
+            delete_user_meta($user_id, 'vortex_current_session');
+            delete_user_meta($user_id, 'vortex_session_start');
+        } catch (Exception $e) {
+            // Log error but prevent it from breaking the page
+            error_log('VORTEX_CLOE: Error in end_session_tracking: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Continue session tracking
+     */
+    public function continue_session_tracking() {
+        try {
+            // Check if user is logged in
+            if (!is_user_logged_in()) {
+                return;
+            }
+            
+            $user_id = get_current_user_id();
+            
+            // Check if user has an active session
+            $session_id = get_user_meta($user_id, 'vortex_current_session', true);
+            
+            if (empty($session_id)) {
+                // Start a new session if none exists
+                $this->start_new_session($user_id);
+                return;
+            }
+            
+            // Update last activity time
+            global $wpdb;
+            $session_table = $wpdb->prefix . 'vortex_user_sessions';
+            
+            // Check if table exists before attempting update
+            if ($this->table_exists('vortex_user_sessions')) {
+                $result = $wpdb->update(
+                    $session_table,
+                    array(
+                        'last_activity' => current_time('mysql'),
+                        'activity_time' => current_time('mysql')
+                    ),
+                    array('session_id' => $session_id),
+                    array('%s', '%s'),
+                    array('%s')
+                );
+                
+                if ($result === false) {
+                    // Log error but don't throw exception
+                    error_log('VORTEX_CLOE: Failed to update session activity. Session ID: ' . $session_id);
+                }
+            }
+        } catch (Exception $e) {
+            // Log error but prevent it from breaking the page
+            error_log('VORTEX_CLOE: Error in continue_session_tracking: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Start a new session for a user
+     * 
+     * @param int $user_id User ID
+     */
+    private function start_new_session($user_id) {
+        try {
+            // Generate unique session ID
+            $session_id = md5(uniqid($user_id . '_', true));
+            
+            // Store session info
+            update_user_meta($user_id, 'vortex_current_session', $session_id);
+            
+            // Record session start time
+            $start_time = time();
+            update_user_meta($user_id, 'vortex_session_start', $start_time);
+            
+            // Get user's IP and user agent
+            $ip_address = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field($_SERVER['REMOTE_ADDR']) : '';
+            $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '';
+            
+            // Store session data in the database
+            global $wpdb;
+            $session_table = $wpdb->prefix . 'vortex_user_sessions';
+            
+            // Check if table exists before attempting to insert
+            if ($this->table_exists('vortex_user_sessions')) {
+                $current_time = date('Y-m-d H:i:s', $start_time);
+                
+                // Insert session record
+                $wpdb->insert(
+                    $session_table,
+                    array(
+                        'session_id' => $session_id,
+                        'user_id' => $user_id,
+                        'start_time' => $current_time,
+                        'last_activity' => $current_time,
+                        'activity_time' => $current_time,
+                        'ip_address' => $ip_address,
+                        'user_agent' => $user_agent,
+                        'active' => 1
+                    ),
+                    array('%s', '%d', '%s', '%s', '%s', '%s', '%s', '%d')
+                );
+            }
+            
+            // Record the session start event
+            $this->record_user_event($user_id, 'session_start', array(
+                'session_id' => $session_id,
+                'timestamp' => $start_time,
+                'ip_address' => $ip_address,
+                'user_agent' => $user_agent
+            ));
+        } catch (Exception $e) {
+            // Log error but prevent it from breaking the page
+            error_log('VORTEX_CLOE: Error in start_new_session: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Ensure the session tracking table exists
+     */
+    private function ensure_session_table_exists() {
+        global $wpdb;
+        $session_table = $wpdb->prefix . 'vortex_user_sessions';
+        
+        $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$session_table'") === $session_table;
+        
+        if (!$table_exists) {
+            $charset_collate = $wpdb->get_charset_collate();
+            
+            $sql = "CREATE TABLE $session_table (
+                id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                session_id varchar(32) NOT NULL,
+                user_id bigint(20) unsigned NOT NULL,
+                start_time datetime NOT NULL,
+                end_time datetime DEFAULT NULL,
+                last_activity datetime DEFAULT NULL,
+                activity_time datetime DEFAULT CURRENT_TIMESTAMP,
+                duration int(11) DEFAULT 0,
+                ip_address varchar(45) DEFAULT NULL,
+                user_agent text DEFAULT NULL,
+                active tinyint(1) DEFAULT 1,
+                PRIMARY KEY  (id),
+                UNIQUE KEY session_id (session_id),
+                KEY user_id (user_id),
+                KEY active (active),
+                KEY activity_time (activity_time)
+            ) $charset_collate;";
+            
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($sql);
+        } else {
+            // Check if activity_time column exists and add it if missing
+            $column_exists = false;
+            $columns = $wpdb->get_results("SHOW COLUMNS FROM $session_table");
+            foreach ($columns as $column) {
+                if ($column->Field === 'activity_time') {
+                    $column_exists = true;
+                    break;
+                }
+            }
+            
+            if (!$column_exists) {
+                $wpdb->query("ALTER TABLE $session_table ADD COLUMN activity_time datetime DEFAULT CURRENT_TIMESTAMP AFTER last_activity");
+                $wpdb->query("ALTER TABLE $session_table ADD INDEX activity_time (activity_time)");
+                
+                // Initialize activity_time values
+                $wpdb->query("UPDATE $session_table SET activity_time = last_activity WHERE last_activity IS NOT NULL");
+                $wpdb->query("UPDATE $session_table SET activity_time = start_time WHERE activity_time IS NULL");
+            }
+        }
+    }
+    
+    /**
      * Get personalized recommendations for user
      */
     public function get_personalized_recommendations($user_id = 0, $type = 'artwork', $limit = 5) {
@@ -877,6 +1178,415 @@ class VORTEX_CLOE {
     }
 
     /**
+     * Add dashboard widgets for CLOE analytics
+     */
+    public function add_dashboard_widgets() {
+        // Only add widgets for administrators
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+        
+        // Add CLOE recommendations widget
+        wp_add_dashboard_widget(
+            'vortex_cloe_recommendations',
+            __('CLOE AI Recommendations', 'vortex-marketplace'),
+            array($this, 'render_recommendations_widget')
+        );
+        
+        // Add CLOE trends widget
+        wp_add_dashboard_widget(
+            'vortex_cloe_trends',
+            __('CLOE Market Trends', 'vortex-marketplace'),
+            array($this, 'render_trends_widget')
+        );
+        
+        // Add CLOE user insights widget
+        wp_add_dashboard_widget(
+            'vortex_cloe_user_insights',
+            __('CLOE User Insights', 'vortex-marketplace'),
+            array($this, 'render_user_insights_widget')
+        );
+    }
+    
+    /**
+     * Render the recommendations widget
+     */
+    public function render_recommendations_widget() {
+        // Get marketplace overview data
+        $artwork_count = $this->get_total_artwork_count();
+        $user_count = $this->get_total_user_count();
+        $transaction_count = $this->get_total_transaction_count();
+        
+        // Get recent recommendations
+        $recommendations = $this->get_admin_recommendations(5);
+        
+        ?>
+        <div class="vortex-cloe-widget">
+            <div class="vortex-cloe-stats">
+                <div class="vortex-cloe-stat-item">
+                    <span class="vortex-cloe-stat-value"><?php echo esc_html($artwork_count); ?></span>
+                    <span class="vortex-cloe-stat-label"><?php _e('Artworks', 'vortex-marketplace'); ?></span>
+                </div>
+                <div class="vortex-cloe-stat-item">
+                    <span class="vortex-cloe-stat-value"><?php echo esc_html($user_count); ?></span>
+                    <span class="vortex-cloe-stat-label"><?php _e('Users', 'vortex-marketplace'); ?></span>
+                </div>
+                <div class="vortex-cloe-stat-item">
+                    <span class="vortex-cloe-stat-value"><?php echo esc_html($transaction_count); ?></span>
+                    <span class="vortex-cloe-stat-label"><?php _e('Transactions', 'vortex-marketplace'); ?></span>
+                </div>
+            </div>
+            
+            <h3><?php _e('Recommendations', 'vortex-marketplace'); ?></h3>
+            
+            <?php if (empty($recommendations)) : ?>
+                <p><?php _e('No recommendations available at this time.', 'vortex-marketplace'); ?></p>
+            <?php else : ?>
+                <ul class="vortex-cloe-recommendations">
+                    <?php foreach ($recommendations as $recommendation) : ?>
+                        <li>
+                            <div class="vortex-cloe-recommendation-type"><?php echo esc_html($recommendation['type']); ?></div>
+                            <div class="vortex-cloe-recommendation-content"><?php echo esc_html($recommendation['content']); ?></div>
+                            <?php if (!empty($recommendation['action_url']) && !empty($recommendation['action_text'])) : ?>
+                                <a href="<?php echo esc_url($recommendation['action_url']); ?>" class="button button-small">
+                                    <?php echo esc_html($recommendation['action_text']); ?>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+            
+            <div class="vortex-cloe-footer">
+                <a href="<?php echo admin_url('admin.php?page=vortex-cloe-intelligence'); ?>" class="button">
+                    <?php _e('View All Intelligence', 'vortex-marketplace'); ?>
+                </a>
+            </div>
+        </div>
+        <?php
+    }
+    
+    /**
+     * Render the trends widget
+     */
+    public function render_trends_widget() {
+        // Get current trends data
+        $trends = $this->get_current_trends();
+        
+        if (empty($trends) || empty($trends['platform'])) {
+            echo '<p>' . __('No trend data available. Check back later.', 'vortex-marketplace') . '</p>';
+            return;
+        }
+        
+        // Get top platform trends
+        $platform_trends = array_slice($trends['platform'], 0, 5);
+        
+        ?>
+        <div class="vortex-cloe-widget">
+            <h3><?php _e('Current Platform Trends', 'vortex-marketplace'); ?></h3>
+            
+            <ul class="vortex-cloe-trends">
+                <?php foreach ($platform_trends as $trend) : ?>
+                    <li>
+                        <div class="vortex-cloe-trend-name"><?php echo esc_html($trend['name']); ?></div>
+                        <div class="vortex-cloe-trend-score">
+                            <div class="vortex-cloe-trend-score-bar" style="width: <?php echo min(100, $trend['score'] * 10); ?>%;"></div>
+                        </div>
+                        <div class="vortex-cloe-trend-value"><?php echo esc_html(number_format($trend['score'], 1)); ?></div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            
+            <?php if (!empty($trends['correlated']) && is_array($trends['correlated'])) : ?>
+                <h3><?php _e('Emerging Opportunities', 'vortex-marketplace'); ?></h3>
+                
+                <ul class="vortex-cloe-opportunities">
+                    <?php foreach (array_slice($trends['correlated'], 0, 3) as $opportunity) : ?>
+                        <li>
+                            <div class="vortex-cloe-opportunity-name"><?php echo esc_html($opportunity['name']); ?></div>
+                            <div class="vortex-cloe-opportunity-description"><?php echo esc_html($opportunity['description']); ?></div>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+            
+            <div class="vortex-cloe-footer">
+                <span class="vortex-cloe-updated">
+                    <?php 
+                    if (!empty($trends['last_updated'])) {
+                        printf(
+                            __('Last updated: %s', 'vortex-marketplace'),
+                            date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $trends['last_updated'])
+                        );
+                    }
+                    ?>
+                </span>
+                <a href="<?php echo admin_url('admin.php?page=vortex-cloe-intelligence&tab=trends'); ?>" class="button">
+                    <?php _e('View All Trends', 'vortex-marketplace'); ?>
+                </a>
+            </div>
+        </div>
+        <?php
+    }
+    
+    /**
+     * Render the user insights widget
+     */
+    public function render_user_insights_widget() {
+        // Get user insights
+        $insights = $this->get_user_insights();
+        
+        ?>
+        <div class="vortex-cloe-widget">
+            <h3><?php _e('User Activity', 'vortex-marketplace'); ?></h3>
+            
+            <?php if (empty($insights)) : ?>
+                <p><?php _e('No user insight data available at this time.', 'vortex-marketplace'); ?></p>
+            <?php else : ?>
+                <div class="vortex-cloe-insights">
+                    <?php if (!empty($insights['active_users'])) : ?>
+                        <div class="vortex-cloe-insight-item">
+                            <span class="vortex-cloe-insight-value"><?php echo esc_html($insights['active_users']['count']); ?></span>
+                            <span class="vortex-cloe-insight-label"><?php _e('Active Users', 'vortex-marketplace'); ?></span>
+                            <span class="vortex-cloe-insight-change <?php echo $insights['active_users']['change'] >= 0 ? 'positive' : 'negative'; ?>">
+                                <?php echo $insights['active_users']['change'] >= 0 ? '+' : ''; ?><?php echo esc_html($insights['active_users']['change']); ?>%
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($insights['new_users'])) : ?>
+                        <div class="vortex-cloe-insight-item">
+                            <span class="vortex-cloe-insight-value"><?php echo esc_html($insights['new_users']['count']); ?></span>
+                            <span class="vortex-cloe-insight-label"><?php _e('New Users', 'vortex-marketplace'); ?></span>
+                            <span class="vortex-cloe-insight-change <?php echo $insights['new_users']['change'] >= 0 ? 'positive' : 'negative'; ?>">
+                                <?php echo $insights['new_users']['change'] >= 0 ? '+' : ''; ?><?php echo esc_html($insights['new_users']['change']); ?>%
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($insights['engagement_rate'])) : ?>
+                        <div class="vortex-cloe-insight-item">
+                            <span class="vortex-cloe-insight-value"><?php echo esc_html($insights['engagement_rate']['value']); ?>%</span>
+                            <span class="vortex-cloe-insight-label"><?php _e('Engagement Rate', 'vortex-marketplace'); ?></span>
+                            <span class="vortex-cloe-insight-change <?php echo $insights['engagement_rate']['change'] >= 0 ? 'positive' : 'negative'; ?>">
+                                <?php echo $insights['engagement_rate']['change'] >= 0 ? '+' : ''; ?><?php echo esc_html($insights['engagement_rate']['change']); ?>
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                
+                <?php if (!empty($insights['user_segments']) && is_array($insights['user_segments'])) : ?>
+                    <h3><?php _e('User Segments', 'vortex-marketplace'); ?></h3>
+                    
+                    <div class="vortex-cloe-segments">
+                        <?php foreach ($insights['user_segments'] as $segment) : ?>
+                            <div class="vortex-cloe-segment-item">
+                                <div class="vortex-cloe-segment-name"><?php echo esc_html($segment['name']); ?></div>
+                                <div class="vortex-cloe-segment-value"><?php echo esc_html($segment['percentage']); ?>%</div>
+                                <div class="vortex-cloe-segment-bar">
+                                    <div class="vortex-cloe-segment-fill" style="width: <?php echo esc_attr($segment['percentage']); ?>%;"></div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+            
+            <div class="vortex-cloe-footer">
+                <a href="<?php echo admin_url('admin.php?page=vortex-cloe-intelligence&tab=users'); ?>" class="button">
+                    <?php _e('View All User Insights', 'vortex-marketplace'); ?>
+                </a>
+            </div>
+        </div>
+        <?php
+    }
+    
+    /**
+     * Get total artwork count
+     * 
+     * @return int Artwork count
+     */
+    private function get_total_artwork_count() {
+        // Check if we have a cached value
+        $count = get_transient('vortex_cloe_artwork_count');
+        
+        if ($count === false) {
+            global $wpdb;
+            
+            // Check if the artwork post type exists
+            if (post_type_exists('vortex_artwork')) {
+                $count = wp_count_posts('vortex_artwork');
+                $count = $count->publish;
+            } else {
+                // Fallback to checking the artwork table if it exists
+                $table_name = $wpdb->prefix . 'vortex_artworks';
+                if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name) {
+                    $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE status = 'published'");
+                } else {
+                    $count = 0;
+                }
+            }
+            
+            // Cache the result for 1 hour
+            set_transient('vortex_cloe_artwork_count', $count, HOUR_IN_SECONDS);
+        }
+        
+        return intval($count);
+    }
+    
+    /**
+     * Get total user count
+     * 
+     * @return int User count
+     */
+    private function get_total_user_count() {
+        // Check if we have a cached value
+        $count = get_transient('vortex_cloe_user_count');
+        
+        if ($count === false) {
+            global $wpdb;
+            
+            // Check if the vortex_users table exists
+            $table_name = $wpdb->prefix . 'vortex_users';
+            if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name) {
+                $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
+            } else {
+                // Fallback to counting WordPress users
+                $count = count_users();
+                $count = $count['total_users'];
+            }
+            
+            // Cache the result for 1 hour
+            set_transient('vortex_cloe_user_count', $count, HOUR_IN_SECONDS);
+        }
+        
+        return intval($count);
+    }
+    
+    /**
+     * Get total transaction count
+     * 
+     * @return int Transaction count
+     */
+    private function get_total_transaction_count() {
+        // Check if we have a cached value
+        $count = get_transient('vortex_cloe_transaction_count');
+        
+        if ($count === false) {
+            global $wpdb;
+            
+            // Check if the transactions table exists
+            $table_name = $wpdb->prefix . 'vortex_transactions';
+            if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name) {
+                $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE status = 'completed'");
+            } else {
+                // Fallback to checking for transaction post type
+                if (post_type_exists('vortex_transaction')) {
+                    $count = wp_count_posts('vortex_transaction');
+                    $count = $count->publish;
+                } else {
+                    $count = 0;
+                }
+            }
+            
+            // Cache the result for 1 hour
+            set_transient('vortex_cloe_transaction_count', $count, HOUR_IN_SECONDS);
+        }
+        
+        return intval($count);
+    }
+    
+    /**
+     * Get admin recommendations
+     * 
+     * @param int $limit Number of recommendations to return
+     * @return array Recommendations
+     */
+    private function get_admin_recommendations($limit = 5) {
+        // This would be replaced with actual recommendation logic based on CLOE's analysis
+        // For now, return some sample recommendations
+        $recommendations = array(
+            array(
+                'type' => __('Content Gap', 'vortex-marketplace'),
+                'content' => __('Low inventory of abstract art. Consider adding more items in this category.', 'vortex-marketplace'),
+                'action_url' => admin_url('post-new.php?post_type=vortex_artwork'),
+                'action_text' => __('Add Artwork', 'vortex-marketplace')
+            ),
+            array(
+                'type' => __('Price Optimization', 'vortex-marketplace'),
+                'content' => __('Digital art is underpriced by 15% compared to market average.', 'vortex-marketplace'),
+                'action_url' => admin_url('edit.php?post_type=vortex_artwork&category=digital-art'),
+                'action_text' => __('View Digital Art', 'vortex-marketplace')
+            ),
+            array(
+                'type' => __('User Engagement', 'vortex-marketplace'),
+                'content' => __('20% increase in photography art views. Consider featuring more photography.', 'vortex-marketplace'),
+                'action_url' => admin_url('admin.php?page=vortex-marketplace-settings&tab=featured'),
+                'action_text' => __('Update Features', 'vortex-marketplace')
+            ),
+            array(
+                'type' => __('Marketing', 'vortex-marketplace'),
+                'content' => __('Twitter shares are generating 45% more traffic than other platforms.', 'vortex-marketplace'),
+                'action_url' => admin_url('admin.php?page=vortex-marketplace-settings&tab=social'),
+                'action_text' => __('Social Settings', 'vortex-marketplace')
+            ),
+            array(
+                'type' => __('New Trend', 'vortex-marketplace'),
+                'content' => __('AI-generated landscapes are trending. Consider showcasing this category.', 'vortex-marketplace'),
+                'action_url' => admin_url('term.php?taxonomy=vortex-artwork-category'),
+                'action_text' => __('Update Categories', 'vortex-marketplace')
+            )
+        );
+        
+        // Return the limited number of recommendations
+        return array_slice($recommendations, 0, $limit);
+    }
+    
+    /**
+     * Get user insights
+     * 
+     * @return array User insights
+     */
+    private function get_user_insights() {
+        // This would be replaced with actual insight generation based on CLOE's analysis
+        // For now, return some sample insights
+        $insights = array(
+            'active_users' => array(
+                'count' => rand(100, 1000),
+                'change' => rand(-5, 15)
+            ),
+            'new_users' => array(
+                'count' => rand(10, 100),
+                'change' => rand(-5, 20)
+            ),
+            'engagement_rate' => array(
+                'value' => rand(30, 75),
+                'change' => rand(-3, 8)
+            ),
+            'user_segments' => array(
+                array(
+                    'name' => __('Artists', 'vortex-marketplace'),
+                    'percentage' => rand(20, 40)
+                ),
+                array(
+                    'name' => __('Collectors', 'vortex-marketplace'),
+                    'percentage' => rand(40, 60)
+                ),
+                array(
+                    'name' => __('Galleries', 'vortex-marketplace'),
+                    'percentage' => rand(5, 15)
+                ),
+                array(
+                    'name' => __('Others', 'vortex-marketplace'),
+                    'percentage' => rand(5, 15)
+                )
+            )
+        );
+        
+        return $insights;
+    }
+    
+    /**
      * Check if the CLOE agent is active and functioning
      *
      * @since 1.0.0
@@ -917,6 +1627,229 @@ class VORTEX_CLOE {
         } catch (Exception $e) {
             error_log('CLOE health check failed: ' . $e->getMessage());
             return false;
+        }
+    }
+
+    /**
+     * Record user event
+     *
+     * @param int $user_id User ID
+     * @param string $event_type Event type
+     * @param array $event_data Event data
+     * @return int|false The ID of the inserted record, or false on failure
+     */
+    public function record_user_event($user_id, $event_type, $event_data = array()) {
+        // Check if VORTEX_User_Events class exists
+        if (!class_exists('VORTEX_User_Events')) {
+            require_once plugin_dir_path(__FILE__) . 'includes/class-vortex-user-events.php';
+        }
+        
+        // Get user events instance
+        $user_events = VORTEX_User_Events::get_instance();
+        
+        // Record event
+        $event_id = $user_events->record_event($user_id, $event_type, $event_data);
+        
+        // Also send to AI learning system if event was recorded successfully
+        if ($event_id) {
+            do_action('vortex_ai_agent_learn', 'CLOE', $event_type, array(
+                'user_id' => $user_id,
+                'event_data' => $event_data,
+                'timestamp' => time()
+            ));
+        }
+        
+        return $event_id;
+    }
+
+    /**
+     * Check if a database table exists
+     * 
+     * @param string $table_name Full table name including prefix
+     * @return bool True if table exists, false otherwise
+     */
+    private function table_exists($table_name) {
+        global $wpdb;
+        return $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
+    }
+    
+    /**
+     * Repair method hooks if they've been unregistered or corrupted
+     * 
+     * This can be called from admin actions to fix missing hooks
+     * 
+     * @return bool True if repairs were made
+     */
+    public function repair_method_hooks() {
+        $repairs_made = false;
+        
+        // Check and repair wp_logout hook
+        if (!has_action('wp_logout', array($this, 'end_session_tracking'))) {
+            add_action('wp_logout', array($this, 'end_session_tracking'), 10);
+            $repairs_made = true;
+        }
+        
+        // Check and repair init hook
+        if (!has_action('init', array($this, 'continue_session_tracking'))) {
+            add_action('init', array($this, 'continue_session_tracking'), 10);
+            $repairs_made = true;
+        }
+        
+        // Check and repair wp_dashboard_setup hook
+        if (!has_action('wp_dashboard_setup', array($this, 'add_dashboard_widgets'))) {
+            add_action('wp_dashboard_setup', array($this, 'add_dashboard_widgets'), 10);
+            $repairs_made = true;
+        }
+        
+        if ($repairs_made) {
+            // Log the repair
+            error_log('VORTEX_CLOE: Method hooks repaired at ' . current_time('mysql'));
+        }
+        
+        return $repairs_made;
+    }
+
+    private function get_trending_search_terms($period = 'month') {
+        try {
+            global $wpdb;
+            
+            $current_period = $this->get_time_constraint($period);
+            $previous_period = $this->get_time_constraint($period, true);
+            
+            // Get trending search terms (highest growth in searches)
+            $query = $wpdb->prepare(
+                "SELECT 
+                    search_term,
+                    COUNT(CASE WHEN search_time >= %s THEN 1 ELSE NULL END) as current_period_searches,
+                    COUNT(CASE WHEN search_time >= %s AND search_time < %s THEN 1 ELSE NULL END) as previous_period_searches
+                FROM {$wpdb->prefix}vortex_searches
+                WHERE search_time >= %s
+                GROUP BY search_term
+                HAVING current_period_searches > 5 AND previous_period_searches > 0
+                ORDER BY (current_period_searches - previous_period_searches) DESC
+                LIMIT 30",
+                $current_period,
+                $previous_period,
+                $current_period,
+                $previous_period
+            );
+            
+            $trending_terms = $wpdb->get_results($query);
+            
+            // Calculate growth rates and add to results
+            $processed_terms = array();
+            foreach ($trending_terms as $term) {
+                $growth_rate = 0;
+                if ($term->previous_period_searches > 0) {
+                    $growth_rate = round((($term->current_period_searches - $term->previous_period_searches) / $term->previous_period_searches) * 100, 2);
+                }
+                
+                $processed_terms[] = array(
+                    'term' => $term->search_term,
+                    'current_searches' => $term->current_period_searches,
+                    'previous_searches' => $term->previous_period_searches,
+                    'growth_rate' => $growth_rate
+                );
+            }
+            
+            // Find new trending terms (not present in previous period)
+            $new_query = $wpdb->prepare(
+                "SELECT 
+                    s1.search_term,
+                    COUNT(*) as search_count
+                FROM {$wpdb->prefix}vortex_searches s1
+                WHERE s1.search_time >= %s
+                AND NOT EXISTS (
+                    SELECT 1 FROM {$wpdb->prefix}vortex_searches s2
+                    WHERE s2.search_term = s1.search_term
+                    AND s2.search_time >= %s AND s2.search_time < %s
+                )
+                GROUP BY s1.search_term
+                HAVING search_count > 3
+                ORDER BY search_count DESC
+                LIMIT 20",
+                $current_period,
+                $previous_period,
+                $current_period
+            );
+            
+            $new_trending_terms = $wpdb->get_results($new_query);
+            
+            // Get trending terms by category
+            $category_query = $wpdb->prepare(
+                "SELECT 
+                    c.category_id,
+                    c.category_name,
+                    s.search_term,
+                    COUNT(*) as search_count
+                FROM {$wpdb->prefix}vortex_searches s
+                JOIN {$wpdb->prefix}vortex_search_artwork_clicks sac ON s.search_id = sac.search_id
+                JOIN {$wpdb->prefix}vortex_artworks a ON sac.artwork_id = a.artwork_id
+                JOIN {$wpdb->prefix}vortex_categories c ON a.category_id = c.category_id
+                WHERE s.search_time >= %s
+                GROUP BY c.category_id, s.search_term
+                ORDER BY c.category_name, search_count DESC",
+                $current_period
+            );
+            
+            $category_trends = $wpdb->get_results($category_query);
+            
+            // Process category-specific trending terms
+            $trending_by_category = array();
+            $current_category = null;
+            $category_terms = array();
+            
+            foreach ($category_trends as $trend) {
+                if ($current_category !== $trend->category_id) {
+                    // Save previous category terms if they exist
+                    if ($current_category !== null && !empty($category_terms)) {
+                        $trending_by_category[] = array(
+                            'category_id' => $current_category,
+                            'category_name' => $category_name,
+                            'terms' => $category_terms
+                        );
+                    }
+                    
+                    // Start new category
+                    $current_category = $trend->category_id;
+                    $category_name = $trend->category_name;
+                    $category_terms = array();
+                }
+                
+                // Add term to current category (limit to top 5 per category)
+                if (count($category_terms) < 5) {
+                    $category_terms[] = array(
+                        'term' => $trend->search_term,
+                        'search_count' => $trend->search_count
+                    );
+                }
+            }
+            
+            // Add the last category if it exists
+            if ($current_category !== null && !empty($category_terms)) {
+                $trending_by_category[] = array(
+                    'category_id' => $current_category,
+                    'category_name' => $category_name,
+                    'terms' => $category_terms
+                );
+            }
+            
+            $results = array(
+                'trending_terms' => $processed_terms,
+                'new_trending_terms' => $new_trending_terms,
+                'trending_by_category' => $trending_by_category
+            );
+            
+            // Allow filtering of the results through the vortex_trending_search_terms filter
+            return apply_filters('vortex_trending_search_terms', $results, $period);
+            
+        } catch (Exception $e) {
+            $this->log_error('Failed to get trending search terms: ' . $e->getMessage());
+            return array(
+                'trending_terms' => array(),
+                'new_trending_terms' => array(),
+                'trending_by_category' => array()
+            );
         }
     }
 } 

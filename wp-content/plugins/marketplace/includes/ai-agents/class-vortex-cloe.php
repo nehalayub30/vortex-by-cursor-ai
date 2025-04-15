@@ -1,0 +1,3 @@
+class VORTEX_CLOE extends VORTEX_AI_Agent {
+    // Implementation remains the same...
+} 

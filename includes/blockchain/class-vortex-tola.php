@@ -172,6 +172,12 @@ class Vortex_TOLA {
 
         // WooCommerce integration
         add_filter( 'woocommerce_payment_gateways', array( $this, 'add_tola_payment_gateway' ) );
+        
+        // WooCommerce product custom fields
+        if ( class_exists( 'WooCommerce' ) ) {
+            add_action( 'woocommerce_product_options_pricing', array( $this, 'add_tola_product_fields' ) );
+            add_action( 'woocommerce_process_product_meta', array( $this, 'save_tola_product_fields' ) );
+        }
 
         // Schedule token rewards distribution
         if ( ! wp_next_scheduled( 'vortex_daily_token_rewards' ) ) {
@@ -182,6 +188,13 @@ class Vortex_TOLA {
         // Artwork marketplace hooks
         add_action( 'vortex_artwork_purchased', array( $this, 'process_artwork_purchase' ), 10, 3 );
         add_action( 'vortex_artist_payout', array( $this, 'process_artist_payout' ), 10, 2 );
+        
+        // Add meta boxes for TOLA pricing options to product pages
+        add_action( 'add_meta_boxes', array( $this, 'add_product_meta_boxes' ) );
+        
+        // Save meta box data
+        add_action( 'save_post_product', array( $this, 'save_tola_pricing_meta_box' ) );
+        add_action( 'save_post_vortex_artwork', array( $this, 'save_tola_pricing_meta_box' ) );
     }
 
     /**
@@ -1547,4 +1560,246 @@ class Vortex_TOLA {
         // Get staking rates
         $staking_rate = get_option( 'vortex_tola_staking_rate', '0.05' );
         $annual_
+
+    /**
+     * Add meta boxes for TOLA pricing options to product pages.
+     *
+     * @since    1.0.0
+     */
+    public function add_product_meta_boxes() {
+        // Check if WooCommerce is active
+        if (!class_exists('WooCommerce')) {
+            return;
+        }
+        
+        // Add the meta box to products
+        add_meta_box(
+            'vortex_tola_pricing',
+            __('TOLA Token Pricing', 'vortex-ai-marketplace'),
+            array($this, 'render_tola_pricing_meta_box'),
+            'product',
+            'normal',
+            'high'
+        );
+        
+        // Add meta box to artwork post type if available
+        if (post_type_exists('vortex_artwork')) {
+            add_meta_box(
+                'vortex_tola_pricing',
+                __('TOLA Token Pricing', 'vortex-ai-marketplace'),
+                array($this, 'render_tola_pricing_meta_box'),
+                'vortex_artwork',
+                'side',
+                'high'
+            );
+        }
+    }
+    
+    /**
+     * Render the TOLA pricing meta box.
+     *
+     * @since    1.0.0
+     * @param    WP_Post    $post    The post object.
+     */
+    public function render_tola_pricing_meta_box($post) {
+        // Add a nonce field for security
+        wp_nonce_field('vortex_tola_pricing_nonce', 'vortex_tola_pricing_nonce');
+        
+        // Get current values
+        $enable_tola = get_post_meta($post->ID, '_vortex_enable_tola_payment', true);
+        $tola_price = get_post_meta($post->ID, '_vortex_tola_price', true);
+        $tola_discount = get_post_meta($post->ID, '_vortex_tola_discount', true);
+        
+        // Default discount from settings
+        $default_discount = get_option('vortex_tola_discount', 10);
+        
+        if (!$tola_discount) {
+            $tola_discount = $default_discount;
+        }
+        
+        // Output form fields
+        ?>
+        <div class="vortex-meta-field">
+            <input type="checkbox" id="vortex_enable_tola_payment" name="vortex_enable_tola_payment" 
+                   value="1" <?php checked($enable_tola, '1'); ?>>
+            <label for="vortex_enable_tola_payment">
+                <?php esc_html_e('Enable TOLA Token Payment', 'vortex-ai-marketplace'); ?>
+            </label>
+            <p class="description">
+                <?php esc_html_e('Allow customers to purchase this item using TOLA tokens.', 'vortex-ai-marketplace'); ?>
+            </p>
+        </div>
+        
+        <div class="vortex-tola-options" style="<?php echo $enable_tola ? '' : 'display:none;'; ?>">
+            <div class="vortex-meta-field">
+                <label for="vortex_tola_price">
+                    <?php esc_html_e('TOLA Price', 'vortex-ai-marketplace'); ?>:
+                </label>
+                <input type="number" id="vortex_tola_price" name="vortex_tola_price" 
+                       value="<?php echo esc_attr($tola_price); ?>" step="0.01" min="0">
+                <p class="description">
+                    <?php esc_html_e('Set a custom TOLA token price. Leave empty to auto-calculate from fiat price.', 'vortex-ai-marketplace'); ?>
+                </p>
+            </div>
+            
+            <div class="vortex-meta-field">
+                <label for="vortex_tola_discount">
+                    <?php esc_html_e('TOLA Discount (%)', 'vortex-ai-marketplace'); ?>:
+                </label>
+                <input type="number" id="vortex_tola_discount" name="vortex_tola_discount" 
+                       value="<?php echo esc_attr($tola_discount); ?>" step="1" min="0" max="100">
+                <p class="description">
+                    <?php esc_html_e('Discount percentage for TOLA token payments. Default is set in TOLA settings.', 'vortex-ai-marketplace'); ?>
+                </p>
+            </div>
+        </div>
+        
+        <script>
+            jQuery(document).ready(function($) {
+                $('#vortex_enable_tola_payment').change(function() {
+                    if($(this).is(':checked')) {
+                        $('.vortex-tola-options').show();
+                    } else {
+                        $('.vortex-tola-options').hide();
+                    }
+                });
+            });
+        </script>
+        <?php
+    }
+    
+    /**
+     * Save TOLA pricing meta box data.
+     *
+     * @since    1.0.0
+     * @param    int    $post_id    The post ID.
+     */
+    public function save_tola_pricing_meta_box($post_id) {
+        // Check if nonce is set
+        if (!isset($_POST['vortex_tola_pricing_nonce'])) {
+            return;
+        }
+        
+        // Verify the nonce
+        if (!wp_verify_nonce($_POST['vortex_tola_pricing_nonce'], 'vortex_tola_pricing_nonce')) {
+            return;
+        }
+        
+        // If this is an autosave, don't do anything
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+        
+        // Check the user's permissions
+        if (isset($_POST['post_type']) && 'product' === $_POST['post_type']) {
+            if (!current_user_can('edit_post', $post_id)) {
+                return;
+            }
+        } elseif (isset($_POST['post_type']) && 'vortex_artwork' === $_POST['post_type']) {
+            if (!current_user_can('edit_post', $post_id)) {
+                return;
+            }
+        } else {
+            return;
+        }
+        
+        // Save the data
+        $enable_tola = isset($_POST['vortex_enable_tola_payment']) ? '1' : '0';
+        update_post_meta($post_id, '_vortex_enable_tola_payment', $enable_tola);
+        
+        if (isset($_POST['vortex_tola_price'])) {
+            $tola_price = sanitize_text_field($_POST['vortex_tola_price']);
+            update_post_meta($post_id, '_vortex_tola_price', $tola_price);
+        }
+        
+        if (isset($_POST['vortex_tola_discount'])) {
+            $tola_discount = absint($_POST['vortex_tola_discount']);
+            if ($tola_discount > 100) {
+                $tola_discount = 100;
+            }
+            update_post_meta($post_id, '_vortex_tola_discount', $tola_discount);
+        }
+    }
+
+    /**
+     * Add TOLA pricing fields to WooCommerce product options.
+     * 
+     * @since    1.0.0
+     */
+    public function add_tola_product_fields() {
+        global $post;
+        
+        echo '<div class="options_group show_if_simple show_if_variable">';
+        
+        // Enable TOLA Payment Checkbox
+        woocommerce_wp_checkbox(
+            array(
+                'id'            => '_vortex_enable_tola_payment',
+                'label'         => __('Enable TOLA Payment', 'vortex-ai-marketplace'),
+                'description'   => __('Allow customers to pay for this product using TOLA tokens.', 'vortex-ai-marketplace')
+            )
+        );
+        
+        // TOLA Price
+        woocommerce_wp_text_input(
+            array(
+                'id'            => '_vortex_tola_price',
+                'label'         => __('TOLA Price', 'vortex-ai-marketplace'),
+                'desc_tip'      => true,
+                'description'   => __('Custom price in TOLA tokens. Leave empty to auto-calculate from regular price.', 'vortex-ai-marketplace'),
+                'type'          => 'number',
+                'custom_attributes' => array(
+                    'step'  => '0.01',
+                    'min'   => '0'
+                )
+            )
+        );
+        
+        // TOLA Discount
+        $default_discount = get_option('vortex_tola_discount', 10);
+        woocommerce_wp_text_input(
+            array(
+                'id'            => '_vortex_tola_discount',
+                'label'         => __('TOLA Discount (%)', 'vortex-ai-marketplace'),
+                'desc_tip'      => true,
+                'description'   => __('Discount percentage for TOLA token payments.', 'vortex-ai-marketplace'),
+                'type'          => 'number',
+                'default'       => $default_discount,
+                'custom_attributes' => array(
+                    'step'  => '1',
+                    'min'   => '0',
+                    'max'   => '100'
+                )
+            )
+        );
+        
+        echo '</div>';
+    }
+    
+    /**
+     * Save TOLA pricing fields for WooCommerce products.
+     * 
+     * @since    1.0.0
+     * @param    int    $post_id    The post ID.
+     */
+    public function save_tola_product_fields($post_id) {
+        // Enable TOLA Payment
+        $enable_tola = isset($_POST['_vortex_enable_tola_payment']) ? 'yes' : 'no';
+        update_post_meta($post_id, '_vortex_enable_tola_payment', $enable_tola);
+        
+        // TOLA Price
+        if (isset($_POST['_vortex_tola_price'])) {
+            $tola_price = wc_format_decimal(sanitize_text_field($_POST['_vortex_tola_price']));
+            update_post_meta($post_id, '_vortex_tola_price', $tola_price);
+        }
+        
+        // TOLA Discount
+        if (isset($_POST['_vortex_tola_discount'])) {
+            $tola_discount = absint($_POST['_vortex_tola_discount']);
+            if ($tola_discount > 100) {
+                $tola_discount = 100;
+            }
+            update_post_meta($post_id, '_vortex_tola_discount', $tola_discount);
+        }
+    }
 } 

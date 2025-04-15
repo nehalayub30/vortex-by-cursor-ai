@@ -11,7 +11,18 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "ext-gd": "*",
+        "ext-cuda": "*",
+        "tensorflow/tensorflow": "^2.12",
+        "pytorch/pytorch": "^1.13",
+        "huggingface/transformers": "^4.28",
+        "intervention/image": "^2.7",
+        "php-ffmpeg/php-ffmpeg": "^1.0",
+        "react/websocket": "^1.7",
+        "webonyx/graphql-php": "^14.11",
+        "google/cloud-vision": "^1.5",
+        "aws/aws-sdk-php": "^3.209"
     },
     "autoload": {
         "psr-4": {

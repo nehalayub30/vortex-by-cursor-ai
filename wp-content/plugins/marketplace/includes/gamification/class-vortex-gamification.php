@@ -915,4 +915,40 @@ private function save_achievement_settings($data) {
         
         add_settings_error('vortex_gamification', 'achievement_created', 'Achievement created successfully', 'updated');
     }
+}
+
+/**
+ * Award points for blockchain activities
+ */
+public function award_blockchain_points($user_id, $activity_type, $data) {
+    $points = 0;
+    
+    switch ($activity_type) {
+        case 'tokenize_artwork':
+            $points = 50;
+            break;
+        case 'artwork_sold':
+            $points = 25;
+            break;
+        case 'artwork_purchased':
+            $points = 15;
+            break;
+        case 'dao_vote':
+            $points = 10;
+            break;
+    }
+    
+    if ($points > 0) {
+        $this->add_points($user_id, $points, $activity_type, $data);
+        $this->check_level_up($user_id);
+        
+        // Feed activity to AI for learning
+        $orchestrator = VORTEX_Orchestrator::get_instance();
+        $orchestrator->submit_data_for_learning('user_activity', array(
+            'user_id' => $user_id,
+            'activity_type' => $activity_type,
+            'points' => $points,
+            'data' => $data
+        ));
+    }
 } 

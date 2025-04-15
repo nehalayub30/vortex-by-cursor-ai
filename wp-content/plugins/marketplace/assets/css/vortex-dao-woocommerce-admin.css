@@ -1,0 +1,227 @@
+/**
+ * VORTEX DAO WooCommerce Admin Styles
+ */
+
+/* Tab Navigation */
+.vortex-admin-tabs {
+    margin-top: 20px;
+}
+
+.vortex-admin-tabs .nav-tab-wrapper {
+    margin-bottom: 0;
+    border-bottom: 1px solid #ccd0d4;
+}
+
+.tab-content {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-top: none;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Form Styling */
+.vortex-dao-woocommerce-settings .form-table th {
+    width: 200px;
+}
+
+.vortex-dao-woocommerce-settings .form-table td {
+    vertical-align: top;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.vortex-dao-woocommerce-settings .description {
+    margin-top: 5px;
+}
+
+.vortex-dao-woocommerce-settings .chosen-container-multi .chosen-choices {
+    padding: 5px;
+    border-color: #8c8f94;
+    border-radius: 4px;
+}
+
+.vortex-dao-woocommerce-settings .chosen-container-multi .chosen-choices li.search-choice {
+    padding: 5px 25px 5px 8px;
+    background: #f0f0f1;
+    border: 1px solid #c3c4c7;
+    border-radius: 3px;
+}
+
+/* Tooltip */
+.vortex-tooltip {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    position: relative;
+}
+
+.vortex-tooltip .dashicons {
+    color: #999;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Test Calculation */
+.test-calculation {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 500px;
+}
+
+.test-calculation input {
+    width: 100px;
+}
+
+#reward_calculation_result {
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#calculated_reward {
+    font-weight: bold;
+    color: #0056b3;
+}
+
+/* Progress Bar */
+.progress-bar {
+    height: 20px;
+    background-color: #f0f0f1;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #2271b1;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Selected Count */
+.selected-count {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 3px 8px;
+    background: #f0f0f1;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Stats Table */
+.vortex-dao-woocommerce-settings .wp-list-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.vortex-dao-woocommerce-settings .wp-list-table th {
+    text-align: left;
+    padding: 8px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e2e4e7;
+}
+
+.vortex-dao-woocommerce-settings .wp-list-table td {
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f1;
+    vertical-align: middle;
+}
+
+.vortex-dao-woocommerce-settings .wp-list-table tr:hover td {
+    background-color: #f8f9fa;
+}
+
+/* Export Buttons */
+.export-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.export-buttons .button {
+    display: flex;
+    align-items: center;
+}
+
+.export-buttons .dashicons {
+    margin-right: 5px;
+}
+
+/* No Data Message */
+.no-data {
+    padding: 20px;
+    text-align: center;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    color: #777;
+    font-style: italic;
+}
+
+/* Order Meta Box */
+#vortex-dao-rewards .inside {
+    padding: 0;
+    margin: 0;
+}
+
+#vortex-dao-rewards .widefat {
+    border: none;
+    margin: 0;
+}
+
+#vortex-dao-rewards .widefat th,
+#vortex-dao-rewards .widefat tfoot th {
+    padding: 8px 10px;
+    background: #f8f9fa;
+}
+
+#vortex-dao-rewards .widefat td {
+    padding: 8px 10px;
+}
+
+#vortex-dao-rewards .widefat tfoot th {
+    border-top: 1px solid #e2e4e7;
+}
+
+#vortex-dao-rewards .dao-rewards-meta {
+    padding: 10px;
+    margin: 0;
+    background: #f8f9fa;
+    border-top: 1px solid #e2e4e7;
+}
+
+#vortex-dao-rewards .claimed {
+    color: #46b450;
+    font-weight: 500;
+}
+
+#vortex-dao-rewards .pending {
+    color: #ffba00;
+    font-weight: 500;
+}
+
+#vortex-dao-rewards .button {
+    margin: 10px;
+} 

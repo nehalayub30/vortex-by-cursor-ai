@@ -95,6 +95,9 @@ class VORTEX_Support_Chat {
         $this->ai_agents['cloe']->set_context_window(1000);
         
         // Initialize Business Strategist for business logic with deep learning
+        if (!class_exists('VORTEX_Business_Strategist')) {
+            require_once plugin_dir_path(dirname(__FILE__)) . 'includes/ai-agents/class-vortex-business-strategist.php';
+        }
         $this->ai_agents['business_strategist'] = new VORTEX_Business_Strategist();
         $this->ai_agents['business_strategist']->enable_deep_learning();
         $this->ai_agents['business_strategist']->set_learning_rate(0.001);

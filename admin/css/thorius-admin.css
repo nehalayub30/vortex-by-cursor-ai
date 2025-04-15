@@ -1,0 +1,287 @@
+/* Meta Box Styling */
+.thorius-meta-box {
+    padding: 10px;
+}
+
+.thorius-meta-date {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.thorius-meta-actions {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.thorius-meta-actions .spinner {
+    float: none;
+    margin-left: 10px;
+}
+
+/* Analysis Meta Box */
+.thorius-score-item {
+    margin-bottom: 15px;
+}
+
+.thorius-score-item h4 {
+    margin: 0 0 5px 0;
+}
+
+.thorius-score-bar {
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+.thorius-score-value {
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    line-height: 20px;
+    font-size: 12px;
+    transition: width 0.5s ease;
+}
+
+.thorius-score-value.score-good {
+    background-color: #46b450;
+}
+
+.thorius-score-value.score-average {
+    background-color: #ffb900;
+}
+
+.thorius-score-value.score-poor {
+    background-color: #dc3232;
+}
+
+.thorius-score-suggestion {
+    font-size: 12px;
+    margin: 0;
+    color: #666;
+}
+
+.thorius-suggestions ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.thorius-suggestions li {
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.thorius-empty-analysis {
+    color: #666;
+    font-style: italic;
+}
+
+/* SEO Meta Box */
+.thorius-seo-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.thorius-seo-score-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.thorius-seo-score-value {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.thorius-seo-score-label {
+    font-weight: 500;
+}
+
+.thorius-seo-factors {
+    margin-bottom: 20px;
+}
+
+.thorius-seo-factor {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.thorius-seo-factor:last-child {
+    border-bottom: none;
+}
+
+.thorius-seo-factor-header {
+    display: flex;
+    align-items: center;
+}
+
+.thorius-seo-factor-header .dashicons {
+    margin-right: 5px;
+}
+
+.thorius-seo-factor-header h4 {
+    margin: 0;
+}
+
+.thorius-seo-factor-desc {
+    margin: 5px 0 0 25px;
+    font-size: 13px;
+    color: #666;
+}
+
+.thorius-keyword-suggestions {
+    margin-top: 15px;
+}
+
+.thorius-keyword-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.thorius-keyword-tag {
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    padding: 3px 8px;
+    font-size: 12px;
+}
+
+/* Suggestions Meta Box */
+.thorius-suggestion-controls {
+    margin-bottom: 15px;
+}
+
+.thorius-suggestion-controls label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.thorius-suggestion-controls select {
+    width: 100%;
+}
+
+#thorius-suggestion-results {
+    min-height: 50px;
+}
+
+/* Product Meta Box */
+.thorius-product-controls {
+    margin-bottom: 15px;
+}
+
+.thorius-product-controls label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.thorius-product-controls select {
+    width: 100%;
+}
+
+#thorius-product-suggestion-results {
+    min-height: 50px;
+}
+
+/* Image Meta Box */
+.thorius-image-prompt {
+    margin-bottom: 15px;
+}
+
+.thorius-image-prompt label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.thorius-image-prompt input {
+    width: 100%;
+}
+
+.thorius-image-advanced-toggle {
+    margin-bottom: 10px;
+}
+
+.thorius-toggle-advanced {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.thorius-toggle-advanced .dashicons {
+    transition: transform 0.2s ease;
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+}
+
+.thorius-toggle-advanced.open .dashicons {
+    transform: rotate(180deg);
+}
+
+.thorius-image-option {
+    margin-bottom: 10px;
+}
+
+.thorius-image-option label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.thorius-image-option select {
+    width: 100%;
+}
+
+#thorius-image-results {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.thorius-image-result {
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: relative;
+    width: calc(50% - 5px);
+}
+
+.thorius-image-result img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.thorius-image-actions {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.thorius-image-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 2px;
+    color: #0073aa;
+}
+
+.thorius-image-actions button:hover {
+    color: #00a0d2;
+} 

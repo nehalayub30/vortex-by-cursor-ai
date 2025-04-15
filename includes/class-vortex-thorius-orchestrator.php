@@ -35,6 +35,33 @@ class Vortex_Thorius_Orchestrator {
     }
     
     /**
+     * Get agent tabs for admin interface
+     * 
+     * @return array Array of agent tab data
+     */
+    public function get_agent_tabs() {
+        $tabs = array();
+        
+        foreach ($this->agents as $agent_id => $agent) {
+            // Get agent settings or use defaults
+            $settings = get_option('thorius_agent_' . $agent_id . '_settings', array(
+                'model' => 'gpt-4',
+                'temperature' => 0.7,
+                'max_tokens' => 1500
+            ));
+            
+            $tabs[$agent_id] = array(
+                'title' => $agent['name'],
+                'description' => $agent['description'],
+                'capabilities' => $agent['capabilities'],
+                'settings' => $settings
+            );
+        }
+        
+        return $tabs;
+    }
+    
+    /**
      * Register an AI agent
      *
      * @param string $id Agent ID

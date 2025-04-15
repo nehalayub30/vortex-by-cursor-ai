@@ -467,4 +467,210 @@
     margin-left: 10px;
     margin-right: 10px;
   }
+}
+
+/* TinyMCE Shortcode Preview Modal */
+.vortex-modal {
+    display: none;
+    position: fixed;
+    z-index: 999999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.vortex-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 800px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    animation-name: vortex-modal-animate;
+    animation-duration: 0.4s;
+}
+
+@keyframes vortex-modal-animate {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+.vortex-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+.vortex-modal-close:hover,
+.vortex-modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.vortex-modal-body {
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* TinyMCE Shortcode Highlights */
+.mce-content-body .vortex-shortcode-highlight {
+    background-color: #f7f7f7;
+    border: 1px dashed #ccc;
+    padding: 5px;
+    margin: 5px 0;
+}
+
+.mce-content-body .vortex-shortcode-highlight-artwork {
+    border-left: 3px solid #0073aa;
+}
+
+.mce-content-body .vortex-shortcode-highlight-artist {
+    border-left: 3px solid #46b450;
+}
+
+/* TinyMCE Preview Buttons */
+.vortex-shortcode-preview-btn {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.vortex-shortcode-preview-btn:hover {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
+
+/* Artwork Preview Styles */
+.vortex-artwork-preview {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.vortex-artwork-preview img {
+    max-width: 100%;
+    height: auto;
+}
+
+.vortex-artwork-preview-details {
+    margin-top: 15px;
+}
+
+.vortex-artwork-preview-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.vortex-artwork-preview-artist {
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.vortex-artwork-preview-price {
+    font-weight: bold;
+    color: #0073aa;
+}
+
+/* Artist Preview Styles */
+.vortex-artist-preview {
+    display: flex;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.vortex-artist-preview-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.vortex-artist-preview-avatar img {
+    width: 100%;
+    height: auto;
+}
+
+.vortex-artist-preview-info {
+    flex: 1;
+}
+
+.vortex-artist-preview-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.vortex-artist-preview-bio {
+    margin-bottom: 10px;
+}
+
+.vortex-artist-preview-stats {
+    display: flex;
+    justify-content: space-between;
+    max-width: 300px;
+}
+
+.vortex-artist-preview-stat {
+    text-align: center;
+}
+
+.vortex-artist-preview-stat-value {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.vortex-artist-preview-stat-label {
+    font-size: 0.8em;
+    color: #666;
+}
+
+/* TOLA Pricing Meta Box Styles */
+.vortex-meta-field {
+    margin-bottom: 15px;
+}
+
+.vortex-meta-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.vortex-meta-field input[type="text"],
+.vortex-meta-field input[type="number"] {
+    width: 100%;
+    max-width: 300px;
+}
+
+.vortex-meta-field .description {
+    display: block;
+    color: #666;
+    margin-top: 5px;
+    font-style: italic;
+    font-size: 12px;
+}
+
+#vortex_tola_pricing .inside {
+    padding: 15px;
+}
+
+.vortex-tola-options {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
 } 

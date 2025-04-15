@@ -1,0 +1,81 @@
+/**
+ * VORTEX DAO Admin Styles
+ */
+
+.vortex-dao-settings {
+    max-width: 1200px;
+}
+
+/* Tab Navigation */
+.vortex-admin-tabs {
+    margin-top: 20px;
+}
+
+.vortex-admin-tab-content {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-top: none;
+    margin-bottom: 20px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Contract Deployment Section */
+.contract-deployment-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.contract-deployment-section h3 {
+    margin-top: 0;
+}
+
+#deployment-status {
+    margin-top: 15px;
+}
+
+/* Shortcode List */
+.shortcode-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.shortcode-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.shortcode-item h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.shortcode-item code {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    font-size: 13px;
+}
+
+.shortcode-item p {
+    margin: 8px 0;
+    font-size: 13px;
+} 

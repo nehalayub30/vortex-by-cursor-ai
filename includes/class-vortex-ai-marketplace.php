@@ -415,6 +415,12 @@ class Vortex_AI_Marketplace {
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-image-processor.php';
 
         /**
+         * AI agents base classes.
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/ai-agents/class-vortex-ai-agent-base.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/ai-agents/class-vortex-business-strategist.php';
+
+        /**
          * Analytics and metrics.
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-metrics.php';

@@ -45,6 +45,32 @@ class Vortex_Activator {
         // Set activation flag
         update_option( 'vortex_activated', 'yes' );
         update_option( 'vortex_activation_time', time() );
+        
+        // Trigger vortex_ai_activate action to run database migrations
+        do_action('vortex_ai_activate');
+        
+        // Set admin notice for database update
+        $notices = get_transient('vortex_admin_notices');
+        if (!$notices) {
+            $notices = array();
+        }
+        
+        $notices['db_update_required'] = array(
+            'class' => 'notice-warning',
+            'message' => sprintf(
+                __('VORTEX AI Marketplace: Please run a database update to ensure all tables are created correctly. <a href="%s">Go to Settings</a>', 'vortex-ai-marketplace'),
+                admin_url('admin.php?page=vortex-settings&tab=advanced')
+            ),
+            'dismissible' => true
+        );
+        
+        set_transient('vortex_admin_notices', $notices, 60 * 60 * 24 * 7); // 1 week expiration
+        
+        // Fix known database issues
+        self::fix_database_issues();
+        
+        // Create Thorius learning tables
+        self::create_thorius_learning_tables();
     }
 
     /**
@@ -56,6 +82,7 @@ class Vortex_Activator {
         self::create_database_tables();
         self::create_required_pages();
         self::set_user_roles();
+        self::create_thorius_learning_tables();
     }
 
     /**
@@ -382,5 +409,85 @@ class Vortex_Activator {
                 }
             }
         }
+    }
+
+    /**
+     * Fix known database issues
+     *
+     * @since    1.0.0
+     */
+    private static function fix_database_issues() {
+        global $wpdb;
+        
+        // Fix missing referrers table
+        $referrers_table = $wpdb->prefix . 'vortex_referrers';
+        if ($wpdb->get_var("SHOW TABLES LIKE '$referrers_table'") !== $referrers_table) {
+            require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-migrations.php';
+            $db_migrations = new \Vortex_DB_Migrations();
+            $db_migrations->create_referrers_table();
+        }
+        
+        // Fix missing campaigns table
+        $campaigns_table = $wpdb->prefix . 'vortex_campaigns';
+        if ($wpdb->get_var("SHOW TABLES LIKE '$campaigns_table'") !== $campaigns_table) {
+            // Campaign table is created by the same method above
+        }
+    }
+
+    /**
+     * Create Thorius agent learning tables
+     */
+    private static function create_thorius_learning_tables() {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+        
+        // Thorius agents table
+        $agents_table = $wpdb->prefix . 'vortex_thorius_agents';
+        $sql_agents = "CREATE TABLE IF NOT EXISTS $agents_table (
+            agent_id bigint(20) NOT NULL AUTO_INCREMENT,
+            agent_name varchar(100) NOT NULL,
+            agent_type varchar(50) NOT NULL,
+            status varchar(20) NOT NULL DEFAULT 'active',
+            model_version varchar(50) DEFAULT NULL,
+            created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY  (agent_id),
+            KEY status (status),
+            KEY agent_type (agent_type)
+        ) $charset_collate;";
+        
+        // Agent learning metrics table
+        $metrics_table = $wpdb->prefix . 'vortex_agent_learning_metrics';
+        $sql_metrics = "CREATE TABLE IF NOT EXISTS $metrics_table (
+            metric_id bigint(20) NOT NULL AUTO_INCREMENT,
+            agent_id bigint(20) NOT NULL,
+            accuracy decimal(5,2) DEFAULT NULL,
+            learning_rate decimal(5,2) DEFAULT NULL,
+            efficiency decimal(5,2) DEFAULT NULL,
+            adaptation_id bigint(20) DEFAULT NULL,
+            recorded_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (metric_id),
+            KEY agent_id (agent_id),
+            KEY recorded_at (recorded_at)
+        ) $charset_collate;";
+        
+        // Agent adaptations table
+        $adaptations_table = $wpdb->prefix . 'vortex_agent_adaptations';
+        $sql_adaptations = "CREATE TABLE IF NOT EXISTS $adaptations_table (
+            adaptation_id bigint(20) NOT NULL AUTO_INCREMENT,
+            agent_id bigint(20) NOT NULL,
+            adaptation_type varchar(100) NOT NULL,
+            impact varchar(20) DEFAULT 'medium',
+            parameters longtext DEFAULT NULL,
+            adaptation_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (adaptation_id),
+            KEY agent_id (agent_id),
+            KEY adaptation_time (adaptation_time)
+        ) $charset_collate;";
+        
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($sql_agents);
+        dbDelta($sql_metrics);
+        dbDelta($sql_adaptations);
     }
 }

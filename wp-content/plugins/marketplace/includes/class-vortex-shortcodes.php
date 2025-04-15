@@ -55,19 +55,22 @@ class VORTEX_Shortcodes {
      */
     public static function artwork_gallery_shortcode($atts) {
         $atts = shortcode_atts(array(
-            'category' => '',
-            'style' => '',
-            'artist' => '',
-            'limit' => 12,
-            'orderby' => 'date',
-            'order' => 'DESC',
-            'columns' => 3,
-            'show_filters' => 'yes'
-        ), $atts, 'vortex_artwork_gallery');
+            'view' => 'grid',       // grid, carousel, masonry
+            'category' => '',       // category slug or ID
+            'tags' => '',           // comma-separated list of tags
+            'artist' => '',         // artist ID or username
+            'limit' => 12,          // number of artworks to display
+            'orderby' => 'date',    // date, price, popularity
+            'order' => 'desc',      // asc, desc
+            'featured_only' => false, // show only featured artworks
+        ), $atts);
         
-        ob_start();
-        include(plugin_dir_path(dirname(__FILE__)) . 'templates/shortcodes/artwork-gallery.php');
-        return ob_get_clean();
+        wp_enqueue_style('vortex-artwork-gallery');
+        wp_enqueue_script('vortex-artwork-gallery');
+        
+        // Get artwork controller
+        $artworks = VORTEX_Artworks::get_instance();
+        return $artworks->render_artwork_gallery($atts);
     }
     
     /**
@@ -82,9 +85,12 @@ class VORTEX_Shortcodes {
             'artwork_limit' => 8
         ), $atts, 'vortex_artist_profile');
         
-        ob_start();
-        include(plugin_dir_path(dirname(__FILE__)) . 'templates/shortcodes/artist-profile.php');
-        return ob_get_clean();
+        wp_enqueue_style('vortex-artist-profile');
+        wp_enqueue_script('vortex-artist-profile');
+        
+        // Get artist controller
+        $artists = VORTEX_Artists::get_instance();
+        return $artists->render_artist_profile($atts);
     }
     
     /**

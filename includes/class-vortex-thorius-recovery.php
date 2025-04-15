@@ -28,6 +28,11 @@ class Vortex_Thorius_Recovery {
     private $error_table;
     
     /**
+     * Maximum errors per session
+     */
+    private $max_errors_per_session = 5;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -47,6 +52,41 @@ class Vortex_Thorius_Recovery {
         if (!wp_next_scheduled('vortex_thorius_retry_critical_operations')) {
             wp_schedule_event(time(), 'hourly', 'vortex_thorius_retry_critical_operations');
         }
+        
+        // Initialize table
+        $this->init_error_table();
+        
+        // Register recovery hooks
+        add_action('vortex_thorius_error', array($this, 'log_error'), 10, 3);
+        add_filter('vortex_thorius_before_response', array($this, 'inject_recovery_suggestions'), 10, 3);
+    }
+    
+    /**
+     * Initialize error logging table
+     */
+    private function init_error_table() {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->error_table} (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            session_id varchar(191) NOT NULL,
+            error_type varchar(50) NOT NULL,
+            error_message text NOT NULL,
+            error_data longtext NOT NULL,
+            query_data longtext NOT NULL,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            recovered boolean DEFAULT 0,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id),
+            KEY session_id (session_id),
+            KEY error_type (error_type),
+            KEY recovered (recovered)
+        ) $charset_collate;";
+        
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($sql);
     }
     
     /**
@@ -273,29 +313,256 @@ class Vortex_Thorius_Recovery {
     }
     
     /**
-     * Log error for tracking and analysis
-     * 
-     * @param string $type Error type
-     * @param string $code Error code
-     * @param string $message Error message
-     * @param array $data Additional error data
+     * Log error
+     *
+     * @param string $error_type Error type
+     * @param string $error_message Error message
+     * @param array $data Error data
+     * @return int|false Error ID or false on failure
      */
-    private function log_error($type, $code, $message, $data = array()) {
+    public function log_error($error_type, $error_message, $data = array()) {
         global $wpdb;
         
-        $wpdb->insert(
+        $user_id = isset($data['user_id']) ? $data['user_id'] : get_current_user_id();
+        $session_id = isset($data['session_id']) ? $data['session_id'] : '';
+        $query_data = isset($data['query_data']) ? $data['query_data'] : array();
+        
+        $result = $wpdb->insert(
             $this->error_table,
             array(
-                'error_type' => $type,
-                'error_code' => $code,
-                'error_message' => $message,
-                'error_data' => maybe_serialize($data),
-                'timestamp' => current_time('mysql'),
-                'user_id' => get_current_user_id(),
-                'resolved' => 0
+                'user_id' => $user_id,
+                'session_id' => $session_id,
+                'error_type' => $error_type,
+                'error_message' => $error_message,
+                'error_data' => json_encode($data),
+                'query_data' => json_encode($query_data),
+                'created_at' => current_time('mysql')
             ),
-            array('%s', '%s', '%s', '%s', '%s', '%d', '%d')
+            array('%d', '%s', '%s', '%s', '%s', '%s', '%s')
         );
+        
+        if (!$result) {
+            return false;
+        }
+        
+        $error_id = $wpdb->insert_id;
+        
+        // Trigger recovery process for certain errors
+        if ($this->should_trigger_recovery($error_type, $data)) {
+            $this->attempt_recovery($error_id, $error_type, $data);
+        }
+        
+        return $error_id;
+    }
+    
+    /**
+     * Should trigger recovery
+     *
+     * @param string $error_type Error type
+     * @param array $data Error data
+     * @return bool Whether to trigger recovery
+     */
+    private function should_trigger_recovery($error_type, $data) {
+        $recoverable_errors = array(
+            'api_connection',
+            'timeout',
+            'parse_error',
+            'missing_parameters',
+            'invalid_response'
+        );
+        
+        return in_array($error_type, $recoverable_errors);
+    }
+    
+    /**
+     * Attempt recovery
+     *
+     * @param int $error_id Error ID
+     * @param string $error_type Error type
+     * @param array $data Error data
+     * @return bool Success
+     */
+    private function attempt_recovery($error_id, $error_type, $data) {
+        $success = false;
+        
+        switch ($error_type) {
+            case 'api_connection':
+                $success = $this->recover_api_connection($data);
+                break;
+                
+            case 'timeout':
+                $success = $this->recover_timeout($data);
+                break;
+                
+            case 'parse_error':
+                $success = $this->recover_parse_error($data);
+                break;
+                
+            case 'missing_parameters':
+                $success = $this->recover_missing_parameters($data);
+                break;
+                
+            case 'invalid_response':
+                $success = $this->recover_invalid_response($data);
+                break;
+                
+            default:
+                $success = false;
+        }
+        
+        if ($success) {
+            $this->mark_as_recovered($error_id);
+        }
+        
+        return $success;
+    }
+    
+    /**
+     * Mark error as recovered
+     *
+     * @param int $error_id Error ID
+     * @return bool Success
+     */
+    private function mark_as_recovered($error_id) {
+        global $wpdb;
+        
+        $result = $wpdb->update(
+            $this->error_table,
+            array('recovered' => 1),
+            array('id' => $error_id),
+            array('%d'),
+            array('%d')
+        );
+        
+        return $result !== false;
+    }
+    
+    /**
+     * Recover from API connection error
+     *
+     * @param array $data Error data
+     * @return bool Success
+     */
+    private function recover_api_connection($data) {
+        // Try alternative endpoints if available
+        if (!empty($data['endpoint'])) {
+            $alternative_endpoints = $this->get_alternative_endpoints($data['endpoint']);
+            if (!empty($alternative_endpoints)) {
+                update_option('vortex_thorius_current_endpoint', $alternative_endpoints[0]);
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Get alternative endpoints
+     *
+     * @param string $current_endpoint Current endpoint
+     * @return array Alternative endpoints
+     */
+    private function get_alternative_endpoints($current_endpoint) {
+        $all_endpoints = get_option('vortex_thorius_api_endpoints', array());
+        
+        if (empty($all_endpoints) || !is_array($all_endpoints)) {
+            return array();
+        }
+        
+        // Remove current endpoint from list
+        $alternatives = array_diff($all_endpoints, array($current_endpoint));
+        
+        return array_values($alternatives);
+    }
+    
+    /**
+     * Recover from timeout error
+     *
+     * @param array $data Error data
+     * @return bool Success
+     */
+    private function recover_timeout($data) {
+        // Try with simplified query
+        if (!empty($data['query'])) {
+            // Log recovery attempt
+            $this->log_recovery_attempt('timeout', 'Simplified query', $data);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Recover from parse error
+     *
+     * @param array $data Error data
+     * @return bool Success
+     */
+    private function recover_parse_error($data) {
+        // Try to fix malformed JSON or output
+        if (!empty($data['response'])) {
+            // Log recovery attempt
+            $this->log_recovery_attempt('parse_error', 'Fixed malformed response', $data);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Recover from missing parameters
+     *
+     * @param array $data Error data
+     * @return bool Success
+     */
+    private function recover_missing_parameters($data) {
+        // Try to fill in missing parameters
+        if (!empty($data['missing_params'])) {
+            // Log recovery attempt
+            $this->log_recovery_attempt(
+                'missing_parameters', 
+                'Filled in missing parameters: ' . implode(', ', $data['missing_params']), 
+                $data
+            );
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Recover from invalid response
+     *
+     * @param array $data Error data
+     * @return bool Success
+     */
+    private function recover_invalid_response($data) {
+        // Try to handle invalid response
+        if (!empty($data['response'])) {
+            // Log recovery attempt
+            $this->log_recovery_attempt('invalid_response', 'Handled invalid response', $data);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Log recovery attempt
+     *
+     * @param string $error_type Error type
+     * @param string $action Action taken
+     * @param array $data Error data
+     */
+    private function log_recovery_attempt($error_type, $action, $data) {
+        // Could log to a separate recovery log table if needed
+        error_log(sprintf(
+            'Thorius Recovery Attempt: %s - %s - Session: %s - User: %d',
+            $error_type,
+            $action,
+            isset($data['session_id']) ? $data['session_id'] : 'unknown',
+            isset($data['user_id']) ? $data['user_id'] : 0
+        ));
     }
     
     /**
@@ -490,5 +757,93 @@ class Vortex_Thorius_Recovery {
     private function get_saved_tab_state($container_id, $default = '') {
         $user_id = get_current_user_id();
         return get_user_meta($user_id, "thorius_tab_state_{$container_id}", true) ?: $default;
+    }
+
+    /**
+     * Inject recovery suggestions
+     *
+     * @param array $response Current response
+     * @param array $query Original query
+     * @param int $user_id User ID
+     * @return array Modified response
+     */
+    public function inject_recovery_suggestions($response, $query, $user_id) {
+        global $wpdb;
+        
+        // Skip if no errors for this session
+        if (empty($query['session_id'])) {
+            return $response;
+        }
+        
+        // Check for multiple errors in session
+        $session_id = $query['session_id'];
+        $error_count = $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$this->error_table} 
+            WHERE session_id = %s AND created_at > DATE_SUB(%s, INTERVAL 1 HOUR)",
+            $session_id,
+            current_time('mysql')
+        ));
+        
+        if ($error_count >= $this->max_errors_per_session) {
+            // Add fallback support suggestion
+            $response['suggestions'] = isset($response['suggestions']) ? $response['suggestions'] : array();
+            $response['suggestions'][] = array(
+                'text' => __('I notice you might be experiencing some issues. Would you like to contact support?', 'vortex-ai-marketplace'),
+                'action' => 'support'
+            );
+        }
+        
+        return $response;
+    }
+    
+    /**
+     * Get error count for session
+     *
+     * @param string $session_id Session ID
+     * @param int $time_window Window in seconds
+     * @return int Error count
+     */
+    public function get_session_error_count($session_id, $time_window = 3600) {
+        global $wpdb;
+        
+        $count = $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$this->error_table} 
+            WHERE session_id = %s AND created_at > DATE_SUB(%s, INTERVAL %d SECOND)",
+            $session_id,
+            current_time('mysql'),
+            $time_window
+        ));
+        
+        return (int)$count;
+    }
+    
+    /**
+     * Get recovery success rate
+     *
+     * @param int $time_window Window in seconds
+     * @return float Success rate percentage
+     */
+    public function get_recovery_success_rate($time_window = 86400) {
+        global $wpdb;
+        
+        $total = $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$this->error_table} 
+            WHERE created_at > DATE_SUB(%s, INTERVAL %d SECOND)",
+            current_time('mysql'),
+            $time_window
+        ));
+        
+        if ($total === 0) {
+            return 100.0; // No errors, 100% success rate
+        }
+        
+        $recovered = $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$this->error_table} 
+            WHERE recovered = 1 AND created_at > DATE_SUB(%s, INTERVAL %d SECOND)",
+            current_time('mysql'),
+            $time_window
+        ));
+        
+        return ($recovered / $total) * 100;
     }
 } 

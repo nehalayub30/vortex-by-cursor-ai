@@ -1,0 +1,200 @@
+/* 
+ * Thorius Learning Dashboard Styles
+ * For Vortex AI Marketplace Admin
+ */
+
+/* Dashboard Cards Layout */
+.thorius-learning-dashboard {
+    margin-top: 20px;
+}
+
+.thorius-stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.thorius-stat-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.thorius-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.thorius-stat-header {
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.thorius-stat-value {
+    color: #1d2327;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+/* Agent Metrics Cards */
+.thorius-agent-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.thorius-agent-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    overflow: hidden;
+}
+
+.thorius-agent-header {
+    background: linear-gradient(135deg, #4158D0, #C850C0);
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 15px 20px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Agent CLOE header */
+.thorius-agent-card:nth-child(1) .thorius-agent-header {
+    background: linear-gradient(135deg, #4158D0, #C850C0);
+}
+
+/* Agent HURAII header */
+.thorius-agent-card:nth-child(2) .thorius-agent-header {
+    background: linear-gradient(135deg, #00CDAC, #02AAB0);
+}
+
+/* Agent STRATEGIST header */
+.thorius-agent-card:nth-child(3) .thorius-agent-header {
+    background: linear-gradient(135deg, #FF9966, #FF5E62);
+}
+
+/* Agent THORIUS header */
+.thorius-agent-card:nth-child(4) .thorius-agent-header {
+    background: linear-gradient(135deg, #7F00FF, #E100FF);
+}
+
+.thorius-agent-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 20px;
+}
+
+.thorius-agent-metric {
+    position: relative;
+    padding-right: 25px;
+}
+
+.thorius-metric-name {
+    color: #555;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.thorius-metric-value {
+    color: #1d2327;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.thorius-metric-trend {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.thorius-metric-trend.positive {
+    color: #4caf50;
+}
+
+.thorius-metric-trend.negative {
+    color: #f44336;
+}
+
+.thorius-metric-trend.neutral {
+    color: #9e9e9e;
+}
+
+.thorius-agent-last-adaptation {
+    padding: 10px 20px;
+    color: #555;
+    font-size: 13px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.thorius-agent-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+/* Status badges */
+.thorius-status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.thorius-status-badge.success {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: #2e7d32;
+}
+
+.thorius-status-badge.error {
+    background-color: rgba(244, 67, 54, 0.15);
+    color: #c62828;
+}
+
+.thorius-status-badge.pending {
+    background-color: rgba(255, 152, 0, 0.15);
+    color: #ef6c00;
+}
+
+/* Table impact colors */
+td.positive {
+    color: #4caf50;
+    font-weight: 600;
+}
+
+td.negative {
+    color: #f44336;
+    font-weight: 600;
+}
+
+/* Settings form */
+#thorius-learning-settings-form .form-table th {
+    width: 250px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .thorius-agent-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .thorius-stats-cards,
+    .thorius-agent-metrics {
+        grid-template-columns: 1fr;
+    }
+} 

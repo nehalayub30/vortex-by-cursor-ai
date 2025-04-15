@@ -1,693 +1,558 @@
 <?php
 /**
  * VORTEX Blockchain Metrics
- * 
- * Tracks and reports real-time metrics for TOLA blockchain integration
  *
- * @package   VORTEX_Marketplace
- * @author    VORTEX Development Team
- * @license   GPL-2.0+
+ * Handles real-time metrics for blockchain data
  */
 
-// If this file is called directly, abort.
-if (!defined('WPINC')) {
-    die;
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
 }
 
 class VORTEX_Blockchain_Metrics {
-    /**
-     * Instance of this class.
-     */
-    protected static $instance = null;
+    private static $instance = null;
+    private $cache_expiry = 300; // 5 minutes
     
     /**
-     * Cache expiration times
+     * Get class instance
      */
-    private $cache_times = array(
-        'real_time' => 60,      // 1 minute
-        'hourly' => 3600,       // 1 hour
-        'daily' => 86400,       // 1 day
-        'weekly' => 604800      // 1 week
-    );
+    public static function get_instance() {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
     
     /**
      * Constructor
      */
     private function __construct() {
-        // Register REST API endpoints for metrics
-        add_action('rest_api_init', array($this, 'register_rest_routes'));
-        
-        // Register admin widget for blockchain metrics
-        add_action('wp_dashboard_setup', array($this, 'add_blockchain_dashboard_widget'));
-        
-        // Schedule metrics caching
-        add_action('init', array($this, 'schedule_metrics_caching'));
-        
-        // Register AJAX handlers
         add_action('wp_ajax_vortex_get_blockchain_metrics', array($this, 'ajax_get_blockchain_metrics'));
         add_action('wp_ajax_nopriv_vortex_get_blockchain_metrics', array($this, 'ajax_get_blockchain_metrics'));
+        
+        // Add real-time update hooks
+        add_action('vortex_artwork_tokenized', array($this, 'invalidate_metrics_cache'), 10, 2);
+        add_action('vortex_token_transferred', array($this, 'invalidate_metrics_cache'), 10, 2);
+        add_action('vortex_marketplace_sale_completed', array($this, 'invalidate_metrics_cache'), 10, 2);
+        
+        // Schedule hourly cache refresh
+        if (!wp_next_scheduled('vortex_refresh_blockchain_metrics')) {
+            wp_schedule_event(time(), 'hourly', 'vortex_refresh_blockchain_metrics');
+        }
+        add_action('vortex_refresh_blockchain_metrics', array($this, 'refresh_all_metrics_cache'));
     }
     
     /**
-     * Return an instance of this class.
+     * Get metrics with caching
+     * 
+     * @param string $metric_type Type of metrics to retrieve
+     * @param int $days Number of days to look back
+     * @param bool $force_refresh Whether to force cache refresh
+     * @return array The metrics data
      */
-    public static function get_instance() {
-        if (null == self::$instance) {
-            self::$instance = new self;
+    public function get_metrics($metric_type = 'artwork', $days = 7, $force_refresh = false) {
+        $cache_key = 'vortex_blockchain_metrics_' . $metric_type . '_' . $days;
+        $cached_data = get_transient($cache_key);
+        
+        if ($cached_data !== false && !$force_refresh) {
+            return $cached_data;
         }
         
-        return self::$instance;
-    }
-    
-    /**
-     * Register REST API routes
-     */
-    public function register_rest_routes() {
-        register_rest_route('vortex/v1', '/blockchain/metrics', array(
-            'methods' => 'GET',
-            'callback' => array($this, 'get_public_blockchain_metrics'),
-            'permission_callback' => '__return_true'
-        ));
-        
-        register_rest_route('vortex/v1', '/blockchain/artists', array(
-            'methods' => 'GET',
-            'callback' => array($this, 'get_top_blockchain_artists'),
-            'permission_callback' => '__return_true'
-        ));
-        
-        register_rest_route('vortex/v1', '/blockchain/categories', array(
-            'methods' => 'GET',
-            'callback' => array($this, 'get_top_artwork_categories'),
-            'permission_callback' => '__return_true'
-        ));
-    }
-    
-    /**
-     * Schedule metrics caching
-     */
-    public function schedule_metrics_caching() {
-        if (!wp_next_scheduled('vortex_cache_blockchain_metrics')) {
-            wp_schedule_event(time(), 'hourly', 'vortex_cache_blockchain_metrics');
-        }
-        
-        add_action('vortex_cache_blockchain_metrics', array($this, 'cache_blockchain_metrics'));
-    }
-    
-    /**
-     * Cache blockchain metrics
-     */
-    public function cache_blockchain_metrics() {
-        // Generate and cache daily metrics
-        $daily_metrics = $this->generate_blockchain_metrics(30);
-        set_transient('vortex_blockchain_metrics_daily', $daily_metrics, $this->cache_times['daily']);
-        
-        // Generate and cache weekly metrics
-        $weekly_metrics = $this->generate_blockchain_metrics(90);
-        set_transient('vortex_blockchain_metrics_weekly', $weekly_metrics, $this->cache_times['weekly']);
-        
-        // Generate and cache artist metrics
-        $artists_metrics = $this->generate_artist_metrics(30);
-        set_transient('vortex_blockchain_artists_metrics', $artists_metrics, $this->cache_times['daily']);
-        
-        // Generate and cache category metrics
-        $categories_metrics = $this->generate_category_metrics(30);
-        set_transient('vortex_blockchain_categories_metrics', $categories_metrics, $this->cache_times['daily']);
-        
-        // Log caching event
-        $this->log_metrics_update('Cached blockchain metrics');
-    }
-    
-    /**
-     * Get public blockchain metrics
-     */
-    public function get_public_blockchain_metrics($request) {
-        $days = isset($request['days']) ? intval($request['days']) : 30;
-        $type = isset($request['type']) ? sanitize_text_field($request['type']) : 'all';
-        
-        return $this->get_public_blockchain_stats($days, $type);
-    }
-    
-    /**
-     * Get public blockchain stats
-     */
-    public function get_public_blockchain_stats($days = 30, $type = 'all') {
-        // Check cache first
-        $cache_key = 'vortex_blockchain_metrics_' . $days . '_' . $type;
-        $cached = get_transient($cache_key);
-        
-        if (false !== $cached) {
-            return $cached;
-        }
-        
-        // Generate metrics based on type
-        $metrics = array();
-        
-        switch ($type) {
-            case 'artists':
-                $metrics = $this->generate_artist_metrics($days);
+        // Get fresh data
+        switch ($metric_type) {
+            case 'artwork':
+                $data = $this->get_artwork_metrics($days);
                 break;
-                
-            case 'categories':
-                $metrics = $this->generate_category_metrics($days);
+            case 'token':
+                $data = $this->get_token_metrics($days);
                 break;
-                
-            case 'transactions':
-                $metrics = $this->generate_transaction_metrics($days);
-                break;
-                
             case 'all':
+                $data = array(
+                    'artwork' => $this->get_artwork_metrics($days),
+                    'token' => $this->get_token_metrics($days)
+                );
+                break;
             default:
-                $metrics = $this->generate_blockchain_metrics($days);
-                
-                // Add additional data for 'all' type
-                $metrics['top_artists'] = $this->get_top_blockchain_artists_data($days, 5);
-                $metrics['top_categories'] = $this->get_top_artwork_categories_data($days, 5);
-                $metrics['recent_transactions'] = $this->get_recent_transactions(5);
+                $data = array('error' => 'Invalid metric type');
                 break;
         }
         
-        // Cache for 1 hour
-        set_transient($cache_key, $metrics, $this->cache_times['hourly']);
+        // Cache the data for 1 hour by default
+        $cache_duration = apply_filters('vortex_blockchain_metrics_cache_duration', HOUR_IN_SECONDS);
+        set_transient($cache_key, $data, $cache_duration);
         
-        return $metrics;
+        return $data;
     }
     
     /**
-     * Generate blockchain metrics
+     * Get artwork metrics from blockchain
+     * 
+     * @param int $days Number of days to look back
+     * @return array Artwork metrics
      */
-    private function generate_blockchain_metrics($days = 30) {
+    public function get_artwork_metrics($days = 7) {
         global $wpdb;
         
-        // Total tokenized artworks
-        $total_artworks = $wpdb->get_var(
-            "SELECT COUNT(*) FROM {$wpdb->prefix}vortex_nft_valuations"
-        );
+        $from_date = date('Y-m-d H:i:s', strtotime("-{$days} days"));
         
-        // New tokenized artworks in period
-        $new_artworks = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM {$wpdb->prefix}vortex_nft_valuations
-             WHERE created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-            $days
-        ));
-        
-        // Total blockchain transactions
-        $total_transactions = $wpdb->get_var(
-            "SELECT COUNT(*) FROM {$wpdb->prefix}vortex_blockchain_transactions"
-        );
-        
-        // Transactions in period
-        $period_transactions = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM {$wpdb->prefix}vortex_blockchain_transactions
-             WHERE created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-            $days
-        ));
-        
-        // Total TOLA volume
-        $total_volume = $wpdb->get_var(
-            "SELECT SUM(tola_amount) FROM {$wpdb->prefix}vortex_blockchain_transactions"
-        );
-        
-        // TOLA volume in period
-        $period_volume = $wpdb->get_var($wpdb->prepare(
-            "SELECT SUM(tola_amount) FROM {$wpdb->prefix}vortex_blockchain_transactions
-             WHERE created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-            $days
-        ));
-        
-        // Total artists with NFTs
-        $total_artists = $wpdb->get_var(
-            "SELECT COUNT(DISTINCT user_id) 
-             FROM {$wpdb->prefix}vortex_artworks a
-             JOIN {$wpdb->prefix}vortex_nft_valuations v ON a.id = v.artwork_id"
-        );
-        
-        // Daily transaction volume over period
-        $daily_volume = $wpdb->get_results($wpdb->prepare(
-            "SELECT DATE(created_at) as date, SUM(tola_amount) as volume
-             FROM {$wpdb->prefix}vortex_blockchain_transactions
-             WHERE created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
+        // Get artwork creation count by day
+        $creation_data = $wpdb->get_results($wpdb->prepare(
+            "SELECT DATE(created_at) as date, COUNT(*) as count 
+             FROM {$wpdb->prefix}vortex_artwork_tokens
+             WHERE created_at >= %s
              GROUP BY DATE(created_at)
              ORDER BY date ASC",
-            $days
-        ));
+            $from_date
+        ), ARRAY_A);
         
-        // Format daily volume for chart
-        $volume_dates = array();
-        $volume_values = array();
+        // Get artwork sales by day
+        $sales_data = $wpdb->get_results($wpdb->prepare(
+            "SELECT DATE(t.created_at) as date, COUNT(*) as count, SUM(t.amount) as volume
+             FROM {$wpdb->prefix}vortex_token_transfers t
+             JOIN {$wpdb->prefix}vortex_artwork_tokens a ON t.metadata LIKE CONCAT('%%', a.token_id, '%%')
+             WHERE t.transfer_type = 'sale' AND t.created_at >= %s
+             GROUP BY DATE(t.created_at)
+             ORDER BY date ASC",
+            $from_date
+        ), ARRAY_A);
         
-        foreach ($daily_volume as $day) {
-            $volume_dates[] = $day->date;
-            $volume_values[] = floatval($day->volume);
+        // Get most swapped artists
+        $top_artists = $wpdb->get_results($wpdb->prepare(
+            "SELECT a.artist_id, u.display_name as artist_name, COUNT(*) as swap_count, SUM(t.amount) as volume
+             FROM {$wpdb->prefix}vortex_token_transfers t
+             JOIN {$wpdb->prefix}vortex_artwork_tokens tk ON t.metadata LIKE CONCAT('%%', tk.token_id, '%%')
+             JOIN {$wpdb->prefix}vortex_artworks a ON tk.artwork_id = a.id
+             JOIN {$wpdb->users} u ON a.artist_id = u.ID
+             WHERE t.created_at >= %s
+             GROUP BY a.artist_id
+             ORDER BY swap_count DESC
+             LIMIT 10",
+            $from_date
+        ), ARRAY_A);
+        
+        // Get most popular categories
+        $top_categories = $wpdb->get_results($wpdb->prepare(
+            "SELECT c.name as category, COUNT(*) as count, SUM(t.amount) as volume
+             FROM {$wpdb->prefix}vortex_token_transfers t
+             JOIN {$wpdb->prefix}vortex_artwork_tokens tk ON t.metadata LIKE CONCAT('%%', tk.token_id, '%%')
+             JOIN {$wpdb->prefix}vortex_artworks a ON tk.artwork_id = a.id
+             JOIN {$wpdb->term_relationships} tr ON a.id = tr.object_id
+             JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+             JOIN {$wpdb->terms} c ON tt.term_id = c.term_id
+             WHERE tt.taxonomy = 'artwork_category' AND t.created_at >= %s
+             GROUP BY c.term_id
+             ORDER BY count DESC
+             LIMIT 10",
+            $from_date
+        ), ARRAY_A);
+        
+        // Get daily swap metrics
+        $swap_metrics = $wpdb->get_results($wpdb->prepare(
+            "SELECT DATE(created_at) as date, COUNT(*) as count, SUM(amount) as volume
+             FROM {$wpdb->prefix}vortex_token_transfers
+             WHERE transfer_type = 'swap' AND created_at >= %s
+             GROUP BY DATE(created_at)
+             ORDER BY date ASC",
+            $from_date
+        ), ARRAY_A);
+        
+        // Get trending artworks (most transferred in last week)
+        $trending_artworks = $wpdb->get_results($wpdb->prepare(
+            "SELECT a.id, a.title, a.thumbnail, COUNT(t.id) as transfer_count, 
+                    MAX(t.amount) as highest_amount, a.artist_id, u.display_name as artist_name
+             FROM {$wpdb->prefix}vortex_token_transfers t
+             JOIN {$wpdb->prefix}vortex_artwork_tokens tk ON t.metadata LIKE CONCAT('%%', tk.token_id, '%%')
+             JOIN {$wpdb->prefix}vortex_artworks a ON tk.artwork_id = a.id
+             JOIN {$wpdb->users} u ON a.artist_id = u.ID
+             WHERE t.created_at >= %s
+             GROUP BY a.id
+             ORDER BY transfer_count DESC, highest_amount DESC
+             LIMIT 5",
+            $from_date
+        ), ARRAY_A);
+        
+        // Format trending artworks data
+        foreach ($trending_artworks as &$artwork) {
+            $artwork['thumbnail_url'] = wp_get_attachment_url($artwork['thumbnail']);
+            $artwork['permalink'] = get_permalink($artwork['id']);
         }
         
         return array(
-            'total_artworks' => intval($total_artworks),
-            'new_artworks' => intval($new_artworks),
-            'total_transactions' => intval($total_transactions),
-            'period_transactions' => intval($period_transactions),
-            'total_volume' => floatval($total_volume),
-            'period_volume' => floatval($period_volume),
-            'total_artists' => intval($total_artists),
-            'chart_data' => array(
-                'dates' => $volume_dates,
-                'volumes' => $volume_values
-            ),
+            'creation_data' => $creation_data,
+            'sales_data' => $sales_data,
+            'top_artists' => $top_artists,
+            'top_categories' => $top_categories,
+            'swap_metrics' => $swap_metrics,
+            'trending_artworks' => $trending_artworks,
+            'total_artworks' => $this->get_total_tokenized_artworks(),
+            'total_volume' => $this->get_total_trading_volume($days),
             'last_updated' => current_time('mysql')
         );
     }
     
     /**
-     * Generate artist metrics
+     * Get token metrics from blockchain
+     * 
+     * @param int $days Number of days to look back
+     * @return array Token metrics
      */
-    private function generate_artist_metrics($days = 30) {
+    public function get_token_metrics($days = 7) {
         global $wpdb;
         
-        // Top artists by NFT count
-        $top_by_nft_count = $wpdb->get_results($wpdb->prepare(
-            "SELECT u.ID as user_id, u.display_name as artist_name, COUNT(*) as nft_count
-             FROM {$wpdb->prefix}vortex_nft_valuations v
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             JOIN {$wpdb->users} u ON a.user_id = u.ID
-             WHERE v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY u.ID
-             ORDER BY nft_count DESC
-             LIMIT 10",
-            $days
-        ));
+        $from_date = date('Y-m-d H:i:s', strtotime("-{$days} days"));
         
-        // Top artists by transaction volume
-        $top_by_volume = $wpdb->get_results($wpdb->prepare(
-            "SELECT u.ID as user_id, u.display_name as artist_name, SUM(t.tola_amount) as volume
-             FROM {$wpdb->prefix}vortex_blockchain_transactions t
-             JOIN {$wpdb->prefix}vortex_nft_valuations v ON t.nft_id = v.nft_id
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             JOIN {$wpdb->users} u ON a.user_id = u.ID
-             WHERE t.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY u.ID
-             ORDER BY volume DESC
-             LIMIT 10",
-            $days
-        ));
+        // Get token transfer count by day
+        $transfer_data = $wpdb->get_results($wpdb->prepare(
+            "SELECT DATE(created_at) as date, COUNT(*) as count, SUM(amount) as volume
+             FROM {$wpdb->prefix}vortex_token_transfers
+             WHERE created_at >= %s
+             GROUP BY DATE(created_at)
+             ORDER BY date ASC",
+            $from_date
+        ), ARRAY_A);
         
-        // Most swapped artists
-        $most_swapped = $wpdb->get_results($wpdb->prepare(
-            "SELECT u.ID as user_id, u.display_name as artist_name, COUNT(*) as swap_count
-             FROM {$wpdb->prefix}vortex_blockchain_transactions t
-             JOIN {$wpdb->prefix}vortex_nft_valuations v ON t.nft_id = v.nft_id
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             JOIN {$wpdb->users} u ON a.user_id = u.ID
-             WHERE t.transaction_type = 'swap'
-             AND t.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY u.ID
-             ORDER BY swap_count DESC
-             LIMIT 10",
-            $days
-        ));
-        
-        return array(
-            'top_by_nft_count' => $top_by_nft_count,
-            'top_by_volume' => $top_by_volume,
-            'most_swapped' => $most_swapped,
-            'last_updated' => current_time('mysql')
-        );
-    }
-    
-    /**
-     * Generate category metrics
-     */
-    private function generate_category_metrics($days = 30) {
-        global $wpdb;
-        
-        // Top categories by NFT count
-        $top_by_nft_count = $wpdb->get_results($wpdb->prepare(
-            "SELECT a.category, COUNT(*) as nft_count
-             FROM {$wpdb->prefix}vortex_nft_valuations v
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             WHERE v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY a.category
-             ORDER BY nft_count DESC
-             LIMIT 10",
-            $days
-        ));
-        
-        // Top categories by transaction volume
-        $top_by_volume = $wpdb->get_results($wpdb->prepare(
-            "SELECT a.category, SUM(t.tola_amount) as volume
-             FROM {$wpdb->prefix}vortex_blockchain_transactions t
-             JOIN {$wpdb->prefix}vortex_nft_valuations v ON t.nft_id = v.nft_id
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             WHERE t.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY a.category
-             ORDER BY volume DESC
-             LIMIT 10",
-            $days
-        ));
-        
-        // Most swapped categories
-        $most_swapped = $wpdb->get_results($wpdb->prepare(
-            "SELECT a.category, COUNT(*) as swap_count
-             FROM {$wpdb->prefix}vortex_blockchain_transactions t
-             JOIN {$wpdb->prefix}vortex_nft_valuations v ON t.nft_id = v.nft_id
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             WHERE t.transaction_type = 'swap'
-             AND t.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY a.category
-             ORDER BY swap_count DESC
-             LIMIT 10",
-            $days
-        ));
-        
-        // Average price by category
-        $avg_price = $wpdb->get_results($wpdb->prepare(
-            "SELECT a.category, AVG(v.current_value) as avg_price
-             FROM {$wpdb->prefix}vortex_nft_valuations v
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             WHERE v.last_updated >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY a.category
-             ORDER BY avg_price DESC",
-            $days
-        ));
-        
-        return array(
-            'top_by_nft_count' => $top_by_nft_count,
-            'top_by_volume' => $top_by_volume,
-            'most_swapped' => $most_swapped,
-            'avg_price' => $avg_price,
-            'last_updated' => current_time('mysql')
-        );
-    }
-    
-    /**
-     * Generate transaction metrics
-     */
-    private function generate_transaction_metrics($days = 30) {
-        global $wpdb;
-        
-        // Transaction count by type
-        $by_type = $wpdb->get_results($wpdb->prepare(
-            "SELECT transaction_type, COUNT(*) as count
-             FROM {$wpdb->prefix}vortex_blockchain_transactions
-             WHERE created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY transaction_type
+        // Get token transfer types distribution
+        $transfer_types = $wpdb->get_results($wpdb->prepare(
+            "SELECT transfer_type, COUNT(*) as count, SUM(amount) as volume
+             FROM {$wpdb->prefix}vortex_token_transfers
+             WHERE created_at >= %s
+             GROUP BY transfer_type
              ORDER BY count DESC",
-            $days
-        ));
+            $from_date
+        ), ARRAY_A);
         
-        // Daily transaction count
-        $daily_count = $wpdb->get_results($wpdb->prepare(
-            "SELECT DATE(created_at) as date, COUNT(*) as count
-             FROM {$wpdb->prefix}vortex_blockchain_transactions
-             WHERE created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY DATE(created_at)
-             ORDER BY date ASC",
-            $days
-        ));
-        
-        // Recent transactions
-        $recent = $wpdb->get_results(
-            "SELECT t.*, v.artwork_id, a.title as artwork_title,
-                    sender.display_name as sender_name,
-                    receiver.display_name as receiver_name
-             FROM {$wpdb->prefix}vortex_blockchain_transactions t
-             JOIN {$wpdb->prefix}vortex_nft_valuations v ON t.nft_id = v.nft_id
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             LEFT JOIN {$wpdb->users} sender ON t.sender_id = sender.ID
-             LEFT JOIN {$wpdb->users} receiver ON t.receiver_id = receiver.ID
-             ORDER BY t.created_at DESC
+        // Get top token holders
+        $top_holders = $wpdb->get_results(
+            "SELECT wallet_address, token_balance, u.display_name
+             FROM {$wpdb->prefix}vortex_wallet_addresses w
+             LEFT JOIN {$wpdb->users} u ON w.user_id = u.ID
+             WHERE token_balance > 0
+             ORDER BY token_balance DESC
              LIMIT 10"
-        );
+        , ARRAY_A);
         
-        // Format for chart
-        $dates = array();
-        $counts = array();
-        
-        foreach ($daily_count as $day) {
-            $dates[] = $day->date;
-            $counts[] = intval($day->count);
-        }
+        // Get token price history
+        $price_history = $wpdb->get_results($wpdb->prepare(
+            "SELECT DATE(recorded_at) as date, token_price
+             FROM {$wpdb->prefix}vortex_dao_metrics_history
+             WHERE recorded_at >= %s
+             GROUP BY DATE(recorded_at)
+             ORDER BY date ASC",
+            $from_date
+        ), ARRAY_A);
         
         return array(
-            'by_type' => $by_type,
-            'recent' => $recent,
-            'chart_data' => array(
-                'dates' => $dates,
-                'counts' => $counts
-            ),
+            'transfer_data' => $transfer_data,
+            'transfer_types' => $transfer_types,
+            'top_holders' => $top_holders,
+            'price_history' => $price_history,
+            'total_transfers' => $this->get_total_transfers($days),
+            'total_holders' => $this->get_total_token_holders(),
+            'current_price' => $this->get_current_token_price(),
             'last_updated' => current_time('mysql')
         );
     }
     
     /**
-     * Get top blockchain artists data
+     * Get total tokenized artworks
+     * 
+     * @return int Total artworks on blockchain
      */
-    private function get_top_blockchain_artists_data($days = 30, $limit = 5) {
+    public function get_total_tokenized_artworks() {
+        global $wpdb;
+        return (int)$wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}vortex_artwork_tokens");
+    }
+    
+    /**
+     * Get total trading volume
+     * 
+     * @param int $days Number of days to look back
+     * @return float Total volume
+     */
+    public function get_total_trading_volume($days = 7) {
         global $wpdb;
         
-        return $wpdb->get_results($wpdb->prepare(
-            "SELECT u.ID as user_id, u.display_name as artist_name, 
-                    COUNT(DISTINCT v.nft_id) as nft_count,
-                    SUM(t.tola_amount) as volume
-             FROM {$wpdb->prefix}vortex_blockchain_transactions t
-             JOIN {$wpdb->prefix}vortex_nft_valuations v ON t.nft_id = v.nft_id
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             JOIN {$wpdb->users} u ON a.user_id = u.ID
-             WHERE t.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY u.ID
-             ORDER BY volume DESC
-             LIMIT %d",
-            $days, $limit
+        $from_date = date('Y-m-d H:i:s', strtotime("-{$days} days"));
+        
+        return (float)$wpdb->get_var($wpdb->prepare(
+            "SELECT SUM(amount) FROM {$wpdb->prefix}vortex_token_transfers
+             WHERE created_at >= %s",
+            $from_date
         ));
     }
     
     /**
-     * Get top artwork categories data
+     * Get total transfers
+     * 
+     * @param int $days Number of days to look back
+     * @return int Total transfers
      */
-    private function get_top_artwork_categories_data($days = 30, $limit = 5) {
+    public function get_total_transfers($days = 7) {
         global $wpdb;
         
-        return $wpdb->get_results($wpdb->prepare(
-            "SELECT a.category, COUNT(DISTINCT v.nft_id) as nft_count,
-                    SUM(t.tola_amount) as volume
-             FROM {$wpdb->prefix}vortex_blockchain_transactions t
-             JOIN {$wpdb->prefix}vortex_nft_valuations v ON t.nft_id = v.nft_id
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             WHERE t.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY a.category
-             ORDER BY volume DESC
-             LIMIT %d",
-            $days, $limit
+        $from_date = date('Y-m-d H:i:s', strtotime("-{$days} days"));
+        
+        return (int)$wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$wpdb->prefix}vortex_token_transfers
+             WHERE created_at >= %s",
+            $from_date
         ));
     }
     
     /**
-     * Get recent transactions
+     * Get total token holders
+     * 
+     * @return int Total holders
      */
-    private function get_recent_transactions($limit = 5) {
+    public function get_total_token_holders() {
         global $wpdb;
-        
-        return $wpdb->get_results($wpdb->prepare(
-            "SELECT t.transaction_id, t.transaction_type, t.tola_amount,
-                    t.created_at, v.artwork_id, a.title as artwork_title,
-                    sender.display_name as sender_name,
-                    receiver.display_name as receiver_name
-             FROM {$wpdb->prefix}vortex_blockchain_transactions t
-             JOIN {$wpdb->prefix}vortex_nft_valuations v ON t.nft_id = v.nft_id
-             JOIN {$wpdb->prefix}vortex_artworks a ON v.artwork_id = a.id
-             LEFT JOIN {$wpdb->users} sender ON t.sender_id = sender.ID
-             LEFT JOIN {$wpdb->users} receiver ON t.receiver_id = receiver.ID
-             ORDER BY t.created_at DESC
-             LIMIT %d",
-            $limit
-        ));
+        return (int)$wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}vortex_wallet_addresses WHERE token_balance > 0");
     }
     
     /**
-     * Add blockchain dashboard widget
+     * Get current token price
+     * 
+     * @return float Current price
      */
-    public function add_blockchain_dashboard_widget() {
-        if (current_user_can('edit_posts')) {
-            wp_add_dashboard_widget(
-                'vortex_blockchain_metrics_widget',
-                'TOLA Blockchain Metrics',
-                array($this, 'render_blockchain_widget')
+    public function get_current_token_price() {
+        global $wpdb;
+        $price = $wpdb->get_var(
+            "SELECT token_price FROM {$wpdb->prefix}vortex_dao_metrics_history
+             ORDER BY recorded_at DESC LIMIT 1"
+        );
+        
+        return $price ? (float)$price : 0;
+    }
+    
+    /**
+     * Invalidate metrics cache when new events occur
+     */
+    public function invalidate_metrics_cache() {
+        // Clear artwork metrics cache for all timeframes
+        delete_transient('vortex_blockchain_metrics_artwork_7');
+        delete_transient('vortex_blockchain_metrics_artwork_30');
+        delete_transient('vortex_blockchain_metrics_artwork_90');
+        
+        // Clear token metrics cache for all timeframes
+        delete_transient('vortex_blockchain_metrics_token_7');
+        delete_transient('vortex_blockchain_metrics_token_30');
+        delete_transient('vortex_blockchain_metrics_token_90');
+        
+        // Clear all metrics cache
+        delete_transient('vortex_blockchain_metrics_all_7');
+        delete_transient('vortex_blockchain_metrics_all_30');
+        delete_transient('vortex_blockchain_metrics_all_90');
+        
+        // Fire action for any listeners
+        do_action('vortex_blockchain_metrics_cache_invalidated');
+    }
+    
+    /**
+     * Refresh all metrics cache
+     */
+    public function refresh_all_metrics_cache() {
+        // Force refresh of all metrics for common timeframes
+        $this->get_metrics('artwork', 7, true);
+        $this->get_metrics('artwork', 30, true);
+        $this->get_metrics('token', 7, true);
+        $this->get_metrics('token', 30, true);
+        $this->get_metrics('all', 7, true);
+        
+        // Log refresh
+        error_log('VORTEX blockchain metrics cache refreshed at ' . current_time('mysql'));
+    }
+    
+    /**
+     * Export metrics to CSV
+     * 
+     * @param array $metrics Metrics data
+     * @return string CSV content
+     */
+    public function export_metrics_to_csv($metrics) {
+        $csv_data = array();
+        
+        // Add header row based on metrics type
+        if (isset($metrics['creation_data'])) {
+            // Artwork metrics headers
+            $csv_data[] = array(
+                'Date', 'Artworks Created', 'Artworks Sold', 'Sale Volume',
+                'Swap Count', 'Swap Volume', 'Total Volume'
             );
+            
+            // Process artwork metrics
+            $dates = array_column($metrics['creation_data'], 'date');
+            
+            foreach ($dates as $date) {
+                $row = array($date);
+                
+                // Add created artworks
+                $created = 0;
+                foreach ($metrics['creation_data'] as $item) {
+                    if ($item['date'] === $date) {
+                        $created = $item['count'];
+                        break;
+                    }
+                }
+                $row[] = $created;
+                
+                // Add sold artworks and volume
+                $sold = 0;
+                $sale_volume = 0;
+                foreach ($metrics['sales_data'] as $item) {
+                    if ($item['date'] === $date) {
+                        $sold = $item['count'];
+                        $sale_volume = $item['volume'];
+                        break;
+                    }
+                }
+                $row[] = $sold;
+                $row[] = $sale_volume;
+                
+                // Add swap count and volume
+                $swap_count = 0;
+                $swap_volume = 0;
+                foreach ($metrics['swap_metrics'] as $item) {
+                    if ($item['date'] === $date) {
+                        $swap_count = $item['count'];
+                        $swap_volume = $item['volume'];
+                        break;
+                    }
+                }
+                $row[] = $swap_count;
+                $row[] = $swap_volume;
+                
+                // Add total volume
+                $row[] = $sale_volume + $swap_volume;
+                
+                $csv_data[] = $row;
+            }
+            
+            // Add top artists section
+            $csv_data[] = array('');
+            $csv_data[] = array('Top Artists by Swap Count');
+            $csv_data[] = array('Artist', 'Swap Count', 'Volume');
+            
+            foreach ($metrics['top_artists'] as $artist) {
+                $csv_data[] = array(
+                    $artist['artist_name'],
+                    $artist['swap_count'],
+                    $artist['volume']
+                );
+            }
+            
+            // Add top categories section
+            $csv_data[] = array('');
+            $csv_data[] = array('Top Categories by Count');
+            $csv_data[] = array('Category', 'Count', 'Volume');
+            
+            foreach ($metrics['top_categories'] as $category) {
+                $csv_data[] = array(
+                    $category['category'],
+                    $category['count'],
+                    $category['volume']
+                );
+            }
+        } elseif (isset($metrics['transfer_data'])) {
+            // Token metrics headers
+            $csv_data[] = array(
+                'Date', 'Transfer Count', 'Transfer Volume'
+            );
+            
+            // Process token metrics
+            foreach ($metrics['transfer_data'] as $item) {
+                $csv_data[] = array(
+                    $item['date'],
+                    $item['count'],
+                    $item['volume']
+                );
+            }
+            
+            // Add transfer types section
+            $csv_data[] = array('');
+            $csv_data[] = array('Transfer Types');
+            $csv_data[] = array('Type', 'Count', 'Volume');
+            
+            foreach ($metrics['transfer_types'] as $type) {
+                $csv_data[] = array(
+                    $type['transfer_type'],
+                    $type['count'],
+                    $type['volume']
+                );
+            }
+            
+            // Add top holders section
+            $csv_data[] = array('');
+            $csv_data[] = array('Top Token Holders');
+            $csv_data[] = array('Address/User', 'Balance');
+            
+            foreach ($metrics['top_holders'] as $holder) {
+                $display_name = empty($holder['display_name']) ? 
+                    substr($holder['wallet_address'], 0, 6) . '...' . substr($holder['wallet_address'], -4) : 
+                    $holder['display_name'];
+                
+                $csv_data[] = array(
+                    $display_name,
+                    $holder['token_balance']
+                );
+            }
         }
-    }
-    
-    /**
-     * Render blockchain dashboard widget
-     */
-    public function render_blockchain_widget() {
-        $metrics = $this->get_public_blockchain_stats(7, 'all');
-        ?>
-        <div class="vortex-blockchain-widget">
-            <div class="vortex-metrics-summary">
-                <div class="vortex-metric-box">
-                    <span class="metric-value"><?php echo number_format($metrics['total_artworks']); ?></span>
-                    <span class="metric-label">Total NFTs</span>
-                </div>
-                
-                <div class="vortex-metric-box">
-                    <span class="metric-value"><?php echo number_format($metrics['new_artworks']); ?></span>
-                    <span class="metric-label">New NFTs (7d)</span>
-                </div>
-                
-                <div class="vortex-metric-box">
-                    <span class="metric-value"><?php echo number_format($metrics['period_transactions']); ?></span>
-                    <span class="metric-label">Transactions (7d)</span>
-                </div>
-                
-                <div class="vortex-metric-box">
-                    <span class="metric-value"><?php echo number_format($metrics['period_volume'], 2); ?> TOLA</span>
-                    <span class="metric-label">Volume (7d)</span>
-                </div>
-            </div>
-            
-            <?php if (!empty($metrics['top_artists'])): ?>
-            <div class="vortex-blockchain-section">
-                <h3>Top Artists (7d)</h3>
-                <ul class="vortex-top-list">
-                    <?php foreach ($metrics['top_artists'] as $artist): ?>
-                    <li>
-                        <span class="item-name"><?php echo esc_html($artist->artist_name); ?></span>
-                        <span class="item-value"><?php echo number_format($artist->volume, 2); ?> TOLA</span>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <?php endif; ?>
-            
-            <?php if (!empty($metrics['top_categories'])): ?>
-            <div class="vortex-blockchain-section">
-                <h3>Top Categories (7d)</h3>
-                <ul class="vortex-top-list">
-                    <?php foreach ($metrics['top_categories'] as $category): ?>
-                    <li>
-                        <span class="item-name"><?php echo esc_html($category->category); ?></span>
-                        <span class="item-value"><?php echo number_format($category->volume, 2); ?> TOLA</span>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <?php endif; ?>
-            
-            <div class="vortex-blockchain-footer">
-                <a href="<?php echo admin_url('admin.php?page=vortex-blockchain-metrics'); ?>" class="button">
-                    View Full Metrics
-                </a>
-                <span class="vortex-updated-time">
-                    Updated: <?php echo date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($metrics['last_updated'])); ?>
-                </span>
-            </div>
-        </div>
         
-        <style>
-            .vortex-blockchain-widget {
-                margin: -12px;
-            }
-            .vortex-metrics-summary {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                margin-bottom: 15px;
-            }
-            .vortex-metric-box {
-                background: #f8f9fa;
-                border-radius: 4px;
-                padding: 10px;
-                text-align: center;
-            }
-            .metric-value {
-                display: block;
-                font-size: 18px;
-                font-weight: 600;
-                color: #2271b1;
-            }
-            .metric-label {
-                font-size: 12px;
-                color: #50575e;
-            }
-            .vortex-blockchain-section {
-                margin-bottom: 15px;
-            }
-            .vortex-blockchain-section h3 {
-                margin: 0 0 8px 0;
-                font-size: 14px;
-            }
-            .vortex-top-list {
-                margin: 0;
-                padding: 0;
-                list-style: none;
-            }
-            .vortex-top-list li {
-                display: flex;
-                justify-content: space-between;
-                padding: 4px 0;
-                border-bottom: 1px solid #f0f0f1;
-                font-size: 13px;
-            }
-            .vortex-blockchain-footer {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 15px;
-                padding-top: 10px;
-                border-top: 1px solid #dcdcde;
-            }
-            .vortex-updated-time {
-                font-size: 11px;
-                color: #666;
-            }
-        </style>
-        <?php
+        // Convert array to CSV
+        $output = fopen('php://temp', 'r+');
+        foreach ($csv_data as $row) {
+            fputcsv($output, $row);
+        }
+        rewind($output);
+        $csv = stream_get_contents($output);
+        fclose($output);
+        
+        return $csv;
     }
     
     /**
      * AJAX handler for getting blockchain metrics
      */
     public function ajax_get_blockchain_metrics() {
-        $days = isset($_GET['days']) ? intval($_GET['days']) : 30;
-        $type = isset($_GET['type']) ? sanitize_text_field($_GET['type']) : 'all';
+        check_ajax_referer('vortex_nonce', 'nonce');
         
-        $metrics = $this->get_public_blockchain_stats($days, $type);
+        $days = isset($_GET['days']) ? intval($_GET['days']) : 7;
+        $metric_type = isset($_GET['metric_type']) ? sanitize_text_field($_GET['metric_type']) : 'artwork';
+        $force_refresh = isset($_GET['force_refresh']) && $_GET['force_refresh'] === '1';
         
-        wp_send_json_success($metrics);
+        // Validate inputs
+        $days = max(1, min(365, $days)); // Limit to 1-365 days
+        if (!in_array($metric_type, array('artwork', 'token', 'all'))) {
+            $metric_type = 'artwork';
+        }
+        
+        $data = $this->get_metrics($metric_type, $days, $force_refresh);
+        
+        wp_send_json_success($data);
     }
     
     /**
-     * Get top blockchain artists
+     * Cleanup on plugin deactivation
      */
-    public function get_top_blockchain_artists($request) {
-        $days = isset($request['days']) ? intval($request['days']) : 30;
-        $limit = isset($request['limit']) ? intval($request['limit']) : 10;
-        
-        return $this->get_top_blockchain_artists_data($days, $limit);
+    public static function cleanup() {
+        $timestamp = wp_next_scheduled('vortex_refresh_blockchain_metrics');
+        if ($timestamp) {
+            wp_unschedule_event($timestamp, 'vortex_refresh_blockchain_metrics');
+        }
     }
     
-    /**
-     * Get top artwork categories
-     */
-    public function get_top_artwork_categories($request) {
-        $days = isset($request['days']) ? intval($request['days']) : 30;
-        $limit = isset($request['limit']) ? intval($request['limit']) : 10;
-        
-        return $this->get_top_artwork_categories_data($days, $limit);
+    private function get_tola_metrics() {
+        try {
+            $tola = new VORTEX_TOLA_Integration();
+            return $tola->get_current_metrics();
+        } catch (Exception $e) {
+            error_log("VORTEX: Error fetching TOLA metrics: " . $e->getMessage());
+            return null;
+        }
     }
-    
-    /**
-     * Log metrics update
-     */
-    private function log_metrics_update($message) {
-        global $wpdb;
-        
-        $wpdb->insert(
-            $wpdb->prefix . 'vortex_system_logs',
-            array(
-                'log_type' => 'blockchain_metrics',
-                'message' => $message,
-                'created_at' => current_time('mysql')
-            ),
-            array('%s', '%s', '%s')
-        );
-    }
-} 
+}
+
+// Initialize Blockchain Metrics
+$vortex_blockchain_metrics = VORTEX_Blockchain_Metrics::get_instance();
+
+// Register deactivation hook
+register_deactivation_hook(__FILE__, array('VORTEX_Blockchain_Metrics', 'cleanup'));

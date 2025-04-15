@@ -29,6 +29,38 @@ class Vortex_AJAX_Handlers {
         
         // Swiping handler
         add_action('wp_ajax_vortex_handle_swipe', array(__CLASS__, 'handle_swipe'));
+        
+        // User actions
+        add_action('wp_ajax_vortex_artist_verification', array(__CLASS__, 'artist_verification'));
+        add_action('wp_ajax_vortex_submit_artwork', array(__CLASS__, 'submit_artwork'));
+        add_action('wp_ajax_vortex_like_artwork', array(__CLASS__, 'like_artwork'));
+        add_action('wp_ajax_vortex_share_artwork', array(__CLASS__, 'share_artwork'));
+        add_action('wp_ajax_vortex_follow_artist', array(__CLASS__, 'follow_artist'));
+        
+        // Marketplace actions
+        add_action('wp_ajax_vortex_get_artwork', array(__CLASS__, 'get_artwork'));
+        add_action('wp_ajax_nopriv_vortex_get_artwork', array(__CLASS__, 'get_artwork'));
+        add_action('wp_ajax_vortex_purchase_artwork', array(__CLASS__, 'purchase_artwork'));
+        add_action('wp_ajax_vortex_auction_bid', array(__CLASS__, 'auction_bid'));
+        
+        // Admin actions
+        add_action('wp_ajax_vortex_admin_metrics', array(__CLASS__, 'admin_metrics'));
+        add_action('wp_ajax_vortex_admin_user_management', array(__CLASS__, 'admin_user_management'));
+        add_action('wp_ajax_vortex_admin_artwork_approval', array(__CLASS__, 'admin_artwork_approval'));
+        add_action('wp_ajax_vortex_update_database', array(__CLASS__, 'update_database'));
+        
+        // TOLA token actions
+        add_action('wp_ajax_vortex_get_token_balance', array(__CLASS__, 'get_token_balance'));
+        add_action('wp_ajax_vortex_transfer_tokens', array(__CLASS__, 'transfer_tokens'));
+
+        // Search handler
+        add_action('wp_ajax_vortex_search', array(__CLASS__, 'handle_search'));
+        add_action('wp_ajax_nopriv_vortex_search', array(__CLASS__, 'handle_search'));
+
+        // Artwork theme handlers
+        add_action('wp_ajax_vortex_artwork_theme_association', array(__CLASS__, 'handle_artwork_theme_association'));
+        add_action('wp_ajax_vortex_get_available_themes', array(__CLASS__, 'get_available_themes'));
+        add_action('wp_ajax_nopriv_vortex_get_available_themes', array(__CLASS__, 'get_available_themes'));
     }
     
     /**
@@ -779,5 +811,383 @@ class Vortex_AJAX_Handlers {
                 'message' => $e->getMessage()
             ));
         }
+    }
+
+    /**
+     * Handle database update AJAX request
+     */
+    public static function update_database() {
+        // Check nonce
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'vortex_update_database_nonce')) {
+            wp_send_json_error(array('message' => __('Security check failed. Please refresh the page and try again.', 'vortex-ai-marketplace')));
+        }
+        
+        // Check if user has permission
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => __('You do not have permission to perform this action.', 'vortex-ai-marketplace')));
+        }
+        
+        // Run the database update
+        require_once VORTEX_PLUGIN_DIR . 'includes/class-vortex-db-migrations.php';
+        $db_migration = new \Vortex_DB_Migrations();
+        $db_migration->setup_database();
+        
+        // Update the database version
+        update_option('vortex_ai_db_version', VORTEX_VERSION);
+        
+        wp_send_json_success(array('message' => __('Database tables have been created or updated successfully.', 'vortex-ai-marketplace')));
+    }
+
+    /**
+     * Handle database errors
+     *
+     * @param string $error_message The error message
+     * @param string $table_name The name of the table causing issues
+     * @return boolean True if error was fixed, false otherwise
+     */
+    public static function handle_db_error($error_message, $table_name) {
+        // First, check if this is a missing table error
+        if (strpos($error_message, "Table") !== false && strpos($error_message, "doesn't exist") !== false) {
+            // Try to fix the specific table
+            $table_basename = str_replace($GLOBALS['wpdb']->prefix, '', $table_name);
+            
+            if ($table_basename === 'vortex_searches') {
+                // Fix searches table
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-migrations.php';
+                return Vortex_DB_Migrations::ensure_searches_table();
+            } elseif ($table_basename === 'vortex_transactions') {
+                // Fix transactions table
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-migrations.php';
+                return Vortex_DB_Migrations::ensure_transactions_table();
+            } elseif ($table_basename === 'vortex_tags') {
+                // Fix tags table
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-migrations.php';
+                return Vortex_DB_Migrations::ensure_tags_table();
+            } elseif ($table_basename === 'vortex_artwork_tags') {
+                // Fix artwork tags table
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-migrations.php';
+                return Vortex_DB_Migrations::ensure_artwork_tags_table();
+            } elseif ($table_basename === 'vortex_art_styles') {
+                // Fix art styles table
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-migrations.php';
+                return Vortex_DB_Migrations::ensure_art_styles_table();
+            } elseif ($table_basename === 'vortex_artwork_themes') {
+                // Fix artwork themes table
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-migrations.php';
+                return Vortex_DB_Migrations::ensure_artwork_themes_table();
+            } elseif ($table_basename === 'vortex_artwork_theme_mapping') {
+                // Fix artwork theme mapping table
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-migrations.php';
+                return Vortex_DB_Migrations::ensure_artwork_theme_mapping_table();
+            } else {
+                // For other tables, try the general repair
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vortex-db-repair.php';
+                $db_repair = VORTEX_DB_Repair::get_instance();
+                $repaired = $db_repair->repair_specific_table($table_basename);
+                return !empty($repaired);
+            }
+        }
+        
+        // Log the error for debugging
+        error_log("VORTEX DB Error: $error_message");
+        
+        return false;
+    }
+
+    /**
+     * Handle AJAX search request
+     */
+    public static function handle_search() {
+        check_ajax_referer('vortex_search_nonce', 'nonce');
+        
+        $search_query = isset($_POST['query']) ? sanitize_text_field($_POST['query']) : '';
+        
+        if (empty($search_query)) {
+            wp_send_json_error(array('message' => __('Please enter a search query.', 'vortex-ai-marketplace')));
+            return;
+        }
+        
+        global $wpdb;
+        $searches_table = $wpdb->prefix . 'vortex_searches';
+        
+        // Record search query
+        try {
+            $user_id = is_user_logged_in() ? get_current_user_id() : NULL;
+            $session_id = isset($_COOKIE['vortex_session']) ? sanitize_text_field($_COOKIE['vortex_session']) : NULL;
+            
+            // Get search filters if any
+            $filters = isset($_POST['filters']) ? $_POST['filters'] : array();
+            $filters_json = !empty($filters) ? json_encode($filters) : NULL;
+            
+            // Get user's IP and user agent
+            $ip_address = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field($_SERVER['REMOTE_ADDR']) : '';
+            $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '';
+            
+            // Run the actual search
+            $results = self::perform_search($search_query, $filters);
+            
+            // Record search in database
+            $insert_result = $wpdb->insert(
+                $searches_table,
+                array(
+                    'user_id' => $user_id,
+                    'session_id' => $session_id,
+                    'search_query' => $search_query,
+                    'search_time' => current_time('mysql'),
+                    'results_count' => count($results),
+                    'search_filters' => $filters_json,
+                    'ip_address' => $ip_address,
+                    'user_agent' => $user_agent
+                )
+            );
+            
+            // If insertion failed, check if it's due to missing table
+            if ($insert_result === false) {
+                $db_error = $wpdb->last_error;
+                if (strpos($db_error, "doesn't exist") !== false) {
+                    // Try to fix the table
+                    self::handle_db_error($db_error, $searches_table);
+                    
+                    // Try insertion again
+                    $wpdb->insert(
+                        $searches_table,
+                        array(
+                            'user_id' => $user_id,
+                            'session_id' => $session_id,
+                            'search_query' => $search_query,
+                            'search_time' => current_time('mysql'),
+                            'results_count' => count($results),
+                            'search_filters' => $filters_json,
+                            'ip_address' => $ip_address,
+                            'user_agent' => $user_agent
+                        )
+                    );
+                }
+            }
+            
+            // Return search results to user
+            wp_send_json_success(array(
+                'results' => $results,
+                'count' => count($results),
+                'message' => sprintf(
+                    _n('Found %d result for "%s"', 'Found %d results for "%s"', count($results), 'vortex-ai-marketplace'),
+                    count($results),
+                    $search_query
+                )
+            ));
+            
+        } catch (Exception $e) {
+            error_log('VORTEX Search Error: ' . $e->getMessage());
+            wp_send_json_error(array('message' => __('An error occurred while processing your search. Please try again.', 'vortex-ai-marketplace')));
+        }
+    }
+
+    /**
+     * Perform the actual search
+     * 
+     * @param string $query The search query
+     * @param array $filters Any search filters
+     * @return array Search results
+     */
+    private static function perform_search($query, $filters = array()) {
+        // This is a simplified implementation - expand as needed
+        $args = array(
+            'post_type' => array('vortex_artwork', 'product'),
+            's' => $query,
+            'posts_per_page' => 20,
+        );
+        
+        // Apply filters if provided
+        if (!empty($filters)) {
+            // Example: filter by category
+            if (isset($filters['category']) && !empty($filters['category'])) {
+                $args['tax_query'][] = array(
+                    'taxonomy' => 'product_cat',
+                    'field' => 'slug',
+                    'terms' => $filters['category']
+                );
+            }
+            
+            // Example: filter by price range
+            if (isset($filters['min_price']) && isset($filters['max_price'])) {
+                $args['meta_query'][] = array(
+                    'key' => '_price',
+                    'value' => array($filters['min_price'], $filters['max_price']),
+                    'type' => 'NUMERIC',
+                    'compare' => 'BETWEEN'
+                );
+            }
+        }
+        
+        $query = new WP_Query($args);
+        $results = array();
+        
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                $post_id = get_the_ID();
+                
+                $results[] = array(
+                    'id' => $post_id,
+                    'title' => get_the_title(),
+                    'url' => get_permalink(),
+                    'thumbnail' => get_the_post_thumbnail_url($post_id, 'thumbnail'),
+                    'type' => get_post_type(),
+                    'excerpt' => get_the_excerpt(),
+                    'price' => get_post_type() === 'product' ? get_post_meta($post_id, '_price', true) : null
+                );
+            }
+            
+            wp_reset_postdata();
+        }
+        
+        return $results;
+    }
+
+    /**
+     * Handle artwork theme associations
+     */
+    public static function handle_artwork_theme_association() {
+        check_ajax_referer('vortex_artwork_theme_nonce', 'nonce');
+        
+        // Verify user is logged in
+        if (!is_user_logged_in()) {
+            wp_send_json_error(array('message' => __('You must be logged in to perform this action.', 'vortex-ai-marketplace')));
+            return;
+        }
+        
+        $user_id = get_current_user_id();
+        
+        // Get parameters
+        $artwork_id = isset($_POST['artwork_id']) ? intval($_POST['artwork_id']) : 0;
+        $theme_ids = isset($_POST['theme_ids']) ? array_map('intval', (array)$_POST['theme_ids']) : array();
+        $action = isset($_POST['theme_action']) ? sanitize_text_field($_POST['theme_action']) : 'add';
+        
+        if (!$artwork_id) {
+            wp_send_json_error(array('message' => __('Invalid artwork ID.', 'vortex-ai-marketplace')));
+            return;
+        }
+        
+        // Initialize the HURAII library
+        require_once VORTEX_PLUGIN_DIR . 'includes/class-vortex-huraii-library.php';
+        $huraii_library = Vortex_HURAII_Library::get_instance();
+        
+        // Perform the action
+        if ($action === 'add') {
+            // Add themes to artwork
+            if (empty($theme_ids)) {
+                wp_send_json_error(array('message' => __('No themes specified.', 'vortex-ai-marketplace')));
+                return;
+            }
+            
+            $result = $huraii_library->associate_artwork_with_themes($artwork_id, $theme_ids, $user_id);
+            
+            if ($result['success']) {
+                wp_send_json_success(array(
+                    'message' => sprintf(__('%d themes associated with the artwork.', 'vortex-ai-marketplace'), $result['added']),
+                    'added' => $result['added']
+                ));
+            } else {
+                wp_send_json_error(array(
+                    'message' => __('Failed to associate themes with the artwork.', 'vortex-ai-marketplace'),
+                    'errors' => $result['errors']
+                ));
+            }
+        } elseif ($action === 'remove') {
+            // Remove theme from artwork
+            if (empty($theme_ids) || count($theme_ids) !== 1) {
+                wp_send_json_error(array('message' => __('Please specify exactly one theme to remove.', 'vortex-ai-marketplace')));
+                return;
+            }
+            
+            $theme_id = $theme_ids[0];
+            $result = $huraii_library->remove_artwork_theme($artwork_id, $theme_id);
+            
+            if ($result) {
+                wp_send_json_success(array('message' => __('Theme removed from artwork.', 'vortex-ai-marketplace')));
+            } else {
+                wp_send_json_error(array('message' => __('Failed to remove theme from artwork.', 'vortex-ai-marketplace')));
+            }
+        } elseif ($action === 'get') {
+            // Get themes for artwork
+            $themes = $huraii_library->get_artwork_themes($artwork_id);
+            
+            wp_send_json_success(array(
+                'themes' => $themes,
+                'count' => count($themes)
+            ));
+        } else {
+            wp_send_json_error(array('message' => __('Invalid action.', 'vortex-ai-marketplace')));
+        }
+    }
+    
+    /**
+     * Get available artwork themes
+     */
+    public static function get_available_themes() {
+        check_ajax_referer('vortex_artwork_theme_nonce', 'nonce');
+        
+        global $wpdb;
+        $themes_table = $wpdb->prefix . 'vortex_artwork_themes';
+        
+        // Check if the table exists
+        if ($wpdb->get_var("SHOW TABLES LIKE '$themes_table'") !== $themes_table) {
+            try {
+                // Try to create the table
+                require_once VORTEX_PLUGIN_DIR . 'includes/class-vortex-db-migrations.php';
+                Vortex_DB_Migrations::ensure_artwork_themes_table();
+                
+                // Check again
+                if ($wpdb->get_var("SHOW TABLES LIKE '$themes_table'") !== $themes_table) {
+                    wp_send_json_error(array('message' => __('Themes table does not exist.', 'vortex-ai-marketplace')));
+                    return;
+                }
+            } catch (Exception $e) {
+                wp_send_json_error(array('message' => $e->getMessage()));
+                return;
+            }
+        }
+        
+        // Query parameters
+        $search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
+        $featured_only = isset($_GET['featured']) && $_GET['featured'] === 'true';
+        $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 50;
+        
+        // Build query
+        $sql = "SELECT theme_id, theme_name, theme_slug, theme_description, 
+                       popularity_score, trending_score, artwork_count, is_featured 
+                FROM $themes_table";
+        
+        $where_clauses = array();
+        
+        if (!empty($search)) {
+            $where_clauses[] = $wpdb->prepare(
+                "(theme_name LIKE %s OR theme_description LIKE %s)",
+                '%' . $wpdb->esc_like($search) . '%',
+                '%' . $wpdb->esc_like($search) . '%'
+            );
+        }
+        
+        if ($featured_only) {
+            $where_clauses[] = "is_featured = 1";
+        }
+        
+        if (!empty($where_clauses)) {
+            $sql .= " WHERE " . implode(' AND ', $where_clauses);
+        }
+        
+        $sql .= " ORDER BY popularity_score DESC, artwork_count DESC";
+        
+        if ($limit > 0) {
+            $sql .= $wpdb->prepare(" LIMIT %d", $limit);
+        }
+        
+        // Execute query
+        $themes = $wpdb->get_results($sql);
+        
+        wp_send_json_success(array(
+            'themes' => $themes,
+            'count' => count($themes)
+        ));
     }
 } 

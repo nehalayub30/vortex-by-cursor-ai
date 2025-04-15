@@ -1005,4 +1005,401 @@ class VORTEX_Model_Loader {
         // In a real implementation, this would run a model like Stable Diffusion
         return $this->simulate_text2img_generation($model_id, $inputs);
     }
+    
+    /**
+     * Register settings for the model loader
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function register_settings() {
+        // Register settings group
+        register_setting('vortex_ai_models_settings', 'vortex_registered_models');
+        register_setting('vortex_ai_models_settings', 'vortex_ai_api_endpoints');
+        register_setting('vortex_ai_models_settings', 'vortex_ai_agent_learning_states');
+        
+        // Add settings section
+        add_settings_section(
+            'vortex_model_loader_section',
+            __('AI Model Settings', 'vortex-ai-marketplace'),
+            array($this, 'render_model_loader_section'),
+            'vortex-ai-models'
+        );
+        
+        // Add settings fields
+        add_settings_field(
+            'vortex_model_api_keys',
+            __('API Keys', 'vortex-ai-marketplace'),
+            array($this, 'render_api_keys_field'),
+            'vortex-ai-models',
+            'vortex_model_loader_section'
+        );
+        
+        add_settings_field(
+            'vortex_model_learning_settings',
+            __('Learning Settings', 'vortex-ai-marketplace'),
+            array($this, 'render_learning_settings_field'),
+            'vortex-ai-models',
+            'vortex_model_loader_section'
+        );
+        
+        add_settings_field(
+            'vortex_model_management',
+            __('Model Management', 'vortex-ai-marketplace'),
+            array($this, 'render_model_management_field'),
+            'vortex-ai-models',
+            'vortex_model_loader_section'
+        );
+    }
+    
+    /**
+     * Render model loader settings section
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function render_model_loader_section() {
+        echo '<p>' . __('Configure AI models used by HURAII, CLOE, and BusinessStrategist agents.', 'vortex-ai-marketplace') . '</p>';
+    }
+    
+    /**
+     * Render API keys field
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function render_api_keys_field() {
+        $endpoints = $this->api_endpoints;
+        
+        echo '<table class="form-table">';
+        foreach ($endpoints as $endpoint => $config) {
+            $key_value = !empty($config['key']) ? '••••••••' . substr($config['key'], -4) : '';
+            $key_field = 'vortex_ai_api_key_' . $endpoint;
+            
+            echo '<tr>';
+            echo '<th>' . esc_html(ucfirst($endpoint)) . '</th>';
+            echo '<td>';
+            echo '<input type="text" name="' . esc_attr($key_field) . '" value="' . esc_attr($key_value) . '" class="regular-text" placeholder="' . esc_attr__('Enter API key', 'vortex-ai-marketplace') . '" />';
+            echo '<p class="description">' . sprintf(esc_html__('API key for %s integration', 'vortex-ai-marketplace'), ucfirst($endpoint)) . '</p>';
+            echo '</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    }
+    
+    /**
+     * Render learning settings field
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function render_learning_settings_field() {
+        $learning_modes = array(
+            'active' => __('Active Learning (continuous improvement)', 'vortex-ai-marketplace'),
+            'passive' => __('Passive Learning (collect data only)', 'vortex-ai-marketplace'),
+            'disabled' => __('Disabled (no learning)', 'vortex-ai-marketplace')
+        );
+        
+        echo '<table class="form-table">';
+        foreach ($this->agent_learning_states as $agent => $state) {
+            $mode_field = 'vortex_ai_learning_mode_' . strtolower($agent);
+            $current_mode = $state['learning_mode'];
+            
+            echo '<tr>';
+            echo '<th>' . esc_html($agent) . '</th>';
+            echo '<td>';
+            echo '<select name="' . esc_attr($mode_field) . '">';
+            foreach ($learning_modes as $mode => $label) {
+                echo '<option value="' . esc_attr($mode) . '" ' . selected($current_mode, $mode, false) . '>' . esc_html($label) . '</option>';
+            }
+            echo '</select>';
+            echo '</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    }
+    
+    /**
+     * Render model management field
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function render_model_management_field() {
+        echo '<div class="vortex-model-manager">';
+        echo '<h3>' . __('Registered Models', 'vortex-ai-marketplace') . '</h3>';
+        
+        echo '<table class="wp-list-table widefat fixed striped">';
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th>' . __('Model ID', 'vortex-ai-marketplace') . '</th>';
+        echo '<th>' . __('Name', 'vortex-ai-marketplace') . '</th>';
+        echo '<th>' . __('Type', 'vortex-ai-marketplace') . '</th>';
+        echo '<th>' . __('Status', 'vortex-ai-marketplace') . '</th>';
+        echo '<th>' . __('Actions', 'vortex-ai-marketplace') . '</th>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+        
+        foreach ($this->registered_models as $model_id => $model) {
+            $status = $model['active'] ? __('Active', 'vortex-ai-marketplace') : __('Inactive', 'vortex-ai-marketplace');
+            $status_class = $model['active'] ? 'active' : 'inactive';
+            
+            echo '<tr>';
+            echo '<td>' . esc_html($model_id) . '</td>';
+            echo '<td>' . esc_html($model['name']) . '</td>';
+            echo '<td>' . esc_html($model['type']) . '</td>';
+            echo '<td><span class="vortex-status vortex-status-' . esc_attr($status_class) . '">' . esc_html($status) . '</span></td>';
+            echo '<td>';
+            echo '<button type="button" class="button vortex-toggle-model" data-model="' . esc_attr($model_id) . '">';
+            echo $model['active'] ? __('Deactivate', 'vortex-ai-marketplace') : __('Activate', 'vortex-ai-marketplace');
+            echo '</button>';
+            echo '</td>';
+            echo '</tr>';
+        }
+        
+        echo '</tbody>';
+        echo '</table>';
+        
+        echo '<p><button type="button" class="button button-primary vortex-add-model">' . __('Add New Model', 'vortex-ai-marketplace') . '</button></p>';
+        echo '</div>';
+    }
+    
+    /**
+     * Save agent learning states and registered models to the database
+     * 
+     * This method is called on the 'shutdown' action to ensure all changes
+     * to learning states and models are persisted between page loads.
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function save_states() {
+        // Save agent learning states
+        if (!empty($this->agent_learning_states)) {
+            update_option('vortex_ai_agent_learning_states', $this->agent_learning_states);
+        }
+        
+        // Save registered models
+        if (!empty($this->registered_models)) {
+            update_option('vortex_registered_models', $this->registered_models);
+        }
+        
+        // Save API endpoints
+        if (!empty($this->api_endpoints)) {
+            update_option('vortex_ai_api_endpoints', $this->api_endpoints);
+        }
+        
+        // Save execution statistics
+        if (!empty($this->execution_stats)) {
+            // Limit the number of saved stats to 1000 entries to prevent database bloat
+            if (count($this->execution_stats) > 1000) {
+                $this->execution_stats = array_slice($this->execution_stats, -1000);
+            }
+            
+            update_option('vortex_ai_execution_stats', $this->execution_stats);
+        }
+    }
+
+    /**
+     * Track model execution statistics
+     * 
+     * This method is called via the 'vortex_model_execution_complete' action
+     * to record metrics about model execution for performance analysis.
+     *
+     * @since 1.0.0
+     * @param string $model_id The ID of the executed model
+     * @param float $execution_time The time taken to execute the model in seconds
+     * @param array $result The result of the model execution
+     * @return void
+     */
+    public function track_model_execution($model_id, $execution_time, $result) {
+        // Add execution statistics entry
+        $this->execution_stats[] = array(
+            'model_id' => $model_id,
+            'timestamp' => current_time('timestamp'),
+            'execution_time' => $execution_time,
+            'success' => !is_wp_error($result),
+            'result_size' => $this->calculate_output_size($result),
+            'memory_used' => memory_get_peak_usage(true)
+        );
+        
+        // Check if model exists
+        if (!isset($this->registered_models[$model_id])) {
+            return;
+        }
+        
+        // Update model statistics
+        if (!isset($this->registered_models[$model_id]['statistics'])) {
+            $this->registered_models[$model_id]['statistics'] = array(
+                'execution_count' => 0,
+                'total_execution_time' => 0,
+                'avg_execution_time' => 0,
+                'success_rate' => 100,
+                'last_execution' => 0,
+                'error_count' => 0
+            );
+        }
+        
+        $stats = &$this->registered_models[$model_id]['statistics'];
+        $stats['execution_count']++;
+        $stats['total_execution_time'] += $execution_time;
+        $stats['avg_execution_time'] = $stats['total_execution_time'] / $stats['execution_count'];
+        $stats['last_execution'] = current_time('timestamp');
+        
+        // Update success/error metrics
+        if (is_wp_error($result)) {
+            $stats['error_count']++;
+        }
+        
+        if ($stats['execution_count'] > 0) {
+            $stats['success_rate'] = 100 * (($stats['execution_count'] - $stats['error_count']) / $stats['execution_count']);
+        }
+        
+        // Determine agent type from model_id
+        $agent = $this->determine_agent_for_model($model_id, $this->registered_models[$model_id]['type']);
+        
+        // If we know which agent this belongs to, update its execution count
+        if (!empty($agent) && isset($this->agent_learning_states[$agent])) {
+            $this->agent_learning_states[$agent]['model_execution_count']++;
+        }
+    }
+
+    /**
+     * Calculate the size of model input data
+     *
+     * @since 1.0.0
+     * @param mixed $inputs Input data for the model
+     * @return int Size estimate in bytes
+     */
+    private function calculate_input_size($inputs) {
+        if (is_array($inputs)) {
+            $size = 0;
+            foreach ($inputs as $key => $value) {
+                // Add key size
+                $size += strlen($key);
+                
+                // Add value size
+                if (is_string($value)) {
+                    $size += strlen($value);
+                } elseif (is_array($value)) {
+                    $size += $this->calculate_input_size($value);
+                } elseif (is_numeric($value)) {
+                    $size += 8; // Approximate size of a number
+                } elseif (is_bool($value)) {
+                    $size += 1;
+                }
+            }
+            return $size;
+        } elseif (is_string($inputs)) {
+            return strlen($inputs);
+        } elseif (is_numeric($inputs)) {
+            return 8; // Approximate size of a number
+        } elseif (is_bool($inputs)) {
+            return 1;
+        }
+        
+        return 0;
+    }
+
+    /**
+     * Calculate the size of model output data
+     *
+     * @since 1.0.0
+     * @param mixed $result Output data from the model
+     * @return int Size estimate in bytes
+     */
+    private function calculate_output_size($result) {
+        if (is_wp_error($result)) {
+            return strlen($result->get_error_message());
+        }
+        
+        return $this->calculate_input_size($result); // Reuse the input size calculation
+    }
+
+    /**
+     * Determine which AI agent is using this model
+     *
+     * @since 1.0.0
+     * @param string $model_id The model identifier
+     * @param string $model_type The type of model
+     * @return string|null The agent name or null if not determined
+     */
+    private function determine_agent_for_model($model_id, $model_type) {
+        // Check model ID prefix
+        if (strpos($model_id, 'huraii_') === 0) {
+            return 'HURAII';
+        } elseif (strpos($model_id, 'cloe_') === 0) {
+            return 'CLOE';
+        } elseif (strpos($model_id, 'bs_') === 0) {
+            return 'BusinessStrategist';
+        }
+        
+        // Check by model type
+        switch ($model_type) {
+            case 'text2img':
+            case 'img2img':
+            case 'style_transfer':
+                return 'HURAII';
+                
+            case 'recommendation':
+            case 'curation':
+            case 'trend_analysis':
+                return 'CLOE';
+                
+            case 'business_analysis':
+            case 'market_forecast':
+            case 'valuation':
+                return 'BusinessStrategist';
+        }
+        
+        return null;
+    }
+
+    /**
+     * Update the learning state for an AI agent
+     *
+     * @since 1.0.0
+     * @param string $agent The agent name (HURAII, CLOE, BusinessStrategist)
+     * @param string $event The event type (pre_execution, execution_complete, execution_failed)
+     * @param array $data Event-specific data
+     * @return void
+     */
+    private function update_agent_learning_state($agent, $event, $data) {
+        // Skip if agent is not recognized
+        if (!isset($this->agent_learning_states[$agent])) {
+            return;
+        }
+        
+        // Update last_update timestamp
+        $this->agent_learning_states[$agent]['last_update'] = current_time('timestamp');
+        
+        // Handle specific events
+        switch ($event) {
+            case 'pre_execution':
+                // Nothing specific to do here yet
+                break;
+                
+            case 'execution_complete':
+                // Update learning progress based on execution success
+                // This is a simplified learning progress simulation
+                if ($this->agent_learning_states[$agent]['learning_mode'] === 'active') {
+                    $current_progress = $this->agent_learning_states[$agent]['learning_progress'];
+                    
+                    // Calculate small progress increment (diminishing returns as progress increases)
+                    $increment = 0.001 * (1 - $current_progress);
+                    
+                    // Apply increment
+                    $this->agent_learning_states[$agent]['learning_progress'] = min(1.0, $current_progress + $increment);
+                }
+                break;
+                
+            case 'execution_failed':
+                // Optionally adjust learning progress on failures
+                break;
+        }
+        
+        // Trigger action for other components to respond to agent learning state changes
+        do_action('vortex_agent_learning_state_updated', $agent, $event, $data);
+    }
 } 

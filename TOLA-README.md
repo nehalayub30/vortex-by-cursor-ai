@@ -1,172 +1,290 @@
-# TOLA: Token of Love and Appreciation
+# TOLA Token Integration Guide
+
+![TOLA Token Logo](assets/images/tola-logo.png)
 
 ## Overview
 
-TOLA (Token of Love and Appreciation) is an innovative gamification framework integrated within the VORTEX AI Marketplace, designed to foster engagement, recognition, and community building in digital art ecosystems. TOLA transforms traditional art market interactions into an engaging ecosystem where contributions, interactions, and achievements are recognized and rewarded.
+TOLA is a Solana-based utility token that powers the VORTEX AI Marketplace ecosystem. It enables a wide range of functionalities from purchases and transfers to governance and rewards, creating a complete token economy for the marketplace.
 
-**Token Address:** `H6qNYafSrpCjckH8yVwiPmXYPd1nCNBP8uQMZkv5hkky` (Solana Network)
+## Key Features
 
-## Core Components
+- **Native Solana Integration**: Built on the Solana blockchain for fast, low-cost transactions
+- **Smart Contract Powered**: Secure, transparent transactions using audited smart contracts
+- **Multi-utility Design**: TOLA serves multiple functions within the ecosystem
+- **Real-time Metrics**: Comprehensive analytics on token usage and circulation
+- **Staking Mechanism**: Stake tokens for platform benefits and yield
+- **Governance Rights**: Token-weighted voting in the VORTEX DAO
 
-### 1. TOLA Token Economy
+## Token Utilities
 
-TOLA tokens function as a non-monetary value system within the VORTEX ecosystem:
-- Tokens are earned through positive contributions and meaningful engagement
-- Tokens can be awarded to artists, artworks, galleries, exhibitions, or collectors
-- Token accumulation provides reputation and influence within the ecosystem
-- Tokens create attention signals that help surface quality and innovation
+### Primary Utilities
 
-### 2. Achievement Framework
+1. **Purchase Medium**
+   - Buy artwork directly with TOLA
+   - Access premium features and content
+   - Subscribe to advanced AI generation capabilities
+   - Receive discounts when using TOLA for purchases
 
-The achievement system recognizes specific milestones and contributions:
+2. **Reward Mechanism**
+   - Earn TOLA for platform engagement
+   - Receive TOLA for successful sales (artists)
+   - Gain tokens through the gamification system
+   - Get staking rewards for providing liquidity
 
-| Achievement Category | Examples |
-|---------------------|----------|
-| Artist Achievements | First exhibition, Style mastery, Community recognition |
-| Collector Achievements | Collection diversity, Early supporter, Tastemaker |
-| Gallery Achievements | Talent discovery, Exhibition excellence, Community building |
-| Critic Achievements | Insightful analysis, Educational content, Market influence |
+3. **Governance Token**
+   - Create and vote on platform proposals
+   - Determine future features and parameters
+   - Participate in treasury management decisions
+   - Vote on featured artists and collections
 
-### 3. Community Recognition
+4. **Staking Benefits**
+   - Reduce marketplace fees
+   - Access exclusive features and content
+   - Increase voting power in governance
+   - Earn passive income through staking rewards
 
-TOLA enables peer-to-peer appreciation:
-- Artists can recognize collectors who support their work
-- Collectors can highlight artists creating meaningful work
-- Galleries can acknowledge artists and collectors
-- Community members can recognize valuable contributions
+## Token Economics
 
-### 4. Insight Generation
+- **Total Supply**: 100,000,000 TOLA
+- **Initial Circulating Supply**: 20,000,000 TOLA
+- **Token Distribution**:
+  - 40% - Platform Rewards & Ecosystem
+  - 20% - Team & Advisors (vested over 2 years)
+  - 20% - Initial Exchange Offerings
+  - 10% - Platform Development
+  - 10% - Community Treasury (DAO controlled)
 
-TOLA activity generates valuable market signals:
-- Trending artists based on token accumulation
-- Emerging talent discovery through early recognition patterns
-- Collection value assessment through appreciation metrics
-- Community consensus on artistic innovation and quality
+## Integration Components
 
-## Technical Implementation
+### UI Components
 
-### Token Details
+- **Wallet Connect Button**: Allows users to connect their Solana wallet (Phantom, Solflare, etc.)
+- **Balance Display**: Shows user's current TOLA balance
+- **Transfer Form**: Enables sending TOLA to other users
+- **Staking Interface**: UI for staking and unstaking tokens
+- **Purchase Module**: Interface for buying products with TOLA
 
-- **Platform:** Solana Blockchain
-- **Token Type:** SPL Token (Solana Program Library)
-- **Token Address:** `H6qNYafSrpCjckH8yVwiPmXYPd1nCNBP8uQMZkv5hkky`
-- **Decimals:** 9 (standard for Solana SPL tokens)
-- **Integration:** Native integration with Phantom Wallet and other Solana wallets
+### Backend Services
 
-### Key Features
+- **Token Contract API**: Interfaces with the TOLA token contract
+- **Balance Service**: Retrieves and caches token balances
+- **Transaction Service**: Records all TOLA transactions
+- **Access Control System**: Manages content access based on purchases
+- **Rewards Engine**: Distributes TOLA rewards based on actions
 
-1. **Wallet Integration:** Connect Solana wallets (Phantom, Solflare) directly from the marketplace
-2. **Balance Display:** View TOLA token balance in real-time
-3. **Token Transfers:** Send and receive TOLA tokens between users
-4. **Transaction History:** Track all token activities and transactions
-5. **Content Access:** Purchase exclusive content using TOLA tokens
-6. **Reward System:** Earn TOLA tokens through platform activities and achievements
+### Data Management
 
-### Architecture
+- **Transaction Database**: Records all token movements
+- **User Balances**: Caches user token balances for performance
+- **Purchase Records**: Links token transactions to product purchases
+- **Access Rights**: Manages content access based on token purchases
 
-The TOLA token implementation uses a modular architecture:
-
-- **Backend:** PHP classes for token operations and database interaction
-- **Frontend:** JavaScript integration with Solana Web3.js for wallet connectivity
-- **Database:** Custom tables for transaction records and token metadata
-- **API:** REST endpoints for token operations and balance queries
-
-## Benefits for Ecosystem Participants
-
-### For Artists
-- Visibility boost based on community appreciation
-- Feedback on which works resonate most strongly
-- Building reputational capital within the ecosystem
-- Recognition for artistic innovation and growth
-
-### For Collectors
-- Reputation development as a tastemaker
-- Contribution to artist discovery and support
-- Community recognition for collection curation
-- Enhanced profile visibility to galleries and artists
-
-### For Galleries
-- Recognition for exhibition excellence
-- Reputation for artist development
-- Community building acknowledgment
-- Visibility for curatorial innovation
-
-### For the Ecosystem
-- Surfaces quality based on peer recognition
-- Creates intrinsic motivation for positive engagement
-- Builds community connections through mutual appreciation
-- Provides valuable market signals independent of sales
-
-## Getting Started
-
-### For Users
-
-1. **Connect Wallet:** Use the "Connect Wallet" button to link your Phantom or other Solana wallet
-2. **View Balance:** Your TOLA balance will be displayed in your profile
-3. **Send Tokens:** Use the wallet interface to send TOLA to other users
-4. **Earn Rewards:** Participate in platform activities to earn TOLA rewards
-5. **Purchase Content:** Use TOLA tokens to access premium content
+## Implementation
 
 ### For Developers
 
-1. **Configuration:**
-   ```php
-   // Set TOLA token address in your WordPress settings
-   update_option('vortex_tola_token_address', 'H6qNYafSrpCjckH8yVwiPmXYPd1nCNBP8uQMZkv5hkky');
-   ```
+#### WordPress Integration
 
-2. **Check Balance:**
-   ```php
-   // Get TOLA balance for a wallet
-   $tola = new Vortex_TOLA();
-   $balance = $tola->get_tola_balance($wallet_address);
-   ```
+```php
+// Hook into TOLA token system
+add_action('vortex_token_transaction_complete', 'my_custom_function', 10, 3);
 
-3. **Record Transaction:**
-   ```php
-   // Record a TOLA transaction
-   $tola->record_transaction($from_address, $to_address, $amount, $transaction_data);
-   ```
+function my_custom_function($user_id, $amount, $transaction_type) {
+    // Custom code to run after token transaction
+}
 
-4. **Award Tokens:**
-   ```php
-   // Award TOLA tokens to a user
-   $tola->award_tola_reward($user_id, $amount, $reason);
-   ```
+// Check if user has purchased access
+if (vortex_tola_has_access($user_id, $product_id)) {
+    // Show premium content
+} else {
+    // Show purchase form
+}
+```
 
-## Integration with AI Agents
+#### JavaScript Integration
 
-The TOLA system is deeply integrated with the VORTEX AI agents:
+```javascript
+// Connect to user's wallet
+vortexTola.connectWallet().then(address => {
+    console.log('Connected wallet: ' + address);
+    
+    // Get token balance
+    return vortexTola.getBalance(address);
+}).then(balance => {
+    console.log('TOLA Balance: ' + balance);
+});
 
-1. **HURAII** analyzes artistic achievement patterns to recognize stylistic innovation and artistic growth through TOLA signals
+// Handle token purchase
+vortexTola.purchaseProduct(productId, amount).then(result => {
+    if (result.success) {
+        // Handle successful purchase
+    }
+});
+```
 
-2. **Cloe** incorporates TOLA data into market trend analysis, using appreciation patterns as leading indicators
+### For Store Owners
 
-3. **Business Strategist** leverages TOLA metrics to enhance investment guidance and strategic recommendations
+1. **Enable TOLA Payments**:
+   - Navigate to VORTEX Settings > TOLA Configuration
+   - Connect your platform wallet
+   - Set desired commission rates
+   - Configure discount for TOLA payments
 
-This integration creates a feedback loop where AI insights and human appreciation mutually reinforce and validate each other.
+2. **Product Configuration**:
+   - Edit any product to set TOLA pricing
+   - Enable/disable TOLA payments per product
+   - Set subscription durations (if applicable)
 
-## Future Development
+3. **Monitor Transactions**:
+   - Use the TOLA Dashboard to track transactions
+   - View sales, commissions, and fees
+   - Export transaction reports
 
-The TOLA system roadmap includes:
+### For Content Creators
 
-1. **TOLA Badges:** Custom profile badges representing specific achievements
-2. **Community Challenges:** Time-limited group achievements with special rewards
-3. **Artist Support Pools:** Community funding allocation based on TOLA metrics
-4. **Exhibition Influence:** Exhibition curation influenced by TOLA recognition
-5. **Enhanced Discovery:** Artwork discovery algorithms incorporating TOLA signals
+1. **Connect Wallet**:
+   - Link your Solana wallet to your VORTEX account
+   - Verify wallet ownership through signature
 
-## Technical Documentation
+2. **Configure Royalties**:
+   - Set royalty percentages for your artwork
+   - Determine payment splits for collaborations
+   - Configure wallet for receiving payments
 
-For more detailed technical implementation details, please refer to:
-- [TOLA Architecture](TOLA-Architecture.md)
-- [Integration Guide](docs/tola-integration.md)
-- [API Reference](docs/api-reference.md)
+3. **Staking Strategy**:
+   - Stake TOLA to reduce platform fees
+   - Earn additional revenue through staking rewards
+   - Use staked tokens for governance voting
 
-## License
+## User Interaction Workflow
 
-TOLA is part of the VORTEX AI Marketplace and is covered under the project's main license.
+### Wallet Connection
 
----
+1. User clicks "Connect Wallet" button
+2. System initiates connection to Phantom/Solflare
+3. User approves connection in wallet application
+4. System verifies wallet address and updates UI
+5. Balance and transaction history are displayed
 
-*TOLA: Recognizing contribution, fostering community, and surfacing quality in digital art ecosystems.* 
+### Purchase Workflow
+
+1. User browses marketplace and selects an item
+2. User clicks "Buy with TOLA" button
+3. Purchase confirmation modal appears
+4. User reviews and confirms purchase
+5. Wallet prompts for transaction approval
+6. System processes transaction and grants access
+7. Receipt and confirmation are displayed
+
+### Staking Workflow
+
+1. User navigates to staking interface
+2. User specifies amount to stake
+3. System displays potential rewards and benefits
+4. User confirms staking transaction
+5. Wallet prompts for approval
+6. System records stake and updates user status
+7. Staked balance and rewards begin accruing
+
+## Real-time Metrics and Analytics
+
+TOLA integration includes comprehensive metrics for monitoring token ecosystem health:
+
+### Token Metrics Dashboard
+
+The dashboard displays:
+
+- **Total Value Locked**: Amount of TOLA staked or in escrow
+- **Transaction Volume**: Daily/monthly transaction counts and values
+- **Active Users**: Unique wallets interacting with TOLA
+- **Token Velocity**: Rate of token circulation
+- **Price Trends**: If applicable, price trends over time
+
+### Marketplace Metrics
+
+- **Sales by Token Type**: TOLA vs. fiat currency sales
+- **Most Traded Artworks**: Artworks with highest TOLA transaction volume
+- **Top Categories**: Artwork categories by TOLA volume
+- **Artist Rankings**: Artists ranked by TOLA earnings
+- **Fee Collection**: Platform fees collected in TOLA
+
+### DAO Metrics
+
+- **Governance Participation**: Voting rates and token weights
+- **Proposal Success Rate**: Percentage of proposals approved
+- **Treasury Growth**: TOLA accumulated in DAO treasury
+- **Distribution Stats**: Reward distribution analytics
+
+## Security Considerations
+
+- **Multi-sig Treasury**: DAO treasury secured by multi-signature requirements
+- **Smart Contract Audit**: TOLA contract audited by [Security Partner]
+- **Transaction Verification**: All transactions verified on-chain
+- **Rate Limiting**: Transaction rate limiting to prevent attacks
+- **Threshold Controls**: Large transactions require additional verification
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Wallet Not Connecting**
+   - Ensure Phantom/Solflare extension is installed
+   - Check that browser is supported (Chrome, Firefox, Brave)
+   - Confirm wallet is unlocked before attempting connection
+
+2. **Transaction Failing**
+   - Verify sufficient balance (including gas fees)
+   - Check network congestion and retry
+   - Confirm wallet has approved contract interaction
+
+3. **Balance Not Updating**
+   - Clear browser cache and reload
+   - Disconnect and reconnect wallet
+   - Check blockchain explorer to verify transaction status
+
+### Support Channels
+
+- **Documentation**: [TOLA Documentation](https://docs.vortexartec.com/tola)
+- **Community Forum**: [VORTEX Community](https://community.vortexartec.com)
+- **Discord Support**: [Discord Server](https://discord.gg/vortexartec)
+- **Email Support**: tola-support@vortexartec.com
+
+## Future Roadmap
+
+- **Cross-chain Bridging**: Ethereum, Polygon integration
+- **Mobile Wallet App**: Dedicated VORTEX wallet application
+- **Advanced Staking Options**: Tiered staking with varied benefits
+- **NFT Integration**: TOLA-powered NFT features
+- **Automated Market Maker**: AMM for TOLA token liquidity
+
+## Legal and Compliance
+
+- **Terms of Use**: [TOLA Terms](https://vortexartec.com/tola-terms)
+- **Privacy Policy**: [TOLA Privacy](https://vortexartec.com/tola-privacy)
+- **Regulatory Compliance**: Ongoing legal review for compliance
+- **Geographic Restrictions**: Service availability may vary by jurisdiction
+
+## Appendix
+
+### Smart Contract Interface
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface ITOLA {
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address to, uint256 amount) external returns (bool);
+    function transferFrom(address from, address to, uint256 amount) external returns (bool);
+    function approve(address spender, uint256 amount) external returns (bool);
+    function allowance(address owner, address spender) external view returns (uint256);
+    function stake(uint256 amount) external returns (bool);
+    function unstake(uint256 amount) external returns (bool);
+    function claimRewards() external returns (uint256);
+}
+```
+
+### API Reference
+
+Complete API documentation for the TOLA token integration is available at:
+[TOLA API Documentation](https://docs.vortexartec.com/tola-api) 

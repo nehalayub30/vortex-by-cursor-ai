@@ -1,0 +1,158 @@
+.vortex-dashboard-section {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.vortex-config-form {
+    margin-top: 20px;
+}
+
+.vortex-form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.vortex-form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.vortex-form-field label {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.vortex-form-field select,
+.vortex-form-field input[type="number"],
+.vortex-form-field input[type="text"],
+.vortex-form-field input[type="time"] {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    font-size: 14px;
+}
+
+.field-description {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #666;
+}
+
+.agent-config-toggles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.agent-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.switch-toggle {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.switch-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .3s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2271b1;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2271b1;
+}
+
+input:checked + .slider:before {
+    transform: translateX(16px);
+}
+
+.vortex-form-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.vortex-dashboard-footer {
+    margin-top: 30px;
+    color: #666;
+    font-size: 12px;
+    text-align: center;
+}
+
+.vortex-dashboard-footer a {
+    color: #0073aa;
+    text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 782px) {
+    .vortex-dashboard-grid,
+    .vortex-form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .vortex-dashboard-info {
+        max-width: 100%;
+    }
+    
+    .vortex-agent-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .vortex-status-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .vortex-agent-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .agent-details {
+        width: 100%;
+    }
+} 

@@ -82,6 +82,23 @@ class Vortex_Artwork {
     }
 
     /**
+     * Change the title placeholder for the artwork post type.
+     *
+     * @since    1.0.0
+     * @param    string    $title    The default title placeholder.
+     * @return   string              Modified title placeholder.
+     */
+    public function change_title_placeholder( $title ) {
+        $screen = get_current_screen();
+        
+        if ( $screen && $screen->post_type === $this->post_type ) {
+            return __( 'Enter artwork title', 'vortex-ai-marketplace' );
+        }
+        
+        return $title;
+    }
+
+    /**
      * Register the custom post type.
      *
      * @since    1.0.0
@@ -693,8 +710,854 @@ class Vortex_Artwork {
             update_post_meta( $post_id, '_vortex_artwork_ai_guidance_scale', sanitize_text_field( $_POST['vortex_artwork_ai_guidance_scale'] ) );
         }
 
-        if ( isset( $_POST['vortex_artwork_ai_steps'] ) ) ) {
-            update_post_meta( $post_id, '_vortex_artwork_ai_steps', absint( $_POST['vortex_artwork_ai_steps'] ) ) );
+        if ( isset( $_POST['vortex_artwork_ai_steps'] ) ) {
+            update_post_meta( $post_id, '_vortex_artwork_ai_steps', absint( $_POST['vortex_artwork_ai_steps'] ) );
         }
+    }
+
+    /**
+     * Register REST API fields for artwork post type.
+     *
+     * @since    1.0.0
+     */
+    public function register_rest_fields() {
+        register_rest_field(
+            $this->post_type,
+            'artwork_meta',
+            array(
+                'get_callback'    => array( $this, 'get_artwork_meta_for_api' ),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+        
+        register_rest_field(
+            $this->post_type,
+            'artwork_stats',
+            array(
+                'get_callback'    => array( $this, 'get_artwork_stats_for_api' ),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+        
+        register_rest_field(
+            $this->post_type,
+            'artwork_ai_data',
+            array(
+                'get_callback'    => array( $this, 'get_artwork_ai_data_for_api' ),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+        
+        register_rest_field(
+            $this->post_type,
+            'artwork_blockchain',
+            array(
+                'get_callback'    => array( $this, 'get_artwork_blockchain_for_api' ),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+    }
+    
+    /**
+     * Get artwork meta data for REST API.
+     *
+     * @since    1.0.0
+     * @param    array     $object      The post object.
+     * @param    string    $field_name  The field name.
+     * @param    array     $request     The request data.
+     * @return   array                  The artwork meta data.
+     */
+    public function get_artwork_meta_for_api( $object, $field_name, $request ) {
+        $post_id = $object['id'];
+        
+        return array(
+            'price'             => (float) get_post_meta( $post_id, '_vortex_artwork_price', true ),
+            'tola_price'        => (float) get_post_meta( $post_id, '_vortex_tola_price', true ),
+            'edition_size'      => (int) get_post_meta( $post_id, '_vortex_artwork_edition_size', true ),
+            'dimensions'        => get_post_meta( $post_id, '_vortex_artwork_dimensions', true ),
+            'medium'            => get_post_meta( $post_id, '_vortex_artwork_medium', true ),
+            'is_featured'       => (bool) get_post_meta( $post_id, '_vortex_artwork_is_featured', true ),
+            'is_sold_out'       => (bool) get_post_meta( $post_id, '_vortex_artwork_is_sold_out', true ),
+            'is_limited_edition' => (bool) get_post_meta( $post_id, '_vortex_artwork_is_limited_edition', true ),
+        );
+    }
+    
+    /**
+     * Get artwork stats data for REST API.
+     *
+     * @since    1.0.0
+     * @param    array     $object      The post object.
+     * @param    string    $field_name  The field name.
+     * @param    array     $request     The request data.
+     * @return   array                  The artwork stats data.
+     */
+    public function get_artwork_stats_for_api( $object, $field_name, $request ) {
+        $post_id = $object['id'];
+        
+        return array(
+            'view_count'        => (int) get_post_meta( $post_id, '_vortex_artwork_view_count', true ),
+            'like_count'        => (int) get_post_meta( $post_id, '_vortex_artwork_like_count', true ),
+            'share_count'       => (int) get_post_meta( $post_id, '_vortex_artwork_share_count', true ),
+            'purchase_count'    => (int) get_post_meta( $post_id, '_vortex_artwork_purchase_count', true ),
+        );
+    }
+    
+    /**
+     * Get artwork AI data for REST API.
+     *
+     * @since    1.0.0
+     * @param    array     $object      The post object.
+     * @param    string    $field_name  The field name.
+     * @param    array     $request     The request data.
+     * @return   array                  The artwork AI data.
+     */
+    public function get_artwork_ai_data_for_api( $object, $field_name, $request ) {
+        $post_id = $object['id'];
+        
+        return array(
+            'created_with_huraii' => (bool) get_post_meta( $post_id, '_vortex_created_with_huraii', true ),
+            'ai_prompt'           => get_post_meta( $post_id, '_vortex_artwork_ai_prompt', true ),
+            'ai_negative_prompt'  => get_post_meta( $post_id, '_vortex_artwork_ai_negative_prompt', true ),
+            'ai_model'            => get_post_meta( $post_id, '_vortex_artwork_ai_model', true ),
+            'ai_seed'             => get_post_meta( $post_id, '_vortex_artwork_ai_seed', true ),
+            'ai_guidance_scale'   => (float) get_post_meta( $post_id, '_vortex_artwork_ai_guidance_scale', true ),
+            'ai_steps'            => (int) get_post_meta( $post_id, '_vortex_artwork_ai_steps', true ),
+        );
+    }
+    
+    /**
+     * Get artwork blockchain data for REST API.
+     *
+     * @since    1.0.0
+     * @param    array     $object      The post object.
+     * @param    string    $field_name  The field name.
+     * @param    array     $request     The request data.
+     * @return   array                  The artwork blockchain data.
+     */
+    public function get_artwork_blockchain_for_api( $object, $field_name, $request ) {
+        $post_id = $object['id'];
+        
+        return array(
+            'token_id'           => get_post_meta( $post_id, '_vortex_blockchain_token_id', true ),
+            'contract_address'   => get_post_meta( $post_id, '_vortex_blockchain_contract_address', true ),
+            'blockchain_name'    => get_post_meta( $post_id, '_vortex_blockchain_name', true ),
+        );
+    }
+
+    /**
+     * Customize the updated messages for the artwork post type.
+     *
+     * @since    1.0.0
+     * @param    array    $messages    Default post updated messages.
+     * @return   array                 Modified post updated messages.
+     */
+    public function custom_updated_messages( $messages ) {
+        global $post;
+
+        $permalink = get_permalink( $post );
+        $view_link = sprintf( ' <a href="%s">%s</a>', esc_url( $permalink ), __( 'View artwork', 'vortex-ai-marketplace' ) );
+        $preview_url = add_query_arg( 'preview', 'true', $permalink );
+        $preview_link = sprintf( ' <a target="_blank" href="%s">%s</a>', esc_url( $preview_url ), __( 'Preview artwork', 'vortex-ai-marketplace' ) );
+
+        $messages[$this->post_type] = array(
+            0  => '', // Unused. Messages start at index 1.
+            1  => __( 'Artwork updated.', 'vortex-ai-marketplace' ) . $view_link,
+            2  => __( 'Custom field updated.', 'vortex-ai-marketplace' ),
+            3  => __( 'Custom field deleted.', 'vortex-ai-marketplace' ),
+            4  => __( 'Artwork updated.', 'vortex-ai-marketplace' ),
+            5  => isset( $_GET['revision'] ) ? sprintf( __( 'Artwork restored to revision from %s', 'vortex-ai-marketplace' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+            6  => __( 'Artwork published.', 'vortex-ai-marketplace' ) . $view_link,
+            7  => __( 'Artwork saved.', 'vortex-ai-marketplace' ),
+            8  => __( 'Artwork submitted.', 'vortex-ai-marketplace' ) . $preview_link,
+            9  => sprintf(
+                __( 'Artwork scheduled for: <strong>%1$s</strong>.', 'vortex-ai-marketplace' ),
+                date_i18n( __( 'M j, Y @ G:i', 'vortex-ai-marketplace' ), strtotime( $post->post_date ) )
+            ) . $preview_link,
+            10 => __( 'Artwork draft updated.', 'vortex-ai-marketplace' ) . $preview_link,
+        );
+
+        return $messages;
+    }
+
+    /**
+     * Customize the bulk updated messages for the artwork post type.
+     *
+     * @since    1.0.0
+     * @param    array    $bulk_messages    Array of messages.
+     * @param    array    $bulk_counts      Array of item counts.
+     * @return   array                      Modified array of messages.
+     */
+    public function custom_bulk_updated_messages( $bulk_messages, $bulk_counts ) {
+        $bulk_messages[$this->post_type] = array(
+            'updated'   => _n( '%s artwork updated.', '%s artworks updated.', $bulk_counts['updated'], 'vortex-ai-marketplace' ),
+            'locked'    => _n( '%s artwork not updated, somebody is editing it.', '%s artworks not updated, somebody is editing them.', $bulk_counts['locked'], 'vortex-ai-marketplace' ),
+            'deleted'   => _n( '%s artwork permanently deleted.', '%s artworks permanently deleted.', $bulk_counts['deleted'], 'vortex-ai-marketplace' ),
+            'trashed'   => _n( '%s artwork moved to the Trash.', '%s artworks moved to the Trash.', $bulk_counts['trashed'], 'vortex-ai-marketplace' ),
+            'untrashed' => _n( '%s artwork restored from the Trash.', '%s artworks restored from the Trash.', $bulk_counts['untrashed'], 'vortex-ai-marketplace' ),
+        );
+
+        return $bulk_messages;
+    }
+
+    /**
+     * Add custom admin styles for the artwork post type.
+     *
+     * @since    1.0.0
+     */
+    public function add_admin_styles() {
+        $screen = get_current_screen();
+        
+        // Only add styles on artwork admin screens
+        if ( $screen && ( $screen->post_type === $this->post_type || 
+             $screen->taxonomy === 'vortex_artwork_category' || 
+             $screen->taxonomy === 'vortex_artwork_tag' ) ) {
+            
+            ?>
+            <style type="text/css">
+                /* Artwork meta box styling */
+                .vortex-meta-field {
+                    margin-bottom: 15px;
+                }
+                
+                .vortex-meta-field label {
+                    display: block;
+                    margin-bottom: 5px;
+                    font-weight: bold;
+                }
+                
+                .vortex-meta-field input[type="text"],
+                .vortex-meta-field input[type="number"],
+                .vortex-meta-field select {
+                    width: 100%;
+                }
+                
+                .vortex-meta-field input[type="checkbox"] + label {
+                    display: inline;
+                    margin-left: 5px;
+                }
+                
+                .vortex-meta-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin: 0 -10px;
+                }
+                
+                .vortex-meta-col {
+                    flex: 1;
+                    padding: 0 10px;
+                    min-width: 100px;
+                }
+                
+                /* Stats styling */
+                .vortex-stats-container {
+                    margin-bottom: 15px;
+                }
+                
+                .vortex-stat-item {
+                    margin-bottom: 8px;
+                    display: flex;
+                    justify-content: space-between;
+                }
+                
+                .vortex-stat-label {
+                    font-weight: bold;
+                }
+                
+                /* Custom column styling */
+                .column-artwork_thumbnail {
+                    width: 80px;
+                }
+                
+                .column-price, 
+                .column-edition_size {
+                    width: 100px;
+                    text-align: center;
+                }
+                
+                .column-artist {
+                    width: 150px;
+                }
+                
+                .column-featured {
+                    width: 80px;
+                    text-align: center;
+                }
+                
+                .vortex-price-display {
+                    font-weight: bold;
+                    color: #0073aa;
+                }
+                
+                .vortex-featured-icon {
+                    color: #f1c40f;
+                }
+                
+                /* AI details styling */
+                .vortex-ai-model-badge {
+                    display: inline-block;
+                    padding: 3px 8px;
+                    background: #e9f7fe;
+                    border-radius: 3px;
+                    font-size: 12px;
+                    margin-top: 5px;
+                }
+            </style>
+            <?php
+        }
+    }
+
+    /**
+     * Modify admin query for the artwork post type.
+     * 
+     * Customizes the listing of artwork posts in the admin.
+     *
+     * @since    1.0.0
+     * @param    WP_Query    $query    The WP_Query instance.
+     * @return   WP_Query               Modified query.
+     */
+    public function modify_admin_query( $query ) {
+        // Only modify in admin and when it's the main query for our post type
+        if ( is_admin() && $query->is_main_query() && $query->get('post_type') === $this->post_type ) {
+            // Get current orderby value
+            $orderby = $query->get('orderby');
+            
+            // Sort by price if selected
+            if ( 'price' === $orderby ) {
+                $query->set( 'meta_key', '_vortex_artwork_price' );
+                $query->set( 'orderby', 'meta_value_num' );
+            }
+            
+            // Sort by views if selected
+            if ( 'views' === $orderby ) {
+                $query->set( 'meta_key', '_vortex_artwork_view_count' );
+                $query->set( 'orderby', 'meta_value_num' );
+            }
+            
+            // Filter by featured status if in the URL
+            if ( isset( $_GET['featured'] ) && $_GET['featured'] === '1' ) {
+                $meta_query = $query->get( 'meta_query' ) ? $query->get( 'meta_query' ) : array();
+                $meta_query[] = array(
+                    'key'     => '_vortex_artwork_is_featured',
+                    'value'   => '1',
+                    'compare' => '='
+                );
+                $query->set( 'meta_query', $meta_query );
+            }
+            
+            // Filter by AI-generated status if in the URL
+            if ( isset( $_GET['ai_generated'] ) && $_GET['ai_generated'] === '1' ) {
+                $meta_query = $query->get( 'meta_query' ) ? $query->get( 'meta_query' ) : array();
+                $meta_query[] = array(
+                    'key'     => '_vortex_created_with_huraii',
+                    'value'   => '1',
+                    'compare' => '='
+                );
+                $query->set( 'meta_query', $meta_query );
+            }
+        }
+        
+        return $query;
+    }
+
+    /**
+     * AJAX handler for getting artworks.
+     * 
+     * Handles AJAX requests to get artworks with filters.
+     *
+     * @since    1.0.0
+     */
+    public function ajax_get_artworks() {
+        // Check nonce for security
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'vortex_artwork_nonce' ) ) {
+            wp_send_json_error( array( 'message' => __( 'Security check failed.', 'vortex-ai-marketplace' ) ) );
+            exit;
+        }
+        
+        // Set up query args
+        $args = array(
+            'post_type'      => $this->post_type,
+            'posts_per_page' => isset( $_POST['per_page'] ) ? intval( $_POST['per_page'] ) : 12,
+            'paged'          => isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1,
+            'post_status'    => 'publish',
+        );
+        
+        // Handle search
+        if ( isset( $_POST['search'] ) && ! empty( $_POST['search'] ) ) {
+            $args['s'] = sanitize_text_field( $_POST['search'] );
+        }
+        
+        // Handle categories
+        if ( isset( $_POST['categories'] ) && ! empty( $_POST['categories'] ) ) {
+            $categories = is_array( $_POST['categories'] ) ? array_map( 'intval', $_POST['categories'] ) : array( intval( $_POST['categories'] ) );
+            
+            $args['tax_query'][] = array(
+                'taxonomy' => 'vortex_artwork_category',
+                'field'    => 'term_id',
+                'terms'    => $categories,
+            );
+        }
+        
+        // Handle tags
+        if ( isset( $_POST['tags'] ) && ! empty( $_POST['tags'] ) ) {
+            $tags = is_array( $_POST['tags'] ) ? array_map( 'intval', $_POST['tags'] ) : array( intval( $_POST['tags'] ) );
+            
+            $args['tax_query'][] = array(
+                'taxonomy' => 'vortex_artwork_tag',
+                'field'    => 'term_id',
+                'terms'    => $tags,
+            );
+        }
+        
+        // Handle sorting
+        if ( isset( $_POST['orderby'] ) ) {
+            $orderby = sanitize_text_field( $_POST['orderby'] );
+            $order = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 'DESC';
+            
+            switch ( $orderby ) {
+                case 'price_low':
+                    $args['meta_key'] = '_vortex_artwork_price';
+                    $args['orderby']  = 'meta_value_num';
+                    $args['order']    = 'ASC';
+                    break;
+                
+                case 'price_high':
+                    $args['meta_key'] = '_vortex_artwork_price';
+                    $args['orderby']  = 'meta_value_num';
+                    $args['order']    = 'DESC';
+                    break;
+                
+                case 'views':
+                    $args['meta_key'] = '_vortex_artwork_view_count';
+                    $args['orderby']  = 'meta_value_num';
+                    $args['order']    = 'DESC';
+                    break;
+                
+                case 'title':
+                    $args['orderby'] = 'title';
+                    $args['order']   = $order;
+                    break;
+                
+                case 'date':
+                default:
+                    $args['orderby'] = 'date';
+                    $args['order']   = $order;
+                    break;
+            }
+        }
+        
+        // Handle featured filter
+        if ( isset( $_POST['featured'] ) && $_POST['featured'] === 'true' ) {
+            $args['meta_query'][] = array(
+                'key'     => '_vortex_artwork_is_featured',
+                'value'   => '1',
+                'compare' => '=',
+            );
+        }
+        
+        // Handle AI-generated filter
+        if ( isset( $_POST['ai_generated'] ) && $_POST['ai_generated'] === 'true' ) {
+            $args['meta_query'][] = array(
+                'key'     => '_vortex_created_with_huraii',
+                'value'   => '1',
+                'compare' => '=',
+            );
+        }
+        
+        // Handle price range filter
+        if ( isset( $_POST['min_price'] ) || isset( $_POST['max_price'] ) ) {
+            $min_price = isset( $_POST['min_price'] ) ? floatval( $_POST['min_price'] ) : 0;
+            $max_price = isset( $_POST['max_price'] ) ? floatval( $_POST['max_price'] ) : 9999999;
+            
+            $args['meta_query'][] = array(
+                'key'     => '_vortex_artwork_price',
+                'value'   => array( $min_price, $max_price ),
+                'type'    => 'NUMERIC',
+                'compare' => 'BETWEEN',
+            );
+        }
+        
+        // Get artworks
+        $query = new WP_Query( $args );
+        $artworks = array();
+        
+        if ( $query->have_posts() ) {
+            while ( $query->have_posts() ) {
+                $query->the_post();
+                $artwork_id = get_the_ID();
+                
+                // Get artwork data
+                $artwork = array(
+                    'id'          => $artwork_id,
+                    'title'       => get_the_title(),
+                    'permalink'   => get_permalink(),
+                    'thumbnail'   => get_the_post_thumbnail_url( $artwork_id, 'medium' ),
+                    'price'       => get_post_meta( $artwork_id, '_vortex_artwork_price', true ),
+                    'tola_price'  => get_post_meta( $artwork_id, '_vortex_tola_price', true ),
+                    'artist'      => get_the_author(),
+                    'date'        => get_the_date(),
+                    'is_featured' => (bool) get_post_meta( $artwork_id, '_vortex_artwork_is_featured', true ),
+                    'is_sold_out' => (bool) get_post_meta( $artwork_id, '_vortex_artwork_is_sold_out', true ),
+                    'excerpt'     => get_the_excerpt(),
+                );
+                
+                $artworks[] = $artwork;
+            }
+            
+            wp_reset_postdata();
+        }
+        
+        // Send response
+        wp_send_json_success( array(
+            'artworks'    => $artworks,
+            'total_posts' => $query->found_posts,
+            'max_pages'   => $query->max_num_pages,
+        ) );
+    }
+    
+    /**
+     * AJAX handler for getting specific artwork data.
+     * 
+     * Handles AJAX requests to get detailed data for a specific artwork.
+     *
+     * @since    1.0.0
+     */
+    public function ajax_get_artwork_data() {
+        // Check nonce for security
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'vortex_artwork_nonce' ) ) {
+            wp_send_json_error( array( 'message' => __( 'Security check failed.', 'vortex-ai-marketplace' ) ) );
+            exit;
+        }
+        
+        // Check for artwork ID
+        if ( ! isset( $_POST['artwork_id'] ) || empty( $_POST['artwork_id'] ) ) {
+            wp_send_json_error( array( 'message' => __( 'Artwork ID is required.', 'vortex-ai-marketplace' ) ) );
+            exit;
+        }
+        
+        $artwork_id = intval( $_POST['artwork_id'] );
+        
+        // Check if artwork exists
+        $artwork = get_post( $artwork_id );
+        
+        if ( ! $artwork || $artwork->post_type !== $this->post_type || $artwork->post_status !== 'publish' ) {
+            wp_send_json_error( array( 'message' => __( 'Artwork not found.', 'vortex-ai-marketplace' ) ) );
+            exit;
+        }
+        
+        // Get artwork meta
+        $price = get_post_meta( $artwork_id, '_vortex_artwork_price', true );
+        $tola_price = get_post_meta( $artwork_id, '_vortex_tola_price', true );
+        $edition_size = get_post_meta( $artwork_id, '_vortex_artwork_edition_size', true );
+        $dimensions = get_post_meta( $artwork_id, '_vortex_artwork_dimensions', true );
+        $medium = get_post_meta( $artwork_id, '_vortex_artwork_medium', true );
+        $is_featured = (bool) get_post_meta( $artwork_id, '_vortex_artwork_is_featured', true );
+        $is_sold_out = (bool) get_post_meta( $artwork_id, '_vortex_artwork_is_sold_out', true );
+        $is_limited_edition = (bool) get_post_meta( $artwork_id, '_vortex_artwork_is_limited_edition', true );
+        
+        // Get AI details
+        $created_with_huraii = (bool) get_post_meta( $artwork_id, '_vortex_created_with_huraii', true );
+        $ai_prompt = get_post_meta( $artwork_id, '_vortex_artwork_ai_prompt', true );
+        $ai_negative_prompt = get_post_meta( $artwork_id, '_vortex_artwork_ai_negative_prompt', true );
+        $ai_model = get_post_meta( $artwork_id, '_vortex_artwork_ai_model', true );
+        $ai_seed = get_post_meta( $artwork_id, '_vortex_artwork_ai_seed', true );
+        $ai_guidance_scale = get_post_meta( $artwork_id, '_vortex_artwork_ai_guidance_scale', true );
+        $ai_steps = get_post_meta( $artwork_id, '_vortex_artwork_ai_steps', true );
+        
+        // Get blockchain details
+        $token_id = get_post_meta( $artwork_id, '_vortex_blockchain_token_id', true );
+        $contract_address = get_post_meta( $artwork_id, '_vortex_blockchain_contract_address', true );
+        $blockchain_name = get_post_meta( $artwork_id, '_vortex_blockchain_name', true );
+        $is_minted = (bool) get_post_meta( $artwork_id, '_vortex_is_minted', true );
+        
+        // Get categories and tags
+        $categories = array();
+        $category_terms = get_the_terms( $artwork_id, 'vortex_artwork_category' );
+        
+        if ( $category_terms && ! is_wp_error( $category_terms ) ) {
+            foreach ( $category_terms as $term ) {
+                $categories[] = array(
+                    'id'   => $term->term_id,
+                    'name' => $term->name,
+                    'slug' => $term->slug,
+                    'link' => get_term_link( $term ),
+                );
+            }
+        }
+        
+        $tags = array();
+        $tag_terms = get_the_terms( $artwork_id, 'vortex_artwork_tag' );
+        
+        if ( $tag_terms && ! is_wp_error( $tag_terms ) ) {
+            foreach ( $tag_terms as $term ) {
+                $tags[] = array(
+                    'id'   => $term->term_id,
+                    'name' => $term->name,
+                    'slug' => $term->slug,
+                    'link' => get_term_link( $term ),
+                );
+            }
+        }
+        
+        // Prepare artwork data
+        $artwork_data = array(
+            'id'               => $artwork_id,
+            'title'            => $artwork->post_title,
+            'content'          => apply_filters( 'the_content', $artwork->post_content ),
+            'permalink'        => get_permalink( $artwork_id ),
+            'thumbnail'        => get_the_post_thumbnail_url( $artwork_id, 'medium' ),
+            'full_image'       => get_the_post_thumbnail_url( $artwork_id, 'full' ),
+            'price'            => $price,
+            'tola_price'       => $tola_price,
+            'edition_size'     => $edition_size,
+            'dimensions'       => $dimensions,
+            'medium'           => $medium,
+            'is_featured'      => $is_featured,
+            'is_sold_out'      => $is_sold_out,
+            'is_limited_edition' => $is_limited_edition,
+            'artist'           => array(
+                'id'    => $artwork->post_author,
+                'name'  => get_the_author_meta( 'display_name', $artwork->post_author ),
+                'url'   => get_author_posts_url( $artwork->post_author ),
+                'avatar' => get_avatar_url( $artwork->post_author ),
+            ),
+            'date'             => array(
+                'published'     => get_the_date( 'c', $artwork_id ),
+                'modified'      => get_the_modified_date( 'c', $artwork_id ),
+                'human_readable' => get_the_date( '', $artwork_id ),
+            ),
+            'ai_details'       => array(
+                'created_with_huraii' => $created_with_huraii,
+                'ai_prompt'           => $ai_prompt,
+                'ai_negative_prompt'  => $ai_negative_prompt,
+                'ai_model'            => $ai_model,
+                'ai_seed'             => $ai_seed,
+                'ai_guidance_scale'   => $ai_guidance_scale,
+                'ai_steps'            => $ai_steps,
+            ),
+            'blockchain'       => array(
+                'is_minted'        => $is_minted,
+                'token_id'         => $token_id,
+                'contract_address' => $contract_address,
+                'blockchain_name'  => $blockchain_name,
+            ),
+            'categories'       => $categories,
+            'tags'             => $tags,
+        );
+        
+        // Track artwork view
+        $this->track_artwork_view( $artwork_id );
+        
+        // Send response
+        wp_send_json_success( array( 'artwork' => $artwork_data ) );
+    }
+    
+    /**
+     * AJAX handler for updating artwork views.
+     * 
+     * Handles AJAX requests to increment view count for an artwork.
+     *
+     * @since    1.0.0
+     */
+    public function ajax_update_artwork_views() {
+        // Check for artwork ID
+        if ( ! isset( $_POST['artwork_id'] ) || empty( $_POST['artwork_id'] ) ) {
+            wp_send_json_error( array( 'message' => __( 'Artwork ID is required.', 'vortex-ai-marketplace' ) ) );
+            exit;
+        }
+        
+        $artwork_id = intval( $_POST['artwork_id'] );
+        
+        // Check if artwork exists
+        $artwork = get_post( $artwork_id );
+        
+        if ( ! $artwork || $artwork->post_type !== $this->post_type ) {
+            wp_send_json_error( array( 'message' => __( 'Artwork not found.', 'vortex-ai-marketplace' ) ) );
+            exit;
+        }
+        
+        // Track artwork view
+        $this->track_artwork_view( $artwork_id );
+        
+        // Send response
+        wp_send_json_success( array( 'message' => __( 'View count updated.', 'vortex-ai-marketplace' ) ) );
+    }
+    
+    /**
+     * Track artwork view.
+     * 
+     * Increments the view count for an artwork.
+     *
+     * @since    1.0.0
+     * @param    int    $artwork_id    The artwork ID.
+     */
+    private function track_artwork_view( $artwork_id ) {
+        // Get current view count
+        $view_count = get_post_meta( $artwork_id, '_vortex_artwork_view_count', true );
+        $view_count = empty( $view_count ) ? 0 : intval( $view_count );
+        
+        // Increment view count
+        $view_count++;
+        
+        // Update view count
+        update_post_meta( $artwork_id, '_vortex_artwork_view_count', $view_count );
+        
+        // Allow for additional tracking
+        do_action( 'vortex_artwork_viewed', $artwork_id, $view_count );
+    }
+
+    /**
+     * Set custom columns for admin list view.
+     *
+     * @since    1.0.0
+     * @param    array    $columns    Default columns.
+     * @return   array                Modified columns.
+     */
+    public function set_custom_columns( $columns ) {
+        $new_columns = array();
+        
+        // Add checkbox column first
+        if ( isset( $columns['cb'] ) ) {
+            $new_columns['cb'] = $columns['cb'];
+        }
+        
+        // Add thumbnail column
+        $new_columns['artwork_thumbnail'] = __( 'Thumbnail', 'vortex-ai-marketplace' );
+        
+        // Add title column
+        if ( isset( $columns['title'] ) ) {
+            $new_columns['title'] = $columns['title'];
+        }
+        
+        // Add other custom columns
+        $new_columns['artist'] = __( 'Artist', 'vortex-ai-marketplace' );
+        $new_columns['price'] = __( 'Price', 'vortex-ai-marketplace' );
+        $new_columns['edition_size'] = __( 'Edition Size', 'vortex-ai-marketplace' );
+        $new_columns['featured'] = __( 'Featured', 'vortex-ai-marketplace' );
+        $new_columns['views'] = __( 'Views', 'vortex-ai-marketplace' );
+        $new_columns['ai_generated'] = __( 'AI Generated', 'vortex-ai-marketplace' );
+        
+        // Add taxonomy columns
+        if ( isset( $columns['taxonomy-vortex_artwork_category'] ) ) {
+            $new_columns['taxonomy-vortex_artwork_category'] = $columns['taxonomy-vortex_artwork_category'];
+        } else {
+            $new_columns['taxonomy-vortex_artwork_category'] = __( 'Categories', 'vortex-ai-marketplace' );
+        }
+        
+        if ( isset( $columns['taxonomy-vortex_artwork_tag'] ) ) {
+            $new_columns['taxonomy-vortex_artwork_tag'] = $columns['taxonomy-vortex_artwork_tag'];
+        } else {
+            $new_columns['taxonomy-vortex_artwork_tag'] = __( 'Tags', 'vortex-ai-marketplace' );
+        }
+        
+        // Add date column
+        if ( isset( $columns['date'] ) ) {
+            $new_columns['date'] = $columns['date'];
+        }
+        
+        return $new_columns;
+    }
+    
+    /**
+     * Custom column content for admin list view.
+     *
+     * @since    1.0.0
+     * @param    string    $column     Column name.
+     * @param    int       $post_id    Post ID.
+     */
+    public function custom_column_content( $column, $post_id ) {
+        switch ( $column ) {
+            case 'artwork_thumbnail':
+                if ( has_post_thumbnail( $post_id ) ) {
+                    echo '<a href="' . esc_url( get_edit_post_link( $post_id ) ) . '">';
+                    echo get_the_post_thumbnail( $post_id, array( 50, 50 ) );
+                    echo '</a>';
+                } else {
+                    echo '<div style="width:50px;height:50px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;">';
+                    echo '<span class="dashicons dashicons-format-image"></span>';
+                    echo '</div>';
+                }
+                break;
+                
+            case 'artist':
+                $author_id = get_post_field( 'post_author', $post_id );
+                $author_name = get_the_author_meta( 'display_name', $author_id );
+                echo '<a href="' . esc_url( add_query_arg( array( 'post_type' => $this->post_type, 'author' => $author_id ), admin_url( 'edit.php' ) ) ) . '">' . esc_html( $author_name ) . '</a>';
+                break;
+                
+            case 'price':
+                $price = get_post_meta( $post_id, '_vortex_artwork_price', true );
+                if ( ! empty( $price ) ) {
+                    $currency_symbol = get_option( 'vortex_marketplace_currency_symbol', '$' );
+                    echo '<span class="vortex-price-display">' . esc_html( $currency_symbol . number_format( (float) $price, 2 ) ) . '</span>';
+                } else {
+                    echo '—';
+                }
+                break;
+                
+            case 'edition_size':
+                $is_limited_edition = get_post_meta( $post_id, '_vortex_artwork_is_limited_edition', true );
+                
+                if ( $is_limited_edition ) {
+                    $edition_size = get_post_meta( $post_id, '_vortex_artwork_edition_size', true );
+                    if ( ! empty( $edition_size ) ) {
+                        echo esc_html( $edition_size );
+                    } else {
+                        echo '—';
+                    }
+                } else {
+                    echo '<span title="' . esc_attr__( 'Unlimited edition', 'vortex-ai-marketplace' ) . '">∞</span>';
+                }
+                break;
+                
+            case 'featured':
+                $is_featured = get_post_meta( $post_id, '_vortex_artwork_is_featured', true );
+                
+                if ( $is_featured ) {
+                    echo '<span class="vortex-featured-icon dashicons dashicons-star-filled" style="color:#f1c40f;" title="' . esc_attr__( 'Featured', 'vortex-ai-marketplace' ) . '"></span>';
+                } else {
+                    echo '<span class="dashicons dashicons-star-empty" title="' . esc_attr__( 'Not featured', 'vortex-ai-marketplace' ) . '"></span>';
+                }
+                break;
+                
+            case 'views':
+                $view_count = get_post_meta( $post_id, '_vortex_artwork_view_count', true );
+                echo ! empty( $view_count ) ? esc_html( number_format( intval( $view_count ) ) ) : '0';
+                break;
+                
+            case 'ai_generated':
+                $created_with_huraii = get_post_meta( $post_id, '_vortex_created_with_huraii', true );
+                
+                if ( $created_with_huraii ) {
+                    $ai_model = get_post_meta( $post_id, '_vortex_artwork_ai_model', true );
+                    echo '<span class="dashicons dashicons-yes" style="color:#2ecc71;" title="' . esc_attr__( 'AI Generated', 'vortex-ai-marketplace' ) . '"></span>';
+                    
+                    if ( ! empty( $ai_model ) ) {
+                        echo '<div class="vortex-ai-model-badge">' . esc_html( $ai_model ) . '</div>';
+                    }
+                } else {
+                    echo '<span class="dashicons dashicons-no" title="' . esc_attr__( 'Not AI Generated', 'vortex-ai-marketplace' ) . '"></span>';
+                }
+                break;
+        }
+    }
+    
+    /**
+     * Set sortable columns for admin list view.
+     *
+     * @since    1.0.0
+     * @param    array    $columns    Default sortable columns.
+     * @return   array                Modified sortable columns.
+     */
+    public function set_sortable_columns( $columns ) {
+        $columns['price'] = 'price';
+        $columns['views'] = 'views';
+        $columns['featured'] = '_vortex_artwork_is_featured';
+        $columns['artist'] = 'author';
+        
+        return $columns;
     }
 } 

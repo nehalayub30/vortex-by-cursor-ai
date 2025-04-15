@@ -1,0 +1,442 @@
+/**
+ * VORTEX DAO WooCommerce Integration Styles
+ */
+
+/* Product Reward Badge on Product Page */
+.vortex-dao-product-rewards {
+    margin: 15px 0;
+    border: 1px solid rgba(0, 174, 239, 0.3);
+    border-radius: 8px;
+    background-color: rgba(0, 174, 239, 0.05);
+    overflow: hidden;
+}
+
+.dao-reward-badge {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    position: relative;
+}
+
+.dao-reward-icon {
+    width: 24px;
+    height: 24px;
+    background-image: url('../images/tola-token-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 10px;
+}
+
+.dao-reward-text {
+    flex-grow: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+.dao-reward-text strong {
+    color: #0056b3;
+    font-weight: 600;
+}
+
+.dao-achievements-badge {
+    margin-left: 12px;
+    background-color: rgba(74, 144, 226, 0.15);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    color: #0056b3;
+}
+
+.dao-achievements-badge .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+.dao-reward-info-toggle {
+    margin-left: 10px;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.dao-reward-info-toggle:hover {
+    color: #0056b3;
+}
+
+.dao-reward-details {
+    padding: 15px;
+    border-top: 1px solid rgba(0, 174, 239, 0.15);
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.dao-reward-details h4 {
+    margin: 0 0 15px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.dao-reward-detail-item {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.dao-reward-detail-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.dao-reward-detail-icon.tola-icon {
+    background-image: url('../images/tola-token-icon.svg');
+}
+
+.dao-reward-detail-icon.achievement-icon {
+    background-image: url('../images/achievement-icon.svg');
+}
+
+.dao-reward-detail-content h5 {
+    margin: 0 0 5px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #0056b3;
+}
+
+.dao-reward-detail-content p {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* DAO Rewards Account Page Styles */
+.vortex-dao-rewards-container {
+    margin-bottom: 30px;
+}
+
+.vortex-dao-rewards-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+.vortex-dao-rewards-section {
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.vortex-dao-rewards-section h3 {
+    padding: 15px 20px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #f5f7fa;
+    border-bottom: 1px solid #e8edf3;
+    color: #333;
+}
+
+/* TOLA Balance Section */
+.tola-balance-section {
+    background-color: rgba(0, 86, 179, 0.02);
+}
+
+.tola-balance-section h3 {
+    background-color: rgba(0, 86, 179, 0.1);
+    color: #0056b3;
+}
+
+.tola-balance-display {
+    padding: 25px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 86, 179, 0.1);
+}
+
+.tola-amount {
+    font-size: 42px;
+    font-weight: 700;
+    color: #0056b3;
+    line-height: 1;
+}
+
+.tola-label {
+    margin-left: 8px;
+    font-size: 18px;
+    color: #0056b3;
+    opacity: 0.8;
+}
+
+.tola-actions {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Product Rewards List */
+.product-rewards-list {
+    padding: 10px 20px;
+}
+
+.product-reward-item {
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e8edf3;
+}
+
+.product-reward-item:last-child {
+    border-bottom: none;
+}
+
+.reward-product-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.reward-product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.reward-product-details h4 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.reward-order-info {
+    color: #777;
+    font-size: 13px;
+}
+
+.reward-details {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.reward-tola {
+    margin-right: 15px;
+    text-align: right;
+}
+
+.reward-tola-amount {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: #0056b3;
+}
+
+.reward-tola-label {
+    font-size: 12px;
+    color: #777;
+}
+
+.reward-claimed {
+    display: flex;
+    align-items: center;
+    color: #28a745;
+    font-weight: 500;
+}
+
+.reward-claimed .dashicons {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.claim-reward-btn {
+    position: relative;
+    min-width: 110px;
+    text-align: center;
+}
+
+.claim-reward-btn.loading:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: vortex-dao-spin 1s infinite linear;
+}
+
+.claim-reward-btn.loading span {
+    visibility: hidden;
+}
+
+/* No Rewards Message */
+.no-rewards-message {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.no-rewards-message p {
+    margin: 0 0 10px;
+    color: #777;
+}
+
+.no-rewards-message .no-data-hint {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Achievements Grid */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.achievement-card {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    display: flex;
+    align-items: flex-start;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.achievement-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    background-color: rgba(0, 86, 179, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.achievement-icon img {
+    max-width: 28px;
+    max-height: 28px;
+}
+
+.achievement-icon .dashicons {
+    color: #0056b3;
+    font-size: 20px;
+}
+
+.achievement-details {
+    flex: 1;
+}
+
+.achievement-title {
+    margin: 0 0 5px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+.achievement-description {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.blockchain-verified {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #0056b3;
+}
+
+.blockchain-verified .dashicons {
+    font-size: 14px;
+    margin-right: 5px;
+    color: #0056b3;
+}
+
+/* Blockchain Link */
+.blockchain-link a {
+    color: #0056b3;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.blockchain-link a:hover {
+    color: #003d80;
+}
+
+/* No Achievements Message */
+.no-achievements-message {
+    padding: 20px;
+    text-align: center;
+    color: #777;
+}
+
+/* Animation */
+@keyframes vortex-dao-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .tola-amount {
+        font-size: 36px;
+    }
+    
+    .tola-actions {
+        flex-direction: column;
+    }
+    
+    .product-reward-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .reward-details {
+        margin-left: 0;
+        margin-top: 15px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .dao-reward-badge {
+        flex-wrap: wrap;
+    }
+    
+    .dao-achievements-badge {
+        margin-left: 0;
+        margin-top: 8px;
+    }
+} 

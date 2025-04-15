@@ -41,4 +41,51 @@ class VortexPlugin {
     private function define_public_hooks() {
         // Add public hooks here
     }
+
+    /**
+     * Register cron jobs for the plugin
+     * 
+     * Sets up scheduled tasks including hourly AI synchronization
+     *
+     * @since 1.0.0
+     * @return void 
+     */
+    public function register_cron_jobs() {
+        // Register hourly cron if not already scheduled
+        if (!wp_next_scheduled('vortex_hourly_cron')) {
+            wp_schedule_event(time(), 'hourly', 'vortex_hourly_cron');
+        }
+        
+        // Register daily cron if not already scheduled
+        if (!wp_next_scheduled('vortex_daily_cron')) {
+            wp_schedule_event(time(), 'daily', 'vortex_daily_cron');
+        }
+        
+        // Register weekly cron if not already scheduled
+        if (!wp_next_scheduled('vortex_weekly_cron')) {
+            wp_schedule_event(time(), 'weekly', 'vortex_weekly_cron');
+        }
+    }
+
+    /**
+     * Register activation hook to set up cron jobs
+     */
+    public function activate() {
+        // Register cron jobs
+        $this->register_cron_jobs();
+        
+        // Other activation tasks...
+    }
+
+    /**
+     * Register deactivation hook to clean up cron jobs
+     */
+    public function deactivate() {
+        // Clear scheduled cron jobs
+        wp_clear_scheduled_hook('vortex_hourly_cron');
+        wp_clear_scheduled_hook('vortex_daily_cron');
+        wp_clear_scheduled_hook('vortex_weekly_cron');
+        
+        // Other deactivation tasks...
+    }
 }

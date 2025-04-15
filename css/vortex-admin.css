@@ -1,0 +1,273 @@
+/* CLOE Dashboard Widgets Styles */
+.vortex-cloe-widget {
+    margin: -12px -12px -12px -12px;
+    padding: 12px;
+    background-color: #fff;
+}
+
+.vortex-cloe-widget h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #23282d;
+}
+
+.vortex-cloe-widget h3:first-child {
+    margin-top: 0;
+}
+
+/* Stats section */
+.vortex-cloe-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.vortex-cloe-stat-item {
+    flex: 0 0 30%;
+    text-align: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.vortex-cloe-stat-value {
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2271b1;
+}
+
+.vortex-cloe-stat-label {
+    display: block;
+    font-size: 13px;
+    color: #50575e;
+}
+
+/* Recommendations */
+.vortex-cloe-recommendations {
+    margin: 0;
+    padding: 0;
+}
+
+.vortex-cloe-recommendations li {
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 10px;
+}
+
+.vortex-cloe-recommendations li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.vortex-cloe-recommendation-type {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #2271b1;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+}
+
+.vortex-cloe-recommendation-content {
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+/* Trends */
+.vortex-cloe-trends {
+    margin: 0;
+    padding: 0;
+}
+
+.vortex-cloe-trends li {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    margin-bottom: 5px;
+}
+
+.vortex-cloe-trend-name {
+    flex: 0 0 40%;
+    font-size: 13px;
+}
+
+.vortex-cloe-trend-score {
+    flex: 1;
+    height: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    margin: 0 10px;
+    overflow: hidden;
+}
+
+.vortex-cloe-trend-score-bar {
+    height: 100%;
+    background-color: #2271b1;
+    border-radius: 4px;
+}
+
+.vortex-cloe-trend-value {
+    flex: 0 0 10%;
+    font-size: 12px;
+    text-align: right;
+    font-weight: 600;
+}
+
+/* Opportunities */
+.vortex-cloe-opportunities {
+    margin: 0;
+    padding: 0;
+}
+
+.vortex-cloe-opportunities li {
+    padding: 8px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px dashed #f0f0f0;
+}
+
+.vortex-cloe-opportunities li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.vortex-cloe-opportunity-name {
+    font-weight: 600;
+    margin-bottom: 3px;
+    font-size: 13px;
+}
+
+.vortex-cloe-opportunity-description {
+    font-size: 12px;
+    color: #50575e;
+}
+
+/* Insights */
+.vortex-cloe-insights {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.vortex-cloe-insight-item {
+    flex: 0 0 32%;
+    text-align: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.vortex-cloe-insight-value {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2271b1;
+}
+
+.vortex-cloe-insight-label {
+    display: block;
+    font-size: 12px;
+    color: #50575e;
+    margin-bottom: 4px;
+}
+
+.vortex-cloe-insight-change {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.vortex-cloe-insight-change.positive {
+    background-color: #edfaef;
+    color: #0c963f;
+}
+
+.vortex-cloe-insight-change.negative {
+    background-color: #faedef;
+    color: #d63638;
+}
+
+/* Segments */
+.vortex-cloe-segments {
+    margin-bottom: 20px;
+}
+
+.vortex-cloe-segment-item {
+    margin-bottom: 10px;
+}
+
+.vortex-cloe-segment-name {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.vortex-cloe-segment-value {
+    font-weight: 600;
+}
+
+.vortex-cloe-segment-bar {
+    height: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.vortex-cloe-segment-fill {
+    height: 100%;
+    background-color: #2271b1;
+    border-radius: 4px;
+}
+
+/* Footer */
+.vortex-cloe-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vortex-cloe-updated {
+    font-size: 11px;
+    color: #757575;
+}
+
+@media (max-width: 782px) {
+    .vortex-cloe-stat-item,
+    .vortex-cloe-insight-item {
+        flex: 0 0 100%;
+        margin-bottom: 10px;
+    }
+    
+    .vortex-cloe-trends li {
+        flex-wrap: wrap;
+    }
+    
+    .vortex-cloe-trend-name {
+        flex: 0 0 100%;
+        margin-bottom: 5px;
+    }
+    
+    .vortex-cloe-trend-score {
+        flex: 0 0 80%;
+        margin: 0;
+    }
+    
+    .vortex-cloe-trend-value {
+        flex: 0 0 20%;
+        text-align: right;
+    }
+} 

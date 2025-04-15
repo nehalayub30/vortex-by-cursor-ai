@@ -298,4 +298,188 @@ class Vortex_HURAII_Library {
         // In a real implementation, this would be the NFT post ID
         return $image_id;
     }
+    
+    /**
+     * Associate an artwork with themes
+     *
+     * @param int $artwork_id The artwork ID
+     * @param array $theme_ids Array of theme IDs to associate
+     * @param int $user_id User who is making the association
+     * @return array Results of the operation
+     */
+    public function associate_artwork_with_themes($artwork_id, $theme_ids, $user_id = 0) {
+        global $wpdb;
+        
+        if (!$user_id && is_user_logged_in()) {
+            $user_id = get_current_user_id();
+        }
+        
+        $results = array(
+            'success' => true,
+            'added' => 0,
+            'errors' => array()
+        );
+        
+        if (empty($theme_ids) || !is_array($theme_ids)) {
+            $results['success'] = false;
+            $results['errors'][] = __('No themes provided for association', 'vortex-ai-marketplace');
+            return $results;
+        }
+        
+        // Verify the artwork exists
+        if (!$this->is_ai_image($artwork_id)) {
+            $results['success'] = false;
+            $results['errors'][] = __('Invalid artwork ID', 'vortex-ai-marketplace');
+            return $results;
+        }
+        
+        // Check if the mapping table exists
+        $table_name = $wpdb->prefix . 'vortex_artwork_theme_mapping';
+        
+        try {
+            if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
+                // Try to create the table if it doesn't exist
+                require_once VORTEX_PLUGIN_DIR . 'includes/class-vortex-db-migrations.php';
+                Vortex_DB_Migrations::ensure_artwork_theme_mapping_table();
+                
+                // Check again
+                if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
+                    $results['success'] = false;
+                    $results['errors'][] = __('Theme mapping table does not exist and could not be created', 'vortex-ai-marketplace');
+                    return $results;
+                }
+            }
+            
+            // Add associations
+            foreach ($theme_ids as $theme_id) {
+                $theme_id = intval($theme_id);
+                if (!$theme_id) continue;
+                
+                // Check if this association already exists
+                $exists = $wpdb->get_var($wpdb->prepare(
+                    "SELECT id FROM $table_name WHERE artwork_id = %d AND theme_id = %d",
+                    $artwork_id,
+                    $theme_id
+                ));
+                
+                if ($exists) {
+                    continue; // Skip if already exists
+                }
+                
+                // Add the association
+                $inserted = $wpdb->insert(
+                    $table_name,
+                    array(
+                        'artwork_id' => $artwork_id,
+                        'theme_id' => $theme_id,
+                        'added_by' => $user_id,
+                        'created_at' => current_time('mysql')
+                    ),
+                    array('%d', '%d', '%d', '%s')
+                );
+                
+                if ($inserted) {
+                    $results['added']++;
+                    
+                    // Increment theme's artwork count
+                    $themes_table = $wpdb->prefix . 'vortex_artwork_themes';
+                    $wpdb->query($wpdb->prepare(
+                        "UPDATE $themes_table SET artwork_count = artwork_count + 1 WHERE theme_id = %d",
+                        $theme_id
+                    ));
+                } else {
+                    $results['errors'][] = sprintf(__('Failed to associate artwork with theme ID %d', 'vortex-ai-marketplace'), $theme_id);
+                }
+            }
+            
+            if ($results['added'] === 0 && !empty($results['errors'])) {
+                $results['success'] = false;
+            }
+            
+            return $results;
+            
+        } catch (Exception $e) {
+            $results['success'] = false;
+            $results['errors'][] = $e->getMessage();
+            return $results;
+        }
+    }
+    
+    /**
+     * Get themes associated with an artwork
+     *
+     * @param int $artwork_id The artwork ID
+     * @return array Associated themes
+     */
+    public function get_artwork_themes($artwork_id) {
+        global $wpdb;
+        
+        $themes = array();
+        
+        // Check if the mapping table exists
+        $mapping_table = $wpdb->prefix . 'vortex_artwork_theme_mapping';
+        $themes_table = $wpdb->prefix . 'vortex_artwork_themes';
+        
+        if ($wpdb->get_var("SHOW TABLES LIKE '$mapping_table'") !== $mapping_table ||
+            $wpdb->get_var("SHOW TABLES LIKE '$themes_table'") !== $themes_table) {
+            return $themes;
+        }
+        
+        // Get associated themes
+        $results = $wpdb->get_results($wpdb->prepare(
+            "SELECT t.theme_id, t.theme_name, t.theme_slug, t.theme_description, t.popularity_score, 
+                    tm.relevance, tm.created_at as association_date
+             FROM $themes_table t
+             JOIN $mapping_table tm ON t.theme_id = tm.theme_id
+             WHERE tm.artwork_id = %d
+             ORDER BY tm.relevance DESC, t.popularity_score DESC",
+            $artwork_id
+        ));
+        
+        if ($results) {
+            $themes = $results;
+        }
+        
+        return $themes;
+    }
+    
+    /**
+     * Remove theme association from an artwork
+     *
+     * @param int $artwork_id The artwork ID
+     * @param int $theme_id The theme ID to remove
+     * @return bool Success status
+     */
+    public function remove_artwork_theme($artwork_id, $theme_id) {
+        global $wpdb;
+        
+        $mapping_table = $wpdb->prefix . 'vortex_artwork_theme_mapping';
+        
+        if ($wpdb->get_var("SHOW TABLES LIKE '$mapping_table'") !== $mapping_table) {
+            return false;
+        }
+        
+        $result = $wpdb->delete(
+            $mapping_table,
+            array(
+                'artwork_id' => $artwork_id,
+                'theme_id' => $theme_id
+            ),
+            array('%d', '%d')
+        );
+        
+        if ($result) {
+            // Decrement theme's artwork count
+            $themes_table = $wpdb->prefix . 'vortex_artwork_themes';
+            if ($wpdb->get_var("SHOW TABLES LIKE '$themes_table'") === $themes_table) {
+                $wpdb->query($wpdb->prepare(
+                    "UPDATE $themes_table SET artwork_count = GREATEST(0, artwork_count - 1) WHERE theme_id = %d",
+                    $theme_id
+                ));
+            }
+            return true;
+        }
+        
+        return false;
+    }
 } 
