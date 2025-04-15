@@ -103,101 +103,285 @@
      * AJAX: Investor application.
      */
     public function ajax_investor_application() {
-        // Check nonce
+        // Verify nonce for security
         if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'vortex_investor_application')) {
-            wp_send_json_error(['message' => __('Security check failed.', 'vortex')]);
+            wp_send_json_error(array(
+                'message' => __('Security verification failed. Please reload the page and try again.', 'vortex')
+            ));
+            return;
         }
         
         // Check if user is logged in
         if (!is_user_logged_in()) {
-            wp_send_json_error(['message' => __('You must be logged in to apply.', 'vortex')]);
+            wp_send_json_error(array(
+                'message' => __('You must be logged in to submit an application.', 'vortex')
+            ));
+            return;
         }
         
         $user_id = get_current_user_id();
         
-        // Check if already an investor
-        $existing = $this->get_investor_data($user_id);
-        if ($existing) {
-            wp_send_json_error(['message' => __('You are already registered as an investor.', 'vortex')]);
+        // Check if user is already an investor
+        if ($this->is_user_investor($user_id)) {
+            wp_send_json_error(array(
+                'message' => __('You are already registered as an investor.', 'vortex')
+            ));
+            return;
         }
-        
-        // Get application details
-        $wallet_address = isset($_POST['wallet_address']) ? sanitize_text_field($_POST['wallet_address']) : '';
-        $investment_amount = isset($_POST['investment_amount']) ? floatval($_POST['investment_amount']) : 0;
-        $first_name = isset($_POST['first_name']) ? sanitize_text_field($_POST['first_name']) : '';
-        $last_name = isset($_POST['last_name']) ? sanitize_text_field($_POST['last_name']) : '';
-        $email = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
-        $phone = isset($_POST['phone']) ? sanitize_text_field($_POST['phone']) : '';
-        $accredited = isset($_POST['accredited']) && $_POST['accredited'] === 'yes';
-        
-        // Validate data
-        if (empty($wallet_address) || $investment_amount < $this->config['min_investment']) {
-            wp_send_json_error([
-                'message' => sprintf(
-                    __('Invalid application details. Investment amount must be at least %s.', 'vortex'),
-                    number_format($this->config['min_investment'], 2)
-                )
-            ]);
+
+        // Define required fields and their validation types
+        $required_fields = array(
+            'first_name' => 'text',
+            'last_name' => 'text',
+            'email' => 'email',
+            'phone' => 'text',
+            'wallet_address' => 'wallet',
+            'investment_amount' => 'numeric',
+            'terms_agreement' => 'boolean',
+            'risk_acknowledgment' => 'boolean'
+        );
+
+        // Initialize sanitized data array and errors array
+        $data = array();
+        $errors = array();
+
+        // Process and validate required fields
+        foreach ($required_fields as $field => $type) {
+            if (!isset($_POST[$field]) || empty($_POST[$field])) {
+                $errors[$field] = sprintf(__('%s is required.', 'vortex'), ucfirst(str_replace('_', ' ', $field)));
+                continue;
+            }
+
+            // Sanitize and validate based on field type
+            switch ($type) {
+                case 'text':
+                    $data[$field] = sanitize_text_field($_POST[$field]);
+                    break;
+                
+                case 'email':
+                    $email = sanitize_email($_POST[$field]);
+                    if (!is_email($email)) {
+                        $errors[$field] = __('Please enter a valid email address.', 'vortex');
+                    } else {
+                        $data[$field] = $email;
+                    }
+                    break;
+                
+                case 'numeric':
+                    $value = filter_var($_POST[$field], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                    if (!is_numeric($value) || $value <= 0) {
+                        $errors[$field] = __('Please enter a valid positive number.', 'vortex');
+                    } else {
+                        // Verify minimum investment amount
+                        $min_investment = get_option('vortex_dao_min_investment', 1000);
+                        if ($value < $min_investment) {
+                            $errors[$field] = sprintf(__('Minimum investment amount is $%s.', 'vortex'), number_format($min_investment, 2));
+                        } else {
+                            $data[$field] = (float) $value;
+                        }
+                    }
+                    break;
+                
+                case 'wallet':
+                    // Sanitize wallet address (alphanumeric with limited special chars)
+                    $wallet = preg_replace('/[^a-zA-Z0-9]/', '', $_POST[$field]);
+                    
+                    // Verify wallet address format (this is a basic check, adapt for your blockchain)
+                    if (strlen($wallet) < 32 || strlen($wallet) > 64) {
+                        $errors[$field] = __('Please enter a valid wallet address.', 'vortex');
+                    } else {
+                        $data[$field] = sanitize_text_field($_POST[$field]); // Preserve original format
+                    }
+                    break;
+                
+                case 'boolean':
+                    $data[$field] = ($_POST[$field] === 'yes') ? 'yes' : 'no';
+                    if ($data[$field] !== 'yes') {
+                        $errors[$field] = __('You must agree to this term to proceed.', 'vortex');
+                    }
+                    break;
+            }
         }
+
+        // Handle optional fields
+        if (isset($_POST['accredited'])) {
+            $data['accredited'] = ($_POST['accredited'] === 'yes') ? 'yes' : 'no';
+        } else {
+            $data['accredited'] = 'no';
+        }
+
+        // Verify GDPR consent if enabled
+        $gdpr_enabled = get_option('vortex_enable_gdpr', 'yes');
+        if ($gdpr_enabled === 'yes') {
+            if (!isset($_POST['privacy_consent']) || $_POST['privacy_consent'] !== 'yes') {
+                $errors['privacy_consent'] = __('You must consent to our privacy policy to proceed.', 'vortex');
+            } else {
+                $data['privacy_consent'] = 'yes';
+                // Record timestamp of consent for GDPR compliance
+                $data['privacy_consent_timestamp'] = current_time('mysql');
+            }
+        }
+
+        // Return errors if validation failed
+        if (!empty($errors)) {
+            wp_send_json_error(array(
+                'message' => __('Please correct the errors in your application.', 'vortex'),
+                'errors' => $errors
+            ));
+            return;
+        }
+
+        // Store IP anonymized for GDPR compliance
+        $ip = $this->anonymize_ip($_SERVER['REMOTE_ADDR']);
+        $data['application_ip'] = $ip;
         
-        // Prepare notes from application
-        $notes = sprintf(
-            __("Investment Application\nName: %s %s\nEmail: %s\nPhone: %s\nAccredited Investor: %s\nApplication Date: %s", 'vortex'),
-            $first_name,
-            $last_name,
-            $email,
-            $phone,
-            $accredited ? 'Yes' : 'No',
-            date_i18n(get_option('date_format') . ' ' . get_option('time_format'))
+        // Record application date
+        $data['application_date'] = current_time('mysql');
+        
+        // Calculate tokens based on investment amount and token price
+        $token_price = get_option('vortex_dao_token_price', 1);
+        $data['tokens_allocated'] = floor($data['investment_amount'] / $token_price);
+        
+        // Set initial status
+        $data['status'] = 'pending';
+        
+        // Store application in database
+        $result = $this->db->insert(
+            $this->db->prefix . 'vortex_investor_applications',
+            array(
+                'user_id' => $user_id,
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'wallet_address' => $data['wallet_address'],
+                'investment_amount' => $data['investment_amount'],
+                'tokens_allocated' => $data['tokens_allocated'],
+                'accredited_investor' => $data['accredited'],
+                'application_date' => $data['application_date'],
+                'application_ip' => $data['application_ip'],
+                'status' => $data['status']
+            ),
+            array('%d', '%s', '%s', '%s', '%s', '%s', '%f', '%d', '%s', '%s', '%s', '%s')
         );
         
-        // Add investor with pending KYC status
-        $investor_id = $this->add_investor(
-            $user_id,
-            $wallet_address,
-            $investment_amount,
-            $this->config['token_price'],
-            730, // 2-year vesting by default
-            $notes
-        );
+        if (!$result) {
+            wp_send_json_error(array(
+                'message' => __('Failed to submit application. Please try again or contact support.', 'vortex')
+            ));
+            return;
+        }
         
-        if (!$investor_id) {
-            wp_send_json_error(['message' => __('Failed to submit application. Please try again.', 'vortex')]);
+        // Store the application ID
+        $application_id = $this->db->insert_id;
+        
+        // Store additional data as user meta
+        update_user_meta($user_id, 'vortex_investor_application_id', $application_id);
+        update_user_meta($user_id, 'vortex_wallet_address', $data['wallet_address']);
+        update_user_meta($user_id, 'vortex_investor_status', 'applied');
+        
+        // Store consent information if GDPR is enabled
+        if ($gdpr_enabled === 'yes' && isset($data['privacy_consent_timestamp'])) {
+            update_user_meta($user_id, 'vortex_privacy_consent', array(
+                'consented' => true,
+                'timestamp' => $data['privacy_consent_timestamp'],
+                'ip' => $data['application_ip']
+            ));
         }
         
         // Send notification email to admin
         $admin_email = get_option('admin_email');
-        $subject = sprintf(__('[%s] New Investor Application', 'vortex'), get_bloginfo('name'));
+        $subject = sprintf(__('New Investor Application: %s %s', 'vortex'), $data['first_name'], $data['last_name']);
+        
+        // Prepare email content with escaping for security
         $message = sprintf(
-            __("A new investor application has been submitted.\n\nName: %s %s\nEmail: %s\nPhone: %s\nWallet: %s\nInvestment Amount: %s\nAccredited Investor: %s\n\nPlease review this application in the WordPress admin.", 'vortex'),
-            $first_name,
-            $last_name,
-            $email,
-            $phone,
-            $wallet_address,
-            number_format($investment_amount, 2),
-            $accredited ? 'Yes' : 'No'
+            __('A new investor application has been submitted by %s %s (%s).
+
+Investment Amount: $%s
+Tokens to be Allocated: %s
+Wallet Address: %s
+Phone: %s
+Accredited Investor: %s
+
+Please review this application in the admin dashboard.', 'vortex'),
+            esc_html($data['first_name']),
+            esc_html($data['last_name']),
+            esc_html($data['email']),
+            number_format($data['investment_amount'], 2),
+            number_format($data['tokens_allocated']),
+            esc_html($data['wallet_address']),
+            esc_html($data['phone']),
+            $data['accredited'] === 'yes' ? __('Yes', 'vortex') : __('No', 'vortex')
         );
         
-        wp_mail($admin_email, $subject, $message);
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        wp_mail($admin_email, $subject, nl2br($message), $headers);
         
-        // Update user meta with application data
-        update_user_meta($user_id, 'vortex_wallet_address', $wallet_address);
-        update_user_meta($user_id, 'vortex_investor_application_date', current_time('mysql'));
+        // Log the event
+        $this->log_sensitive_action(
+            'investor_application_submitted',
+            sprintf('User %d submitted investor application #%d', $user_id, $application_id),
+            $user_id
+        );
         
-        // Update user's first/last name if not set
-        $user = get_userdata($user_id);
-        if (empty($user->first_name) && !empty($first_name)) {
-            update_user_meta($user_id, 'first_name', $first_name);
+        // Return success response with safe data
+        wp_send_json_success(array(
+            'message' => __('Your investor application has been submitted successfully. We will review your application and contact you soon.', 'vortex'),
+            'application_id' => $application_id
+        ));
+    }
+    
+    /**
+     * Anonymize IP address for GDPR compliance
+     * 
+     * @param string $ip The IP address to anonymize
+     * @return string The anonymized IP address
+     */
+    private function anonymize_ip($ip) {
+        if (empty($ip)) return '';
+        
+        // IPv4 address
+        if (strpos($ip, '.') !== false) {
+            // Replace last octet with 0
+            return preg_replace('/\.\d+$/', '.0', $ip);
         }
-        if (empty($user->last_name) && !empty($last_name)) {
-            update_user_meta($user_id, 'last_name', $last_name);
+        
+        // IPv6 address
+        if (strpos($ip, ':') !== false) {
+            // Keep first 3 blocks, replace rest with zeros
+            $ipv6_parts = explode(':', $ip);
+            if (count($ipv6_parts) > 3) {
+                return $ipv6_parts[0] . ':' . $ipv6_parts[1] . ':' . $ipv6_parts[2] . ':0:0:0:0:0';
+            }
         }
         
-        wp_send_json_success([
-            'message' => __('Your investment application has been submitted successfully. We will review your application and contact you soon.', 'vortex'),
-            'investor_id' => $investor_id,
-        ]);
+        return $ip;
+    }
+    
+    /**
+     * Log sensitive actions securely
+     * 
+     * @param string $action The action being performed
+     * @param string $description Description of the action
+     * @param int $user_id The user ID performing the action
+     */
+    private function log_sensitive_action($action, $description, $user_id = 0) {
+        if (empty($action)) return;
+        
+        $log_data = array(
+            'action' => sanitize_text_field($action),
+            'description' => sanitize_text_field($description),
+            'user_id' => absint($user_id),
+            'ip' => $this->anonymize_ip($_SERVER['REMOTE_ADDR']),
+            'date' => current_time('mysql')
+        );
+        
+        // Insert into secure audit log
+        $this->db->insert(
+            $this->db->prefix . 'vortex_security_log',
+            $log_data,
+            array('%s', '%s', '%d', '%s', '%s')
+        );
     }
     
     /**

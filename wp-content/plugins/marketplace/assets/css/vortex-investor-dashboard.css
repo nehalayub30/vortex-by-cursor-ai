@@ -1,0 +1,354 @@
+/**
+ * VORTEX Investor Dashboard Styles
+ * Namespaced to avoid theme conflicts
+ */
+
+/* Main dashboard container */
+.vortex-investor-dashboard-container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #333;
+}
+
+/* Card component */
+.vortex-dashboard-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.card-title {
+    background-color: #f5f7f9;
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+}
+
+.investment-summary-content,
+.vesting-info-content,
+.token-transactions-content,
+.governance-info-content,
+.document-links-content {
+    padding: 20px;
+}
+
+/* Investment Summary Styles */
+.investment-summary-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.summary-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.summary-value.positive {
+    color: #28a745;
+}
+
+.summary-value.negative {
+    color: #dc3545;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.status-pending {
+    background-color: #f0ad4e;
+    color: #fff;
+}
+
+.status-approved {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.status-rejected {
+    background-color: #d9534f;
+    color: #fff;
+}
+
+.status-completed {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+/* Vesting Information Styles */
+.vesting-progress {
+    margin-bottom: 25px;
+}
+
+.vesting-progress-bar {
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.vesting-progress-fill {
+    height: 100%;
+    background-color: #007bff;
+    border-radius: 5px;
+}
+
+.vesting-cliff-marker {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: #dc3545;
+}
+
+.vesting-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+}
+
+.vesting-tokens {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.vesting-tokens-vested,
+.vesting-tokens-unvested {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    flex: 1;
+    margin: 0 5px;
+}
+
+.vesting-tokens-vested {
+    border-left: 3px solid #28a745;
+}
+
+.vesting-tokens-unvested {
+    border-left: 3px solid #6c757d;
+}
+
+.tokens-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.tokens-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.tokens-percentage {
+    font-size: 14px;
+    color: #007bff;
+}
+
+.vesting-dates {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.vesting-date-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.date-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Token Transactions Styles */
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions-table th,
+.transactions-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.transactions-table th {
+    background-color: #f5f7f9;
+    font-weight: 600;
+    color: #555;
+}
+
+.transaction-type {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.transaction-purchase {
+    background-color: #e1f5fe;
+    color: #0288d1;
+}
+
+.transaction-dividend {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}
+
+.transaction-transfer {
+    background-color: #fff8e1;
+    color: #ffa000;
+}
+
+.no-transactions-message {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+/* Governance Info Styles */
+.governance-power-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.governance-power-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.power-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.power-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.power-multiplier {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.governance-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Document Links Styles */
+.document-links-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.document-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.document-link:hover {
+    background-color: #e9ecef;
+}
+
+.document-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.pdf-icon {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>');
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .investment-summary-content,
+    .vesting-dates,
+    .governance-power-info,
+    .document-links-content {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .vesting-tokens {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .vesting-tokens-vested,
+    .vesting-tokens-unvested {
+        margin: 0;
+    }
+    
+    .governance-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .investment-summary-content,
+    .vesting-dates,
+    .governance-power-info,
+    .document-links-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .transactions-table {
+        display: block;
+        overflow-x: auto;
+    }
+} 

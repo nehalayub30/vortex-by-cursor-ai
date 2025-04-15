@@ -1,0 +1,60 @@
+/**
+ * VORTEX Marketplace Block Editor Styles
+ */
+
+.marketplace-block-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.marketplace-block-preview {
+    margin: 0 auto;
+    max-width: 90%;
+}
+
+.marketplace-block-preview h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.marketplace-block-preview p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.marketplace-block-preview-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.marketplace-block-preview-section {
+    background-color: white;
+    border-radius: 6px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    min-width: 200px;
+    flex: 1;
+}
+
+.marketplace-block-preview-section h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.marketplace-block-preview-section p {
+    font-size: 13px;
+    margin-bottom: 0;
+} 

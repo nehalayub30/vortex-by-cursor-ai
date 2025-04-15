@@ -88,30 +88,12 @@ class VORTEX_HURAII_Image_Generator {
      * @since    1.0.0
      */
     public function register_scripts() {
-        wp_register_style(
-            'vortex-image-generator',
-            plugin_dir_url(dirname(dirname(__FILE__))) . 'public/css/image-generator.css',
-            array(),
-            VORTEX_VERSION
-        );
-
-        wp_register_script(
-            'vortex-image-generator',
-            plugin_dir_url(dirname(dirname(__FILE__))) . 'public/js/image-generator.js',
-            array('jquery'),
-            VORTEX_VERSION,
-            true
-        );
-
-        wp_localize_script('vortex-image-generator', 'vortex_img_gen', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('vortex_image_generator_nonce'),
-            'i18n' => array(
-                'generating' => __('Generating image...', 'vortex-ai-marketplace'),
-                'error' => __('Error generating image', 'vortex-ai-marketplace'),
-                'success' => __('Image generated successfully', 'vortex-ai-marketplace')
-            )
-        ));
+        // Assets are now registered by the Assets Manager
+        // We only need to localize the script here
+        $assets_manager = vortex_assets_manager();
+        
+        // Note: These localizations are already handled in the Assets Manager
+        // If additional data is needed beyond what's in the Assets Manager, add it here
     }
 
     /**
@@ -135,9 +117,9 @@ class VORTEX_HURAII_Image_Generator {
             'theme' => 'light'
         ), $atts, 'vortex_image_generator');
 
-        // Enqueue styles and scripts
-        wp_enqueue_style('vortex-image-generator');
-        wp_enqueue_script('vortex-image-generator');
+        // Enqueue styles and scripts using the Assets Manager
+        $assets_manager = vortex_assets_manager();
+        $assets_manager->enqueue_image_generator_assets();
 
         // Start output buffer
         ob_start();

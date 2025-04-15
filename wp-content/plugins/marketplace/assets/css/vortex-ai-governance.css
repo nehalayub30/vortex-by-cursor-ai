@@ -1,0 +1,829 @@
+/**
+ * VORTEX AI Governance Dashboard Styles
+ */
+
+/* Dashboard Container */
+.vortex-ai-governance-dashboard {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.vortex-ai-governance-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.vortex-ai-governance-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #2b3b4e;
+}
+
+.vortex-ai-governance-header p {
+    font-size: 1rem;
+    color: #5a6c7d;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Sections */
+.vortex-ai-governance-sections {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .vortex-ai-governance-sections {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.vortex-ai-section {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    position: relative;
+}
+
+.vortex-ai-section h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #2b3b4e;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eaecef;
+}
+
+.vortex-ai-section-content {
+    min-height: 200px;
+}
+
+/* Loading and Messages */
+.vortex-ai-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: #5a6c7d;
+}
+
+.vortex-ai-loading::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    border: 2px solid #eaecef;
+    border-top-color: #3b81f6;
+    border-radius: 50%;
+    animation: vortex-spin 0.8s linear infinite;
+}
+
+@keyframes vortex-spin {
+    to { transform: rotate(360deg); }
+}
+
+.vortex-ai-error {
+    background-color: #fff2f2;
+    border-left: 4px solid #e44258;
+    color: #d32f2f;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+.vortex-ai-no-data {
+    text-align: center;
+    color: #5a6c7d;
+    padding: 2rem;
+}
+
+/* Button Styles */
+.vortex-ai-refresh-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f7fa;
+    border: 1px solid #dde1e5;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-ai-refresh-btn:hover {
+    background: #e9ecf1;
+}
+
+.vortex-ai-refresh-btn .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 0.5rem;
+}
+
+/* Recommendations Styles */
+.vortex-recommendations-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .vortex-recommendations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.vortex-recommendation-card {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    padding: 1.25rem;
+    border-left: 4px solid #a3b2c6;
+    transition: all 0.2s ease;
+}
+
+.vortex-recommendation-card:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.vortex-recommendation-card.positive {
+    border-left-color: #34c759;
+}
+
+.vortex-recommendation-card.negative {
+    border-left-color: #ff3b30;
+}
+
+.vortex-recommendation-card.neutral {
+    border-left-color: #ffcc00;
+}
+
+.vortex-recommendation-card .proposal-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #2b3b4e;
+}
+
+.recommendation-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.recommendation-indicator.approve {
+    background-color: rgba(52, 199, 89, 0.1);
+    color: #34c759;
+}
+
+.recommendation-indicator.reject {
+    background-color: rgba(255, 59, 48, 0.1);
+    color: #ff3b30;
+}
+
+.recommendation-indicator.review {
+    background-color: rgba(255, 204, 0, 0.1);
+    color: #e6b800;
+}
+
+.alignment-score {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #5a6c7d;
+    margin-bottom: 1rem;
+}
+
+.score-value {
+    font-weight: 600;
+    color: #2b3b4e;
+}
+
+.recommendation-reasoning {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #2b3b4e;
+    margin-bottom: 1rem;
+}
+
+.recommendation-considerations {
+    background-color: #f5f7fa;
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.recommendation-considerations h5 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #2b3b4e;
+}
+
+.recommendation-considerations ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.recommendation-considerations li {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #5a6c7d;
+    margin-bottom: 0.25rem;
+}
+
+.view-proposal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: #3b81f6;
+    color: #fff;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.view-proposal-btn:hover {
+    background-color: #2b71e6;
+    color: #fff;
+}
+
+/* Analytics Styles */
+.vortex-analytics-overview {
+    margin-bottom: 2rem;
+}
+
+.vortex-health-score-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: #f5f7fa;
+    border-radius: 6px;
+    padding: 1.25rem;
+}
+
+.vortex-health-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+    background-color: #a3b2c6;
+    color: #fff;
+}
+
+.vortex-health-score.excellent {
+    background-color: #34c759;
+}
+
+.vortex-health-score.good {
+    background-color: #30bfff;
+}
+
+.vortex-health-score.fair {
+    background-color: #ffcc00;
+}
+
+.vortex-health-score.poor {
+    background-color: #ff3b30;
+}
+
+.vortex-health-score .score-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+}
+
+.vortex-health-score .score-label {
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.vortex-health-assessment {
+    flex-grow: 1;
+}
+
+.vortex-health-assessment p {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: #2b3b4e;
+}
+
+.vortex-health-recommendations {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.vortex-health-recommendations li {
+    font-size: 0.9rem;
+    color: #5a6c7d;
+    margin-bottom: 0.25rem;
+}
+
+.vortex-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .vortex-metrics-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.vortex-metric-card {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    padding: 1.25rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vortex-metric-card .metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2b3b4e;
+    line-height: 1.2;
+}
+
+.vortex-metric-card .metric-label {
+    font-size: 0.9rem;
+    color: #5a6c7d;
+    margin-top: 0.5rem;
+}
+
+.vortex-metric-card .metric-trend {
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+}
+
+.vortex-metric-card .metric-trend.positive {
+    background-color: rgba(52, 199, 89, 0.1);
+    color: #34c759;
+}
+
+.vortex-metric-card .metric-trend.negative {
+    background-color: rgba(255, 59, 48, 0.1);
+    color: #ff3b30;
+}
+
+/* Predictive Analytics Styles */
+.vortex-charts-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .vortex-charts-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.vortex-chart-card {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    padding: 1.25rem;
+}
+
+.vortex-chart-card h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    color: #2b3b4e;
+}
+
+.vortex-chart {
+    height: 300px;
+    width: 100%;
+    background-color: #f9fafb;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a3b2c6;
+    font-size: 0.9rem;
+}
+
+/* Challenges and Opportunities */
+.vortex-challenges-list,
+.vortex-opportunities-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vortex-challenge-item,
+.vortex-opportunity-item {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.challenge-header,
+.opportunity-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.challenge-header h4,
+.opportunity-header h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #2b3b4e;
+    flex-grow: 1;
+    padding-right: 1rem;
+}
+
+.probability-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.5rem;
+    background-color: #f5f7fa;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #5a6c7d;
+    white-space: nowrap;
+}
+
+.impact-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+.impact-indicator.high {
+    background-color: rgba(255, 59, 48, 0.1);
+    color: #ff3b30;
+}
+
+.impact-indicator.medium {
+    background-color: rgba(255, 149, 0, 0.1);
+    color: #ff9500;
+}
+
+.impact-indicator.low {
+    background-color: rgba(52, 199, 89, 0.1);
+    color: #34c759;
+}
+
+.mitigation-strategy,
+.opportunity-outcome {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #2b3b4e;
+    margin: 0;
+}
+
+.opportunity-metrics {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.impact-badge,
+.complexity-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.impact-badge.high {
+    background-color: rgba(52, 199, 89, 0.1);
+    color: #34c759;
+}
+
+.impact-badge.medium {
+    background-color: rgba(255, 149, 0, 0.1);
+    color: #ff9500;
+}
+
+.impact-badge.low {
+    background-color: rgba(142, 142, 147, 0.1);
+    color: #8e8e93;
+}
+
+.complexity-badge.high {
+    background-color: rgba(255, 59, 48, 0.1);
+    color: #ff3b30;
+}
+
+.complexity-badge.medium {
+    background-color: rgba(255, 149, 0, 0.1);
+    color: #ff9500;
+}
+
+.complexity-badge.low {
+    background-color: rgba(52, 199, 89, 0.1);
+    color: #34c759;
+}
+
+/* Proposal Prediction */
+.vortex-prediction-form {
+    background-color: #f5f7fa;
+    border-radius: 6px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.vortex-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.5rem;
+    margin-bottom: 1rem;
+}
+
+.vortex-form-col {
+    flex: 1;
+    padding: 0 0.5rem;
+    min-width: 250px;
+    margin-bottom: 1rem;
+}
+
+.vortex-form-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #2b3b4e;
+}
+
+.vortex-form-input,
+.vortex-form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #dde1e5;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    background-color: #fff;
+}
+
+.vortex-form-input:focus,
+.vortex-form-select:focus {
+    border-color: #3b81f6;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 129, 246, 0.2);
+}
+
+.vortex-form-submit {
+    background-color: #3b81f6;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vortex-form-submit:hover {
+    background-color: #2b71e6;
+}
+
+.vortex-prediction-result {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+}
+
+.prediction-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eaecef;
+}
+
+.prediction-summary h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #2b3b4e;
+}
+
+.outcome-prediction {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #a3b2c6;
+}
+
+.prediction-summary.positive .outcome-prediction {
+    color: #34c759;
+}
+
+.prediction-summary.negative .outcome-prediction {
+    color: #ff3b30;
+}
+
+.confidence {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #5a6c7d;
+    margin-left: 0.5rem;
+}
+
+.prediction-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .prediction-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.current-status,
+.projected-outcome {
+    background-color: #f9fafb;
+    border-radius: 6px;
+    padding: 1.25rem;
+}
+
+.current-status h5,
+.projected-outcome h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #2b3b4e;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eaecef;
+}
+
+.vote-bar {
+    height: 24px;
+    background-color: #e9ecf1;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.yes-bar {
+    height: 100%;
+    background-color: #34c759;
+}
+
+.no-bar {
+    height: 100%;
+    background-color: #ff3b30;
+}
+
+.abstain-bar {
+    height: 100%;
+    background-color: #ffcc00;
+}
+
+.vote-legend {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #5a6c7d;
+    margin-bottom: 1rem;
+}
+
+.yes-legend::before,
+.no-legend::before,
+.abstain-legend::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.yes-legend::before {
+    background-color: #34c759;
+}
+
+.no-legend::before {
+    background-color: #ff3b30;
+}
+
+.abstain-legend::before {
+    background-color: #ffcc00;
+}
+
+.quorum-progress {
+    margin-bottom: 1rem;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #5a6c7d;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: #e9ecf1;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar .progress {
+    height: 100%;
+    background-color: #3b81f6;
+}
+
+.time-remaining,
+.projected-participation,
+.quorum-status {
+    font-size: 0.9rem;
+    color: #2b3b4e;
+    margin-bottom: 0.5rem;
+}
+
+.quorum-status .positive {
+    color: #34c759;
+    font-weight: 500;
+}
+
+.quorum-status .negative {
+    color: #ff3b30;
+    font-weight: 500;
+}
+
+.key-factors {
+    grid-column: 1 / -1;
+}
+
+.key-factors h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #2b3b4e;
+}
+
+.key-factors ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.key-factors li {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #2b3b4e;
+    margin-bottom: 0.25rem;
+} 

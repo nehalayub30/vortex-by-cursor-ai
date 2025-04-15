@@ -77,9 +77,12 @@
      * Enqueue DAO assets.
      */
     private function enqueue_dao_assets() {
-        wp_enqueue_style('vortex-dao-styles', plugin_dir_url(dirname(__FILE__)) . 'assets/css/vortex-dao.css', [], VORTEX_VERSION);
+        // Use the assets manager to enqueue needed assets
+        $assets_manager = vortex_assets_manager();
+        $assets_manager->enqueue_dao_assets();
+        
+        // Register Web3 JavaScript library
         wp_enqueue_script('web3', 'https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js', [], '1.8.0', true);
-        wp_enqueue_script('vortex-dao', plugin_dir_url(dirname(__FILE__)) . 'assets/js/vortex-dao.js', ['jquery', 'web3'], VORTEX_VERSION, true);
         
         // Localize script with contract addresses and provider URL
         $dao_data = [

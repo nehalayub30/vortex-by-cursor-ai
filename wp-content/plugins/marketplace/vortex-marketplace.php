@@ -60,6 +60,7 @@ class VORTEX_Marketplace {
     private function includes() {
         // Core files
         require_once VORTEX_MARKETPLACE_PLUGIN_DIR . 'includes/class-vortex-ai-initializer.php';
+        require_once VORTEX_MARKETPLACE_PLUGIN_DIR . 'includes/class-vortex-assets-manager.php';
         
         // Security
         require_once VORTEX_MARKETPLACE_PLUGIN_DIR . 'security/class-vortex-command-control.php';
@@ -97,6 +98,9 @@ class VORTEX_Marketplace {
         
         // Add REST API endpoints
         add_action('rest_api_init', array($this, 'register_rest_routes'));
+        
+        // Front-end assets
+        add_action('wp_enqueue_scripts', array($this, 'register_frontend_assets'));
     }
     
     /**
@@ -289,6 +293,15 @@ class VORTEX_Marketplace {
         }
         
         return new WP_REST_Response($artwork_data, 200);
+    }
+    
+    /**
+     * Register front-end assets
+     */
+    public function register_frontend_assets() {
+        // Core plugin assets that should be available on all pages
+        // Note: Most assets will be enqueued by individual shortcodes when needed
+        wp_enqueue_style('vortex-core', VORTEX_MARKETPLACE_PLUGIN_URL . 'assets/css/vortex-dao.css', array(), VORTEX_MARKETPLACE_VERSION);
     }
 }
 

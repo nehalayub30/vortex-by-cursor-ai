@@ -65,8 +65,9 @@ class VORTEX_Shortcodes {
             'featured_only' => false, // show only featured artworks
         ), $atts);
         
-        wp_enqueue_style('vortex-artwork-gallery');
-        wp_enqueue_script('vortex-artwork-gallery');
+        // Use the assets manager to enqueue needed assets
+        $assets_manager = vortex_assets_manager();
+        $assets_manager->enqueue_style('vortex-dao');
         
         // Get artwork controller
         $artworks = VORTEX_Artworks::get_instance();
@@ -85,8 +86,9 @@ class VORTEX_Shortcodes {
             'artwork_limit' => 8
         ), $atts, 'vortex_artist_profile');
         
-        wp_enqueue_style('vortex-artist-profile');
-        wp_enqueue_script('vortex-artist-profile');
+        // Use the assets manager to enqueue needed assets
+        $assets_manager = vortex_assets_manager();
+        $assets_manager->enqueue_style('vortex-dao');
         
         // Get artist controller
         $artists = VORTEX_Artists::get_instance();
@@ -104,6 +106,10 @@ class VORTEX_Shortcodes {
             'show_chart' => 'yes'
         ), $atts, 'vortex_ai_insights');
         
+        // Use the assets manager to enqueue needed assets
+        $assets_manager = vortex_assets_manager();
+        $assets_manager->enqueue_ai_insights_assets();
+        
         ob_start();
         include(plugin_dir_path(dirname(__FILE__)) . 'templates/shortcodes/ai-insights.php');
         return ob_get_clean();
@@ -119,6 +125,10 @@ class VORTEX_Shortcodes {
             'metrics' => 'all' // all, sales, views, users, etc.
         ), $atts, 'vortex_marketplace_stats');
         
+        // Use the assets manager to enqueue needed assets
+        $assets_manager = vortex_assets_manager();
+        $assets_manager->enqueue_script('vortex-metrics');
+        
         ob_start();
         include(plugin_dir_path(dirname(__FILE__)) . 'templates/shortcodes/marketplace-stats.php');
         return ob_get_clean();
@@ -133,6 +143,10 @@ class VORTEX_Shortcodes {
             'show_chart' => 'yes',
             'type' => 'all' // all, artists, categories, transactions
         ), $atts, 'vortex_blockchain_stats');
+        
+        // Use the assets manager to enqueue needed assets
+        $assets_manager = vortex_assets_manager();
+        $assets_manager->enqueue_blockchain_metrics_assets();
         
         // Get blockchain metrics instance
         $blockchain_metrics = VORTEX_Blockchain_Metrics::get_instance();
@@ -153,6 +167,10 @@ class VORTEX_Shortcodes {
             'auto_refresh' => 'yes',
             'refresh_interval' => 30 // seconds
         ), $atts, 'vortex_real_time_metrics');
+        
+        // Use the assets manager to enqueue needed assets
+        $assets_manager = vortex_assets_manager();
+        $assets_manager->enqueue_realtime_metrics_assets();
         
         ob_start();
         include(plugin_dir_path(dirname(__FILE__)) . 'templates/shortcodes/real-time-metrics.php');
@@ -233,6 +251,12 @@ class VORTEX_Shortcodes {
             'initial_prompt' => '',
             'theme' => 'light' // light, dark
         ), $atts, 'vortex_huraii_assistant');
+        
+        // Use the assets manager to enqueue needed assets
+        $assets_manager = vortex_assets_manager();
+        if ($atts['show_image_generator'] === 'yes') {
+            $assets_manager->enqueue_image_generator_assets();
+        }
         
         ob_start();
         include(plugin_dir_path(dirname(__FILE__)) . 'templates/shortcodes/huraii-assistant.php');
